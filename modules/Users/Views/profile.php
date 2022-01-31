@@ -446,8 +446,7 @@ foreach($perm_id['perm_id'] as $perms) {
 
       Swal.fire({
         icon: 'question',
-        title: 'Update?',
-        text: 'Update Password',
+        title: 'Update Password?',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
