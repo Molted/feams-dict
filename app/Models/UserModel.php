@@ -74,4 +74,18 @@ class UserModel extends Model {
     $this->join('file_sharing', 'users.id = file_sharing.uploader', 'left');
     return $this->get()->getResultArray();
   }
+
+  public function updatePassword($username, $password, $newpassword){
+    $user = $this->where('username', $username)
+            ->first();
+    if(password_verify($password, $user['password'])){
+      $password = [
+        'password' => password_hash($newpassword, PASSWORD_DEFAULT)
+      ];
+      $this->update($user['id'], $password);
+      return true;
+    }
+    else
+      return false;
+  }
 }

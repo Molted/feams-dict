@@ -22,7 +22,7 @@
     <div class="col-md-8">
       <h3>Latest News</h3>
       <h5><?= (isset($firstNews['title'])) ? esc($firstNews['title']) : 'No News to Display' ?></h5>
-      <?= (isset($firstNews['content'])) ? esc($firstNews['content'], 'raw') : 'No News to Display'?>
+      <?= (isset($firstNews['content'])) ? esc($firstNews['content'], 'raw') : ''?>
     </div>
     <div class="col-md-4">
       <h3>More news</h3>

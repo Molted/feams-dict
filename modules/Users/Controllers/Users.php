@@ -84,47 +84,61 @@ class Users extends BaseController
         }
 
         if($this->request->getMethod() == 'post') {
-          if($this->validate('editUser')) {
-            $file = $this->request->getFile('image');
-            $_POST['id'] = $data['user']['id'];
-            if($_POST['email'] != $data['user']['email']) {
-                $_POST['email_code'] = random_string('alnum', 5);
-                $_POST['status'] = '4';
-            }
-            if($file->isValid()) {
-                $_POST['profile_pic'] = $file->getRandomName();
-                $file->move('public/uploads/profile_pic', $input['profile_pic']);
-                if(!$file->hasMoved()) {
-                    $_POST['profile_pic'] = $data['user']['profile_pic'];
-                }
-            }
-            // echo '<pre>';
-            // print_r($_POST);
-            // die();
-            if($this->userModel->save($_POST)) {
-                if($_POST['status'] == '4') {
-                    $this->sendMail($_POST);
-                }
+          if($this->request->getVar('form_type') == 'userdetails'){
+            if($this->validate('editUser')) {
+                $file = $this->request->getFile('image');
+                $_POST['id'] = $data['user']['id'];
                 if($_POST['email'] != $data['user']['email']) {
-                    // kapag yung nag edit is yung user
-                    if($data['user']['id'] == $this->session->get('user_id')) {
-                        $this->session->destroy();
-                        $this->session->setFlashData('successMsg', 'Email changed, please verify email before logging in again');
-                        return redirect()->to(base_url('login'));
+                    $_POST['email_code'] = random_string('alnum', 5);
+                    $_POST['status'] = '4';
+                }
+                if($file->isValid()) {
+                    $_POST['profile_pic'] = $file->getRandomName();
+                    $file->move('public/uploads/profile_pic', $input['profile_pic']);
+                    if(!$file->hasMoved()) {
+                        $_POST['profile_pic'] = $data['user']['profile_pic'];
+                    }
+                }
+                
+                if($this->userModel->save($_POST)) {
+                    if($_POST['status'] == '4') {
+                        $this->sendMail($_POST);
+                    }
+                    if($_POST['email'] != $data['user']['email']) {
+                        // kapag yung nag edit is yung user
+                        if($data['user']['id'] == $this->session->get('user_id')) {
+                            $this->session->destroy();
+                            $this->session->setFlashData('successMsg', 'Email changed, please verify email before logging in again.');
+                            return redirect()->to(base_url('login'));
+                        } else {
+                            // kapag admin nag edit
+                            $this->session->setFlashData('successMsg', 'User profile edited successfully.');
+                            return redirect()->back();
+                        }
                     } else {
-                        // kapag admin nag edit
-                        $this->session->setFlashData('successMsg', 'User profile edited successfully');
+                        $this->session->setFlashData('successMsg', 'User profile edited successfully.');
                         return redirect()->back();
                     }
+                }
+              } else {
+                $data['value'] = $_POST;
+                $data['errors'] = $this->validation->getErrors();
+              }
+          } elseif ($this->request->getVar('form_type') == 'updatepass'){
+            if($this->validate('updatePassword')) {
+                if($this->userModel->updatePassword($username, $_POST['current_password'], $_POST['new_password'])){
+                    $this->session->setFlashData('successMsg', 'Password changed successfully.');
+                    return redirect()->back();
                 } else {
-                    $this->session->setFlashData('successMsg', 'User profile edited successfully');
+                    $this->session->setFlashData('failMsg', 'Incorrect Password.');
                     return redirect()->back();
                 }
+            } else {
+                $this->session->setFlashData('failMsg', 'New and Confirm New Password do not match.');
+                $data['errors'] = $this->validation->getErrors();
             }
-          } else {
-            $data['value'] = $_POST;
-            $data['errors'] = $this->validation->getErrors();
           }
+          
         }
 
         $data['active'] = '';

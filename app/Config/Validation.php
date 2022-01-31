@@ -71,6 +71,10 @@ class Validation
 				'ext_in' => 'Profile picture is not an image',
 			],
 		],
+		'contact_number' => [
+			'label' => 'Contact Number', 
+			'rules' => 'required|min_length[10]|max_length[10]'
+		],
 	];
 
 	public $roles = [
@@ -569,4 +573,19 @@ class Validation
         ],
     ],
   ];
+
+  public $updatePassword = [
+	'current_password' =>[
+	  'label' => 'Current Password', 
+	  'rules' => 'required|min_length[5]|max_length[30]'
+	],
+	'new_password' =>[
+	  'label' => 'New Password', 
+	  'rules' => 'required|min_length[5]|max_length[30]|matches[confirm_new_password]'
+	],
+	'confirm_new_password' =>[
+	  'label' => 'Confirm New Password', 
+	  'rules' => 'required|min_length[5]|max_length[30]'
+	],
+  ];	
 }

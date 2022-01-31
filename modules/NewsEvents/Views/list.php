@@ -88,7 +88,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-md-8">
             <h3>Latest News</h3>
             <h5><?= (isset($firstNews['title'])) ? esc($firstNews['title']) : 'No News to Display' ?></h5>
-            <?= (isset($firstNews['content'])) ? esc($firstNews['content'], 'raw') : 'No News to Display'?>
+            <?= (isset($firstNews['content'])) ? esc($firstNews['content'], 'raw') : ''?>
             <h3>More news</h3>
             <ul class="list-group list-group-flush">
               <?php foreach($news as $news):?>

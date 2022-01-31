@@ -318,12 +318,51 @@ foreach($perm_id['perm_id'] as $perms) {
       <?php else:?>
         <input type="hidden" name="status" value="<?= $user['status']?>">
       <?php endif;?>
+      <input type="hidden" name="form_type" value="userdetails">
   </div>
   <div class="card-footer">
     <button class="btn btn-primary btn-sm sub" type="button">Save changes</button>
     </form>
   </div>
 </div>
+<?php endif;?>
+
+<?php if(session()->get('user_id') == $user['id'] || isset($edit)):?>
+  <?php if($user['role'] != '1'):?>
+  <div class="card">
+    <div class="card-header">
+      Update Password
+    </div>
+    <div class="card-body">
+      <form action="<?= base_url()?>/user/<?= esc($user['username'])?>" method="post" enctype="multipart/form-data" id="passForm">
+          <div class="form-row">
+            <div class="form-group col-md-4">
+              <label for="current_password">Current Password</label>
+              <input type="password" class="form-control <?php if(!empty($errors['current_password'])) echo 'is-invalid';?>" id="current_password" name="current_password" placeholder="Enter current password">
+              <?php if(isset($errors['current_password'])): ?>
+                <small id="current_password_help" class="form-text text-danger"><?= $errors['current_password']?></small>
+              <?php endif; ?>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="new_password">New Password</label>
+              <input type="password" class="form-control <?php if(!empty($errors['new_password'])) echo 'is-invalid';?>" id="new_password" name="new_password" placeholder="Enter new password">
+              <?php if(isset($errors['new_password'])): ?>
+                <small id="new_password_help" class="form-text text-danger"><?= $errors['new_password']?></small>
+              <?php endif; ?>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="confirm_new_password">Confirm New Password</label>
+              <input type="password" class="form-control <?php if(!empty($errors['new_password'])) echo 'is-invalid';?>" id="confirm_new_password" name="confirm_new_password" placeholder="Confirm new password">
+            </div>
+          </div>
+        <input type="hidden" name="form_type" value="updatepass">
+    </div>
+    <div class="card-footer">
+      <button class="btn btn-primary btn-sm pass" type="button">Update Password</button>
+      </form>
+    </div>
+  </div>
+  <?php endif;?>
 <?php endif;?>
 <?= $this->endSection() ?>
 
@@ -391,6 +430,34 @@ foreach($perm_id['perm_id'] as $perms) {
         if (result.isConfirmed)
         {
           $('#userForm').submit();
+        }
+        else if (result.isDenied)
+        {
+          Swal.fire('Changes are not saved', '', 'info')
+        }
+      })//then
+    });
+
+    $('.pass').click(function (e)
+    {
+      e.preventDefault();
+      var id = $(this).val();
+      console.log(id);
+
+      Swal.fire({
+        icon: 'question',
+        title: 'Update?',
+        text: 'Update Password',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, update it!'
+      })/*swal2*/.then((result) =>
+      {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed)
+        {
+          $('#passForm').submit();
         }
         else if (result.isDenied)
         {

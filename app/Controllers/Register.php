@@ -28,25 +28,26 @@ class Register extends BaseController {
                 if($this->userModel->insert($userData)){
                     $file->move(ROOTPATH .'/public/uploads/profile_pic/', $userData['profile_pic']);
                     if($file->hasMoved()) {
+                        // $this->sendMail($userData);
                         if($this->sendMail($userData)) {
                             $this->session->setFlashdata('successMsg', 'Account created sucessfully, please view email for further instructions');
                             // $this->session->setFlashdata('successMsg', 'Create account sucessfully, please verify email');
                             return redirect()->to('login');
                         } else {
-                            $this->session->setFlashdata('failMsg', 'Account created sucessfully, but there\'s an error in sending mail.');
+                            $this->session->setFlashdata('failMsg', "Account created sucessfully, but there\'s an error in sending mail.");
                             // $this->session->setFlashdata('successMsg', 'Create account sucessfully, please verify email');
                             return redirect()->to('login');
                         }
-                        $this->session->set('successMsg', 'Account created sucessfully, please view email for further instructions');
+                        $this->session->setFlashdata('successMsg', 'Account created sucessfully, please view email for further instructions');
                         // $this->session->setFlashdata('successMsg', 'Create account sucessfully, please verify email');
                         return redirect()->to('login');
                     } else {
-                        $this->session->set('failMsg', 'There is an error creating account');
+                        $this->session->setFlashdata('failMsg', 'There is an error creating account');
                         // $this->session->setFlashdata('failMsg', 'There is an error creating account');
-                            return redirect()->to('login');
+                        return redirect()->to('login');
                     }
                 } else {
-                    $this->session->set('failMsg', 'There is an error creating account');
+                    $this->session->setFlashdata('failMsg', 'There is an error creating account');
                     // $this->session->setFlashdata('failMsg', 'There is an error creating account');
                     return redirect()->to('login');
                 }
