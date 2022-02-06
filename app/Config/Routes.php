@@ -38,6 +38,8 @@ $routes->get('logout', 'User::logout');
 $routes->match(['get', 'post'], 'login', 'Login::index', ["filter" => "noauth"]);
 // $routes->match(['get', 'post'], 'login', 'User::login', ["filter" => "noauth"]);
 $routes->match(['get', 'post'], 'register', 'Register::index', ["filter" => "noauth"]);
+$routes->match(['get', 'post'], 'forgot-password', 'Login::forgot_password', ["filter" => "noauth"]);
+$routes->match(['get', 'post'], 'reset-password/token/(:any)', 'Login::reset_password/$1', ["filter" => "noauth"]);
 // $routes->match(['get', 'post'], 'register', 'User::register', ["filter" => "noauth"]);
 $routes->match(['get', 'post'], 'activate/(:alphanum)', 'User::activate/$1', ["filter" => "noauth"]);
 $routes->match(['get', 'post'], 'user/(:alphanum)', '\Modules\Users\Controllers\Users::profile/$1', ["filter" => "auth"]);

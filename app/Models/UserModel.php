@@ -88,4 +88,14 @@ class UserModel extends Model {
     else
       return false;
   }
+  public function updatePasswordEmail($email, $newpassword){
+    $user = $this->where('email', $email)
+            ->first();
+    $password = [
+      'password' => password_hash($newpassword, PASSWORD_DEFAULT)
+    ];
+    if($this->update($user['id'], $password))
+      return true;
+    return false;
+  }
 }

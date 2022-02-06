@@ -1,11 +1,14 @@
 <?php namespace App\Controllers;
 
+use DateTime;
+use DateInterval;
 use App\Models as Models;
 
 class Login extends BaseController {
     public function __construct() {
         $this->userModel = new Models\UserModel();
         $this->loginModel = new Models\LoginModel();
+        $this->resetPasswordModel = new Models\ResetPasswordModel();
     }
 
     public function index() {
@@ -106,5 +109,69 @@ class Login extends BaseController {
             $this->session->setFlashdata('failMsg', 'Account not activated, please try again');
             return redirect()->to(base_url());
         }
+    }
+
+    public function forgot_password(){
+        if($this->request->getMethod() === 'post') {
+            $email = $this->request->getVar('email');
+            $user = $this->userModel->where('email', $email)->first();
+            if(empty($user)) {
+                $this->session->setFlashdata('failMsg', 'Email do not exists!');
+                return redirect()->back()->withInput(); 
+            }
+            $token = md5( microtime() );
+            $expiration_date = new DateTime("NOW");
+            $expiration_date->add(new DateInterval('PT30M'));
+            $this->resetPasswordModel->insert([
+                'id' => $token,
+                'email' => $email,
+                'expiration_date' => $expiration_date->format("Y-m-d H:i:s")
+            ]);
+            $userData = [
+                'first_name' => $user['first_name'],
+                'last_name' => $user['last_name'], 
+                'email' => $user['email'],
+                'token' =>  $token,
+            ];
+            $this->email->setTo($email);
+            $this->email->setFrom('facultyea@gmail.com', 'Faculty and Employees Association');
+            $this->email->setSubject('Reset Password');
+            $message = view('resetEmail', $userData);
+            $this->email->setMessage($message);
+            if ($this->email->send()) {
+                $this->session->setFlashdata('successMsg', 'Email sent! Please check your email.');
+                return redirect()->back(); 
+            }
+            else {
+                $this->session->setFlashdata('failMsg', 'Email not sent.');
+                return redirect()->back(); 
+            }
+
+        }
+        return view('forgotPassword');
+    }
+
+    public function reset_password($token){
+        $resetData = $this->resetPasswordModel->find($token);
+
+        if($this->request->getMethod() == "post"){
+            if($this->request->getVar('password') != $this->request->getVar('confirm_password')){
+                $this->session->setFlashdata('failMsg', 'Passwords Do Not Match');
+                return redirect()->back(); 
+            }
+            if($this->userModel->updatePasswordEmail($resetData['email'], $this->request->getVar('password'))){
+                $this->session->setFlashdata('successMsg', 'Password reset successful. Login to continue.');
+                return redirect()->to(base_url('login'));
+            }
+        }
+        if(empty($resetData)){
+            $this->session->setFlashdata('failMsg', 'Data not found.');
+            return redirect()->to(base_url('login')); 
+        }
+        if(date('Y-m-d H:i:s') > $resetData['expiration_date']){
+            $this->session->setFlashdata('failMsg', 'Link Expired.');
+            return redirect()->to(base_url('login')); 
+        }
+        return view('resetPassword', [ 'token' => $token ]);
     }
 }

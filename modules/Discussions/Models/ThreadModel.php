@@ -65,7 +65,7 @@ class ThreadModel extends Model {
     }
 
     public function manage($id) {
-        $this->select('threads.id, creator, subject, link, threads.created_at, threads.deleted_at, users.first_name, users.last_name, users.username, roles.role_name');
+        $this->select('threads.id, creator, subject, threads.link, threads.created_at, threads.deleted_at, users.first_name, users.last_name, users.username, roles.role_name');
         $this->where(['threads.deleted_at' => NULL, 'threads.visibility' => $id]);
         $this->join('users', 'threads.creator = users.id');
         $this->join('roles', 'threads.visibility = roles.id', 'left');

@@ -26,7 +26,7 @@
                             <input type="submit" name="submit" class="btn btn-info btn-md login-btn" value="Submit">
                             <!--<div class="form-group" style="padding-top: 50px; font-size: 12px;">
                                 <a href="#" class="text-info">Forgot Password?</a>
-                                <!-- <label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br> -->
+                                <label for="remember-me" class="text-info"><span>Remember me</span> <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br> -->
                             <!-- </div> -->
                             <!-- <div id="register-link" class="text-right" style="padding-top: 47px; font-size: 12px;"> -->
                                 <!-- <label for="remember-me" class="text-info remember-me"><span>Remember me</span>  <span><input id="remember-me" name="remember-me" type="checkbox"></span></label><br> -->
@@ -36,6 +36,8 @@
                     </form>
                     <div id="register-links" class="text-center" style="padding-top: 35px; font-size: 12px; <?php if(!empty(session()->getFlashdata('failMsg')) || !empty(session()->getFlashdata('successMsg'))) echo 'margin-top: -60px;'?>">
                         <label>Don't have an account?</label> <a href="<?= base_url('register');?>" class="text-info">Register here</a>
+                        <br>
+                        <a href="<?= base_url('forgot-password');?>" class="text-info">Forgot Password?</a>
                     </div>
                 </div>
             </div>

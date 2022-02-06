@@ -17,7 +17,7 @@
             <td><?= esc($thread['first_name'])?> <?= esc($thread['last_name'])?></td>
             <td><?= esc(date('F d,Y', strtotime($thread['created_at'])))?></td>
             <td class="d-flex justify-content-center">
-              <a class="btn btn-info btn-sm" href="<?= base_url('discussions/manage')?>/<?= esc($thread['id'])?>" role="button" data-toggle="tooltip" data-placement="bottom" title="View discussion"><i class="fas fa-bars"></i></a>
+              <a class="btn btn-info btn-sm" href="<?= base_url('discussions/manage')?>/<?= esc($thread['link'])?>" role="button" data-toggle="tooltip" data-placement="bottom" title="View discussion"><i class="fas fa-bars"></i></a>
             </td>
           </tr>
           <?php $ctr++;?>

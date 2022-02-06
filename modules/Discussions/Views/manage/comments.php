@@ -2,8 +2,8 @@
 
 <?= $this->section('styles') ?>
   <!-- Select2 -->
-  <link rel="stylesheet" href="<?= base_url()?>/dist/select2/css/select2.min.css">
-  <link rel="stylesheet" href="<?= base_url()?>/dist/select2/css/select2-bootstrap4.min.css">
+  <link rel="stylesheet" href="<?= base_url()?>/public/dist/select2/css/select2.min.css">
+  <link rel="stylesheet" href="<?= base_url()?>/public/dist/select2/css/select2-bootstrap4.min.css">
 
   <style>
     .required:after {
@@ -63,8 +63,8 @@
 <?= $this->section('scripts');?>
 
 <!-- SweetAlert JS -->
-<script src="<?= base_url();?>/js/sweetalert.min.js"></script>
-<script src="<?= base_url();?>/js/sweetalert2.all.min.js"></script>
+<script src="<?= base_url();?>/public/js/sweetalert.min.js"></script>
+<script src="<?= base_url();?>/public/js/sweetalert2.all.min.js"></script>
 <!-- SweetAlert2 -->
 <script type="text/javascript">
   $(document).ready(function ()
@@ -89,7 +89,7 @@
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed)
         {
-            window.location = '/discussions/' + link + '/comment/delete/'+ id;
+            window.location.replace('<?= base_url()?>'+'/discussions/' + link + '/comment/delete/'+ id);
         }
         else if (result.isDenied)
         {
