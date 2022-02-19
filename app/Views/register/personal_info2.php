@@ -81,6 +81,9 @@
     <div class="col">  
       <label class="required">Contact Number</label>
       <input type="number" class="form-control" placeholder="" name="contact_number" required value="<?=isset($value['contact_number']) ? esc($value['contact_number']): ''?>">
+        <div class="invalid-feedback">
+            <?=esc($errors['contact_number'])?>
+        </div>
     </div>
 </div>
 

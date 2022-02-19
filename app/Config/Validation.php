@@ -73,7 +73,10 @@ class Validation
 		],
 		'contact_number' => [
 			'label' => 'Contact Number', 
-			'rules' => 'required|min_length[10]|max_length[10]'
+			'rules' => 'required|min_length[10]|max_length[10]',
+			'errors' => [
+				'max_length|min_length' => 'The number of digits are not equal to 10. (e.g. 9876543211)',
+			],
 		],
 	];
 

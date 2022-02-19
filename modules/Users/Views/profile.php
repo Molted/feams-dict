@@ -327,8 +327,7 @@ foreach($perm_id['perm_id'] as $perms) {
 </div>
 <?php endif;?>
 
-<?php if(session()->get('user_id') == $user['id'] || isset($edit)):?>
-  <?php if($user['role'] != '1'):?>
+<?php if(session()->get('user_id') == $user['id'] && isset($edit)):?>
   <div class="card">
     <div class="card-header">
       Update Password
@@ -362,7 +361,6 @@ foreach($perm_id['perm_id'] as $perms) {
       </form>
     </div>
   </div>
-  <?php endif;?>
 <?php endif;?>
 <?= $this->endSection() ?>
 
