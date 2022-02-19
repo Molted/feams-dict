@@ -62,7 +62,7 @@ class Register extends BaseController {
     private function sendMail($userData) {
         $userData['paymentMethod'] = $this->paymentMethodsModel->where('id', $userData['payment_method'])->first();
         $this->email->setTo($userData['email']);
-        $this->email->setFrom('facultyea@gmail.com', 'Faculty and Employees Association');
+        $this->email->setFrom('feamsystem@gmail.com', 'Faculty and Employees Association');
         $this->email->setSubject('Account Confirmation');
         $message = view('regiEmail', $userData);
         $this->email->setMessage($message);

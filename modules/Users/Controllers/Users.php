@@ -217,7 +217,7 @@ class Users extends BaseController
 
     private function sendMail($userData) {
       $this->email->setTo($userData['email']);
-      $this->email->setFrom('facultyea@gmail.com', 'Faculty and Employees Association');
+      $this->email->setFrom('feamsystem@gmail.com', 'Faculty and Employees Association');
       $this->email->setSubject('Account Confirmation');
       $message = view('Modules\Users\Views\newEmail', $userData);
       $this->email->setMessage($message);
@@ -231,7 +231,7 @@ class Users extends BaseController
 
     private function accStatusEmail($data) {
         $this->email->setTo($data['email']);
-        $this->email->setFrom('facultyea@gmail.com', 'Faculty and Employees Association');
+        $this->email->setFrom('feamsystem@gmail.com', 'Faculty and Employees Association');
         $this->email->setSubject('Account Confirmation');
         $message = view('Modules\Users\Views\statusMail', $data);
         $this->email->setMessage($message);

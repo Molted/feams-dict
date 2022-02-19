@@ -134,7 +134,7 @@ class Login extends BaseController {
                 'token' =>  $token,
             ];
             $this->email->setTo($email);
-            $this->email->setFrom('facultyea@gmail.com', 'Faculty and Employees Association');
+            $this->email->setFrom('feamsystem@gmail.com', 'Faculty and Employees Association');
             $this->email->setSubject('Reset Password');
             $message = view('resetEmail', $userData);
             $this->email->setMessage($message);
