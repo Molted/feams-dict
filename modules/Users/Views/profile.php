@@ -326,42 +326,78 @@ foreach($perm_id['perm_id'] as $perms) {
   </div>
 </div>
 <?php endif;?>
-
-<?php if(session()->get('user_id') == $user['id'] && isset($edit)):?>
-  <div class="card">
-    <div class="card-header">
-      Update Password
-    </div>
-    <div class="card-body">
-      <form action="<?= base_url()?>/user/<?= esc($user['username'])?>" method="post" enctype="multipart/form-data" id="passForm">
-          <div class="form-row">
-            <div class="form-group col-md-4">
-              <label for="current_password">Current Password</label>
-              <input type="password" class="form-control <?php if(!empty($errors['current_password'])) echo 'is-invalid';?>" id="current_password" name="current_password" placeholder="Enter current password">
-              <?php if(isset($errors['current_password'])): ?>
-                <small id="current_password_help" class="form-text text-danger"><?= $errors['current_password']?></small>
-              <?php endif; ?>
+<?php if(session()->get('role') == 1):?>
+  <?php if(session()->get('user_id') == $user['id']):?>
+    <div class="card">
+      <div class="card-header">
+        Update Password
+      </div>
+      <div class="card-body">
+        <form action="<?= base_url()?>/user/<?= esc($user['username'])?>" method="post" enctype="multipart/form-data" id="passForm">
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="current_password">Current Password</label>
+                <input type="password" class="form-control <?php if(!empty($errors['current_password'])) echo 'is-invalid';?>" id="current_password" name="current_password" placeholder="Enter current password">
+                <?php if(isset($errors['current_password'])): ?>
+                  <small id="current_password_help" class="form-text text-danger"><?= $errors['current_password']?></small>
+                <?php endif; ?>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="new_password">New Password</label>
+                <input type="password" class="form-control <?php if(!empty($errors['new_password'])) echo 'is-invalid';?>" id="new_password" name="new_password" placeholder="Enter new password">
+                <?php if(isset($errors['new_password'])): ?>
+                  <small id="new_password_help" class="form-text text-danger"><?= $errors['new_password']?></small>
+                <?php endif; ?>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="confirm_new_password">Confirm New Password</label>
+                <input type="password" class="form-control <?php if(!empty($errors['new_password'])) echo 'is-invalid';?>" id="confirm_new_password" name="confirm_new_password" placeholder="Confirm new password">
+              </div>
             </div>
-            <div class="form-group col-md-4">
-              <label for="new_password">New Password</label>
-              <input type="password" class="form-control <?php if(!empty($errors['new_password'])) echo 'is-invalid';?>" id="new_password" name="new_password" placeholder="Enter new password">
-              <?php if(isset($errors['new_password'])): ?>
-                <small id="new_password_help" class="form-text text-danger"><?= $errors['new_password']?></small>
-              <?php endif; ?>
-            </div>
-            <div class="form-group col-md-4">
-              <label for="confirm_new_password">Confirm New Password</label>
-              <input type="password" class="form-control <?php if(!empty($errors['new_password'])) echo 'is-invalid';?>" id="confirm_new_password" name="confirm_new_password" placeholder="Confirm new password">
-            </div>
-          </div>
-        <input type="hidden" name="form_type" value="updatepass">
+          <input type="hidden" name="form_type" value="updatepass">
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-primary btn-sm pass" type="button">Update Password</button>
+        </form>
+      </div>
     </div>
-    <div class="card-footer">
-      <button class="btn btn-primary btn-sm pass" type="button">Update Password</button>
-      </form>
+  <?php endif;?>
+<?php else:?>
+    <div class="card">
+      <div class="card-header">
+        Update Password
+      </div>
+      <div class="card-body">
+        <form action="<?= base_url()?>/user/<?= esc($user['username'])?>" method="post" enctype="multipart/form-data" id="passForm">
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <label for="current_password">Current Password</label>
+                <input type="password" class="form-control <?php if(!empty($errors['current_password'])) echo 'is-invalid';?>" id="current_password" name="current_password" placeholder="Enter current password">
+                <?php if(isset($errors['current_password'])): ?>
+                  <small id="current_password_help" class="form-text text-danger"><?= $errors['current_password']?></small>
+                <?php endif; ?>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="new_password">New Password</label>
+                <input type="password" class="form-control <?php if(!empty($errors['new_password'])) echo 'is-invalid';?>" id="new_password" name="new_password" placeholder="Enter new password">
+                <?php if(isset($errors['new_password'])): ?>
+                  <small id="new_password_help" class="form-text text-danger"><?= $errors['new_password']?></small>
+                <?php endif; ?>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="confirm_new_password">Confirm New Password</label>
+                <input type="password" class="form-control <?php if(!empty($errors['new_password'])) echo 'is-invalid';?>" id="confirm_new_password" name="confirm_new_password" placeholder="Confirm new password">
+              </div>
+            </div>
+          <input type="hidden" name="form_type" value="updatepass">
+      </div>
+      <div class="card-footer">
+        <button class="btn btn-primary btn-sm pass" type="button">Update Password</button>
+        </form>
+      </div>
     </div>
-  </div>
 <?php endif;?>
+
 <?= $this->endSection() ?>
 
 <?= $this->section('scripts') ?>
