@@ -3,6 +3,7 @@ namespace Modules\Roles\Controllers;
 
 use App\Controllers\BaseController;
 use App\Controllers\Roles as Control;
+use App\Models as RealModels;
 use Modules\Roles\Models as Models;
 use Modules\Permissions\Models as Perms;
 use App\Models as AppModels;
@@ -11,6 +12,7 @@ class Roles extends BaseController
 {
     public function __construct() {
         $this->roleModel = new Models\RoleModel();
+        $this->userModel = new RealModels\UserModel;
         $this->rolePermissionModel = new Perms\RolePermissionModel();
         $this->activityLogModel = new AppModels\ActivityLogModel();
     }
@@ -96,13 +98,18 @@ class Roles extends BaseController
             return redirect()->to(base_url());
         }
         $data['rolePermission'] = $data['perm_id']['rolePermission'];
-        if($this->roleModel->where('id', $id)->delete()) {
-            $activityLog['user'] = $this->session->get('user_id');
-            $activityLog['description'] = 'Deleted a role';
-            $this->activityLogModel->save($activityLog);
-          $this->session->setFlashData('successMsg', 'Successfully deleted role');
+
+        if($this->userModel->where('role', $id)->countAllResults(false) == 0){
+            if($this->roleModel->where('id', $id)->delete()) {
+                $activityLog['user'] = $this->session->get('user_id');
+                $activityLog['description'] = 'Deleted a role';
+                $this->activityLogModel->save($activityLog);
+              $this->session->setFlashData('successMsg', 'Successfully deleted role');
+            } else {
+              $this->session->setFlashData('failMsg', 'Something went wrong!');
+            }
         } else {
-          $this->session->setFlashData('errorMsg', 'Something went wrong!');
+          $this->session->setFlashData('failMsg', 'Cannot delete - there are accounts with this role!');
         }
         return redirect()->to(base_url('admin/roles'));
     }

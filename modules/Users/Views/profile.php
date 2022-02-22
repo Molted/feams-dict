@@ -309,10 +309,10 @@ foreach($perm_id['perm_id'] as $perms) {
         <div class="form-group">
           <label for="status">Status</label>
           <select class="form-control form-control-sm select2bs4" name="status">
-            <option value="1" <?= $user['status'] == 'Active' ? 'selected' : ''?>>Active</option>
-            <option value="2" <?= $user['status'] == 'Inactive' ? 'selected' : ''?>>Inactive</option>
-            <option value="3" <?= $user['status'] == 'Paid' ? 'selected' : ''?>>Paid</option>
-            <option value="0" <?= $user['status'] == 'Unpaid' ? 'selected' : ''?>>Unpaid</option>
+            <option value="1" <?= $user['status'] == '1' ? 'selected' : ''?>>Active</option>
+            <option value="2" <?= $user['status'] == '2' ? 'selected' : ''?>>Inactive</option>
+            <option value="3" <?= $user['status'] == '3' ? 'selected' : ''?>>Paid</option>
+            <option value="0" <?= $user['status'] == '0' ? 'selected' : ''?>>Unpaid</option>
           </select>
         </div>
       <?php else:?>
@@ -363,6 +363,7 @@ foreach($perm_id['perm_id'] as $perms) {
     </div>
   <?php endif;?>
 <?php else:?>
+  <?php if(session()->get('user_id') == $user['id']):?>
     <div class="card">
       <div class="card-header">
         Update Password
@@ -396,6 +397,7 @@ foreach($perm_id['perm_id'] as $perms) {
         </form>
       </div>
     </div>
+    <?php endif;?>
 <?php endif;?>
 
 <?= $this->endSection() ?>

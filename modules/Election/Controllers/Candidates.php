@@ -91,11 +91,9 @@ class Candidates extends BaseController
                     return redirect()->back()->withInput();
                 }
                 // bilangin ilang candidates meron sa pos na yun
-                $data['candiPosi'] = $this->candidateModel->where(['position_id' => $_POST['position_id']])->countAllResults(false);
-                // get position data
-                $data['position'] = $this->positionModel->where('id', $_POST['position_id'])->first();
+                $data['candiPosi'] = $this->candidateModel->where(['position_id' => $_POST['position_id'], 'election_id' => $_POST['election_id']])->countAllResults(false);
                 // check max candidate of position selected
-                $data['max'] = $this->electoralPositionModel->where('id', $data['position']['elec_position_id'])->first();
+                $data['max'] = $this->electoralPositionModel->where('id', $_POST['position_id'])->first();
                 if($data['candiPosi'] == $data['max']['max_candidate']) {
                     $this->session->setFlashdata('failMsg', 'Position exceed max candidates');
                     return redirect()->back()->withInput();
@@ -137,7 +135,6 @@ class Candidates extends BaseController
 
     public function other($id) {
         $data['positions'] = $this->electoralPositionModel->positionNameOnCandidate($id);
-
         return view('Modules\Election\Views\candidates\positions', $data);
     }
 }

@@ -62,6 +62,14 @@
 </div>
 </form>
 
+<?php if(isset($value['image'])): ?>
+    <?php if(esc($value['image'])):?>
+            <img src="<?= base_url()?>/public/uploads/sliders/<?= esc($value['image'])?>" class="rounded img-fluid" alt="Slider image">
+    <?php else:?>
+        No Image Uploaded
+    <?php endif;?>
+<?php endif;?>
+
 <?= $this->endSection() ?>
 
 <?= $this->section('scripts');?>

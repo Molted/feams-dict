@@ -94,7 +94,7 @@ class Users extends BaseController
                 }
                 if($file->isValid()) {
                     $_POST['profile_pic'] = $file->getRandomName();
-                    $file->move('public/uploads/profile_pic', $input['profile_pic']);
+                    $file->move('public/uploads/profile_pic', $_POST['profile_pic']);
                     if(!$file->hasMoved()) {
                         $_POST['profile_pic'] = $data['user']['profile_pic'];
                     }

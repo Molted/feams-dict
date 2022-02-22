@@ -2,7 +2,7 @@
 <?php $end = strtotime($end)?>
 
 <h3 style="text-align: center;">Paid for the contributions</h3>
-<h4 style="text-align: center;">Dates: <?= date('F d,Y', $start)?> - <?= date('F d,Y',$end)?></h4>
+<h4 style="text-align: center;">Dates: <?= date('F d, Y', $start)?> - <?= date('F d, Y',$end)?></h4>
 
 <br>
 <div style="width: 100%">
@@ -12,7 +12,7 @@
       <td width="25%"> <b>Contributor</b> </td>
       <td width="20%"> <b>Contribution</b> </td>
       <td width="20%"> <b>Amount Paid</b> </td>
-      <td width="30%"> <b>Date paid</b> </td>
+      <td width="30%"> <b>Date Paid</b> </td>
     </tr>
     <?php if (empty($payments)): ?>
       <tr>

@@ -38,10 +38,10 @@ class ElectionModel extends Model {
     }
 
     public function electionCandidates($id) {
-        $this->select('candidates.id, users.first_name, users.last_name, platform, photo, position_id, electoral_positions.position_name as name, users.profile_pic');
+        $this->select('candidates.id, users.first_name, users.last_name, platform, photo, positions.id as position_id, electoral_positions.position_name as name, users.profile_pic');
         $this->where(['candidates.election_id' => $id, 'candidates.deleted_at' => NULL]);
         $this->join('candidates', 'candidates.election_id = elections.id');
-        $this->join('positions', 'candidates.position_id = positions.id');
+        $this->join('positions', 'candidates.position_id = positions.elec_position_id');
         $this->join('electoral_positions', 'positions.elec_position_id = electoral_positions.id');
         $this->join('users', 'candidates.user_id = users.id');
         return $this->get()->getResultArray();

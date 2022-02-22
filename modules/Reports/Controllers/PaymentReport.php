@@ -110,8 +110,9 @@ class PaymentReport extends BaseController
         );
 
         $data['contri'] = array();
+        $data['total_amount'] = 0;
 		foreach($this->contriModel->findAll() as $contri) {
-            if($contri['created_at'] >= $data['start'] && $contri['created_at'] <= $data['end']) {
+            if(date('Y-m-d', strtotime($pay['created_at'])) >= $data['start'] && date('Y-m-d', strtotime($pay['created_at'])) <= $data['end']) {
                 $amount = 0;
                 foreach($this->paymentModel->findAll() as $pay) {
                     if($pay['contri_id'] == $contri['id']) {
@@ -128,8 +129,10 @@ class PaymentReport extends BaseController
                 ];
                 array_push($data['contri'], $contrib);
             }
-		}
 
+            $data['total_amount'] += $amount;
+		}
+        
         $start = strtotime($data['start']);
         $end = strtotime($data['end']);
         // echo '<pre>';
@@ -170,7 +173,7 @@ class PaymentReport extends BaseController
         $data['payments'] = array();
         $data['totalPayment'] = 0;
 		foreach($this->paymentModel->allPaid() as $pay) {
-            if($pay['created_at'] >= $data['start'] && $pay['created_at'] <= $data['end']) {
+            if(date('Y-m-d', strtotime($pay['created_at'])) >= $data['start'] && date('Y-m-d', strtotime($pay['created_at'])) <= $data['end']) {
                 $payDetails['name'] = ucwords(strtolower($pay['first_name'])).' '.ucwords(strtolower($pay['last_name']));
                 $payDetails['amount'] = $pay['amount'].'.00';
                 $payDetails['contriName'] = $pay['name'];

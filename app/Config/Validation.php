@@ -130,9 +130,8 @@ class Validation
 		],
 		'image' => [
 			'label' => 'Image', 
-			'rules' => 'uploaded[image]|is_image[image]',
+			'rules' => 'is_image[image]',
 			'errors' => [
-				'uploaded' => 'No image uploaded',
 				'is_image' => 'Uploaded file is not an image',
 			]
 		],

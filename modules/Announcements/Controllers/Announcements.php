@@ -98,23 +98,40 @@ class Announcements extends BaseController
             if($this->validate('announcements')){
                 $file = $this->request->getFile('image');
                 $ann = $_POST;
-                $ann['image'] = $file->getRandomName();
+                
+                if(is_uploaded_file($_FILES['image']['name'])){
+                    $ann['image'] = $file->getRandomName();
+                }
+                else{
+                    $ann['image'] = '';
+                }
+                
                 $ann['link'] = random_string('alnum', 5);
                 $ann['uploader'] = $this->session->get('user_id');
                 if($this->announceModel->insert($ann)) {
                     $activityLog['user'] = $this->session->get('user_id');
                     $activityLog['description'] = 'Added a new announcement';
                     $this->activityLogModel->save($activityLog);
-                    $file->move('public/uploads/announcements', $ann['image']);
-                    if ($file->hasMoved()) {
+                    if(is_uploaded_file($_FILES['image']['name'])){
+                        $file->move('public/uploads/announcements', $ann['image']);
+                        if ($file->hasMoved()) {
+                            if(isset($_POST['sendMail']) == 'yes') {
+                                $this->sendMail();
+                            }
+                            else {
+                                $this->session->setFlashData('successMsg', 'Adding annoucement successful');
+                            }
+                        }
+                        else {
+                            $this->session->setFlashData('failMsg', 'There is an error on adding announcement. Please try again.');
+                        }
+                    } else {
                         if(isset($_POST['sendMail']) == 'yes') {
                             $this->sendMail();
                         }
                         else {
                             $this->session->setFlashData('successMsg', 'Adding annoucement successful');
                         }
-                    } else {
-                        $this->session->setFlashData('failMsg', 'There is an error on adding announcement. Please try again.');
                     }
                     return redirect()->to(base_url('admin/announcements'));
                 } else {
@@ -145,6 +162,7 @@ class Announcements extends BaseController
             array_push($data['perms'], $rolePerms['perm_mod']);
         }
 
+
         helper('text');
         $data['edit'] = true;
         $data['link'] = $link;
@@ -154,19 +172,37 @@ class Announcements extends BaseController
             if($this->validate('announcements')){
                 $file = $this->request->getFile('image');
                 $ann = $_POST;
-                $ann['image'] = $file->getRandomName();
+
+               
+                if(!empty($_FILES['image']['name'])){
+                    $ann['image'] = $file->getRandomName();
+                }
+                else{
+                    $ann['image'] = '';
+                }
+                
                 $ann['link'] = random_string('alnum', 5);
                 $ann['uploader'] = $this->session->get('user_id');
                 if($this->announceModel->update($data['id'], $ann)) {
-                    $file->move('public/uploads/announcements', $ann['image']);
-                    if ($file->hasMoved()) {
+                    if(!empty($_FILES['image']['name'])){
+                        $file->move('public/uploads/announcements', $ann['image']);
+                        if ($file->hasMoved()) {
+                            $activityLog['user'] = $this->session->get('user_id');
+                            $activityLog['description'] = 'Edited an announcement';
+                            $this->activityLogModel->save($activityLog);
+                            $this->session->setFlashData('successMsg', 'Editing annoucement successful.');
+                        }
+                        else {
+                            $this->session->setFlashData('failMsg', 'There is an error on editing announcement. Please try again.');
+                        }
+                    }
+                    else{
                         $activityLog['user'] = $this->session->get('user_id');
                         $activityLog['description'] = 'Edited an announcement';
                         $this->activityLogModel->save($activityLog);
                         $this->session->setFlashData('successMsg', 'Editing annoucement successful.');
-                    } else {
-                        $this->session->setFlashData('failMsg', 'There is an error on editing announcement. Please try again.');
                     }
+                    
                     return redirect()->to(base_url('admin/announcements'));
                 } else {
                     $this->session->setFlashData('failMsg', 'There is an error on editing announcement. Please try again.');
@@ -235,7 +271,7 @@ class Announcements extends BaseController
 
         foreach($mails as $mail) {
             $this->email->clear();
-            $this->email->setFrom('facultyea@gmail.com', 'Faculty and Employees Association');
+            $this->email->setFrom('feamsystem@gmail.com', 'Faculty and Employees Association');
             $this->email->setTo($mail);
             $this->email->setSubject($_POST['title']);
             $content = view('Modules\Announcements\Views\email', $_POST);

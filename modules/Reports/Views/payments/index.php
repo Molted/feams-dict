@@ -149,7 +149,7 @@
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script type="text/javascript">
-$(function() {
+$(document).ready(function() {
 
     var start = moment().subtract(29, 'days');
     var end = moment();
@@ -177,6 +177,9 @@ $(function() {
         console.log(picker.endDate.format('YYYY-MM-DD'));
         document.getElementById('end').value = picker.endDate.format('YYYY-MM-DD');
     });
+
+    document.getElementById('start').value = moment().subtract(29, 'days').format('YYYY-MM-DD');
+    document.getElementById('end').value = moment().format('YYYY-MM-DD');
 });
 </script>
 <?= $this->endSection() ?>

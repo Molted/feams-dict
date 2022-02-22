@@ -138,6 +138,7 @@ class Voting2 extends BaseController
                     return view('Modules\Voting2\Views\combine\resultsType1', $data);
                 } else {
                     return view('Modules\Voting2\Views\combine\votingSection', $data);
+
                 }
             }
         }

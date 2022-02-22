@@ -62,6 +62,15 @@
 </div>
 </form>
 
+<?php if(isset($value['image'])): ?>
+    <?php if(esc($value['image'])):?>
+            <img src="<?= base_url()?>/public/uploads/announcements/<?= esc($value['image'])?>" class="rounded img-fluid" alt="Announcement image">
+    <?php else:?>
+        No Image Uploaded
+    <?php endif;?>
+<?php endif;?>
+
+
 <?= $this->endSection() ?>
 
 <?= $this->section('scripts');?>

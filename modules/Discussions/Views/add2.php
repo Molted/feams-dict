@@ -32,7 +32,7 @@
     <div class="card-body">
         <div class="form-group"> <!-- Subject -->
             <label for="subject" class="required">Subject</label>
-            <input type="text" class="form-control <?=isset($errors['subject']) ? 'is-invalid': ''?>" id="subject" name="subject" placeholder="Enter subject" value="<?=isset($value['subject']) ? esc($value['subject']): ''?>">
+            <input type="text" class="form-control <?=isset($errors['subject']) ? 'is-invalid': ''?>" id="subject" name="subject" placeholder="Enter subject" value="<?=isset($value['subject']) ? esc($value['subject']): ''?>" required>
             <?php if(isset($errors['subject'])):?>
                 <div class="invalid-feedback">
                     <?=esc($errors['subject'])?>
@@ -41,8 +41,8 @@
         </div>
         <div class="form-group"> <!-- Subject -->
             <label for="init_post" class="required">Initial Post</label>
-            <textarea name="init_post" id="summernote"`></textarea>
-            <small id="passwordHelpBlock" class="form-text text-muted">
+            <textarea name="init_post" id="summernote"></textarea>
+            <small class="form-text text-muted">
                 When using image upload, make sure image file won't exceed 100kb.
             </small>
         </div>

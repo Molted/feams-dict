@@ -3,7 +3,7 @@
     <select class="form-control select2 <?=isset($errors['position_id']) ? 'is-invalid': ''?>" id="position_id" name="position_id" <?= empty($positions) ? 'disabled' : ''?>>
     <option value=""><?= empty($positions) ? 'No added positions for this election' : 'Select...'?></option>
     <?php foreach($positions as $position):?>
-        <option value="<?= esc($position['id'])?>"><?= esc($position['name'])?></option>
+        <option value="<?= esc($position['elec_position_id'])?>"><?= esc($position['name'])?></option>
     <?php endforeach;?>
     </select>
     <?php if(isset($errors['position_id'])):?>

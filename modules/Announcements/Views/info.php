@@ -39,7 +39,9 @@
     <div class="col-md-8">
       <div class="row justify-content-center">
           <div class="col-md-6">
-              <img src="<?= base_url()?>/public/uploads/announcements/<?= esc($announce['image'])?>" class="rounded img-fluid" alt="Announcement image">
+              <?php if(esc($announce['image'])):?>
+                <img src="<?= base_url()?>/public/uploads/announcements/<?= esc($announce['image'])?>" class="rounded img-fluid" alt="Announcement image">
+              <?php endif;?>
           </div>
       </div>
       <br>

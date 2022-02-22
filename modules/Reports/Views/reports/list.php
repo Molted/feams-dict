@@ -2,7 +2,7 @@
 <?php $end = strtotime($end)?>
 
 <h4 style="text-align: center;"> List of All Contributions </h4>
-<h5 style="text-align: center;">From date: <?= date('F d,Y', $start)?> - <?= date('F d,Y',$end)?></h5>
+<h5 style="text-align: center;">From date: <?= date('F d, Y', $start)?> - <?= date('F d, Y',$end)?></h5>
 <br>
 <table cellspacing="0" cellpadding="5" border="1" style="margin-left: auto; margin-right: auto; margin-top: 5px;">
   <tr style="text-align: center;">
@@ -17,7 +17,7 @@
       <td colspan="5" style="text-align: center;"> No Available Data </td>
     </tr>
   <?php else: ?>
-    <?php $ctr = 1; $amt = 0;?>
+    <?php $ctr = 1;?>
     <?php foreach ($contri as $cont): ?>
       <tr style="text-align: justify;">
         <td style="text-align: center; vertical-align: middle;"> <?=$ctr?> </td>
@@ -25,12 +25,11 @@
         <td style="text-align: center; vertical-align: middle;"> <?=$cont['cost']?> </td>
         <td style="text-align: center; vertical-align: middle;"> <?=$cont['amount']?> </td>
         <td style="text-align: center; vertical-align: middle;"> <?=$cont['created_at']?> </td>
-        <?php $amt += $cont['amount']?>
         </tr>
       <?php $ctr++; ?>
     <?php endforeach; ?>
   <?php endif; ?>
   <tr style="text-align: justify;">
-        <td style="text-align: right; vertical-align: middle;" colspan="5"> Total paid amount this month: <?=$amt?>.00 </td>
+        <td style="text-align: right; vertical-align: middle;" colspan="5"> Total paid amount this month: <?= $total_amount?>.00 </td>
   </tr>
 </table>

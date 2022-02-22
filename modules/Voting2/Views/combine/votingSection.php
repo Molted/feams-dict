@@ -8,7 +8,7 @@
             <div class="card-body">
                 <ul class="list-group">
                     <?php foreach($candidates as $candidate):?>
-                      <?php if($candidate['position_id'] == $position['id']):?>
+                      <?php if($candidate['position_id'] == $position['elec_position_id']):?>
                         <li class="list-group-item">
                             <div class="row">
                                 <div class="col-md-3">

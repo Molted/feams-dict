@@ -61,7 +61,7 @@
             <td><?= esc($contri['first_name'])?> <?= esc($contri['last_name'])?></td>
             <td>
               <a class="btn btn-info btn-sm" href="<?= base_url()?>/admin/contributions/print/<?= $contri['id']?>" role="button" data-toggle="tooltip" data-placement="bottom" title="Print contribution"><i class="fas fa-print"></i></a>
-              <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="bottom" title="Delete contribution"><i class="fas fa-trash"></i></button>
+              <button type="button" class="btn btn-danger btn-sm del" data-toggle="tooltip" data-placement="bottom" title="Delete contribution" value="<?= esc($contri['id'])?>"><i class="fas fa-trash"></i></button>
             </td>
           </tr>
         <?php endforeach;?>
@@ -90,7 +90,43 @@
 </script>
 
 <!-- SweetAlert JS -->
-<script src="<?= base_url();?>/js/sweetalert.min.js"></script>
-<script src="<?= base_url();?>/js/sweetalert2.all.min.js"></script>
+<script src="<?= base_url();?>/public/js/sweetalert.min.js"></script>
+<script src="<?= base_url();?>/public/js/sweetalert2.all.min.js"></script>
+
+<script type="text/javascript">
+
+  $(document).ready(function ()
+  {
+   
+    $('.del').click(function (e)
+    {
+      e.preventDefault();
+      var id = $(this).val();
+      console.log(id);
+
+      Swal.fire({
+        icon: 'question',
+        title: 'Delete?',
+        text: 'Are you sure to delete this contribution?',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      })/*swal2*/.then((result) =>
+      {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed)
+        {
+          window.location = '<?= base_url()?>/admin/contributions/delete/' + id;
+        }
+        else if (result.isDenied)
+        {
+          Swal.fire('Changes are not saved', '', 'info')
+        }
+      })//then
+    });
+  });
+</script>
+
 <?= $this->endSection() ?>
     

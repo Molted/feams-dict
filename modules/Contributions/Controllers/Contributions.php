@@ -153,6 +153,35 @@ class Contributions extends BaseController
         return redirect()->to(base_url('admin/payments'));
     }
 
+    public function deleteContrib($id){
+        // checking roles and permissions
+        $data['perm_id'] = check_role('39', 'CONT', $this->session->get('role'));
+        if(!$data['perm_id']['perm_access']) {
+            $this->session->setFlashdata('sweetalertfail', 'Error accessing the page, please try again');
+            return redirect()->to(base_url());
+        }
+        $data['rolePermission'] = $data['perm_id']['rolePermission'];
+        $data['perms'] = array();
+        foreach($data['rolePermission'] as $rolePerms) {
+            array_push($data['perms'], $rolePerms['perm_mod']);
+        }
+
+        if($this->payModel->where('contri_id', $id)->countAllResults(false) == 0){
+            if($this->contribModel->where('id', $id)->delete()) {
+                $activityLog['user'] = $this->session->get('user_id');
+                $activityLog['description'] = 'Deleted a contribution';
+                $this->activityLogModel->save($activityLog);
+                $this->session->setFlashData('successMsg', 'Successfully deleted contributions');
+            } else {
+                $this->session->setFlashData('failMsg', 'Something went wrong!');
+            }
+        } else {
+            $this->session->setFlashData('failMsg', 'Cannot delete - there are contributions.');
+        }
+       
+        return redirect()->to(base_url('admin/contributions'));
+    }
+
     // tcpdf library
     public function print3($id) {
         // checking roles and permissions
@@ -235,8 +264,8 @@ class Contributions extends BaseController
 		$this->pdf->SetFont('Helvetica', '' ,8);
         $ctr = 1;
         foreach($data['users'] as $user) {
-            $this->pdf->SetX(60);
             if($user['status'] == '1') {
+                $this->pdf->SetX(60);
                 $cost = 0; $amountPaid = 0;
                 $datePaid = '';
                 foreach($data['payments'] as $pay) {
@@ -258,8 +287,8 @@ class Contributions extends BaseController
                     $this->pdf->Cell(50,7,'Fully paid',1);
                     $this->pdf->Cell(60,7,date('F d,Y H:ia', strtotime($datePaid)),1);
                 }
+                $this->pdf->Ln();
             }
-            $this->pdf->Ln();
             $ctr++;
         }
         

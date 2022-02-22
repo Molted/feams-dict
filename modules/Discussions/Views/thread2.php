@@ -108,7 +108,7 @@
             // [groupName, [list of button]]
             ['style', ['bold', 'italic', 'underline', 'clear']],
             ['fontsize', ['fontsize']],
-            [ 'insert', [ 'link', 'picture'] ],
+            [ 'insert', [ 'link'] ],
         ]
     });
 </script>

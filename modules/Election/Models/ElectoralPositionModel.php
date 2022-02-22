@@ -43,9 +43,8 @@ class ElectoralPositionModel extends Model
     public function electionCandidates($id) {
         $db      = \Config\Database::connect();
         $sql = "SELECT candidates.*, electoral_positions.position_name as name, users.first_name, users.last_name, users.profile_pic FROM `candidates` 
-        JOIN positions ON candidates.position_id=positions.id 
         JOIN users ON candidates.user_id = users.id
-        JOIN electoral_positions ON positions.elec_position_id=electoral_positions.id
+        JOIN electoral_positions ON candidates.position_id=electoral_positions.id
         WHERE candidates.election_id = ? AND candidates.deleted_at IS NULL";
         $query = $db->query($sql, $id);
         return $query->getResultArray();
