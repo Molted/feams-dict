@@ -19,6 +19,11 @@
       <div class="input-group">
         <input type="text" class="form-control" id="middle_name" name="middle_name" placeholder="Middle Name" value="<?=isset($value['middle_name']) ? esc($value['middle_name']): ''?>">
       </div>
+      <?php if(isset($errors['middle_name'])):?>
+        <div class="invalid-feedback">
+            <?=esc($errors['middle_name'])?>
+        </div>
+      <?php endif;?>
     </div>
     <div class="col-md-4 mb-3">
       <label for="last_name" class="required">Last name</label>
@@ -100,7 +105,7 @@
 
 <div class="form-group">
   <label for="type">Employee Type <i class="far fa-question-circle"data-toggle="tooltip" data-placement="top" title="What is your status as an employee"></i></label>
-  <select id="type" class="form-control" name="type">
+  <select id="type" class="form-control" name="type" required>
     <option value="" selected>Choose...</option>
     <option value="1" selected>Regular</option>
     <option value="2" selected>Part-Time</option>
@@ -162,7 +167,7 @@
 
 <div class="form-group">
   <label for="payment_method">Payment Method <i class="far fa-question-circle"data-toggle="tooltip" data-placement="top" title="How you want to pay your membership fee"></i></label>
-  <select id="payment_method" class="form-control" name="payment_method">
+  <select id="payment_method" class="form-control" name="payment_method" required>
     <option selected>Choose...</option>
     <?php foreach($paymentMethods as $payMethod):?>
       <option value="<?= esc($payMethod['id'])?>"><?= esc($payMethod['name'])?></option>

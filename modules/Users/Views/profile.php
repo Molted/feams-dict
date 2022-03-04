@@ -241,25 +241,25 @@ foreach($perm_id['perm_id'] as $perms) {
       <div class="form-row">
         <div class="form-group col-md-4">
           <label for="first_name">First Name</label>
-          <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter first name" value="<?= $user['first_name']?>">
+          <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter first name" value="<?= $user['first_name']?>" required>
         </div>
         <div class="form-group col-md-4">
           <label for="middle_name">Middle Name</label>
-          <input type="text" class="form-control" name="middle_name" value="<?= $user['middle_name']?>">
+          <input type="text" class="form-control" name="middle_name" value="<?= $user['middle_name']?>" required>
         </div>
         <div class="form-group col-md-4">
           <label for="last_name">Last Name</label>
-          <input type="text" class="form-control" name="last_name" value="<?= $user['last_name']?>">
+          <input type="text" class="form-control" name="last_name" value="<?= $user['last_name']?>" required>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="email">Email address</label>
-          <input type="email" class="form-control" name="email" value="<?= $user['email']?>">
+          <input type="email" class="form-control" name="email" value="<?= $user['email']?>" readonly>
         </div>
         <div class="form-group col-md-6">
           <label for="contact_number">Contact Number</label>
-          <input type="number" class="form-control" name="contact_number" value="<?= $user['contact_number']?>">
+          <input type="number" class="form-control" name="contact_number" value="<?= $user['contact_number']?>" required>
         </div>
       </div>
       <?php if($user['role'] != '0'):?>

@@ -89,6 +89,7 @@
                   <?php endif?>
                 </td>
               </tr>
+              <?php $ctr++;?>
             <?php endif;?>
           <?php endforeach?>
         </tbody>
