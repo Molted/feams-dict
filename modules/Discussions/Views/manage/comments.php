@@ -43,6 +43,9 @@
             <span class="time"><i class="fas fa-clock"></i> <?= date('F d, Y h:ia', strtotime($comms['comment_date']))?></span>
             <h3 class="timeline-header"><a href="<?= base_url('user')?>/<?= esc($comms['username'])?>"><?= esc($comms['first_name'])?> <?= esc($comms['last_name'])?></a> commented</h3>
             <div class="timeline-body">
+                <?php if(isset($comms['image']) && !empty($comms['image'])): ?>
+                    <img src="<?= base_url().'/public/uploads/threads/'.esc($comms['image'])?>" class="img-fluid" alt="Responsive image">
+                <?php endif; ?>
               <?= esc($comms['comment'], 'raw')?>
             </div>
             <div class="timeline-footer">

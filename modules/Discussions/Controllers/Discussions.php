@@ -63,25 +63,40 @@ class Discussions extends BaseController
         }
         
         if($this->request->getMethod() == 'post') {
-            $post = $_POST;
-            $post['visibility'] = $id;
-            $post['creator'] = $this->session->get('user_id');
-            $post['status'] = 'a';
-            $post['link'] = random_string('alnum', 8);
-            if($this->threadModel->insert($post)) {
-                $threadData = $this->threadModel->where('link', $post['link'])->first();
-                $comment['thread_id'] = $threadData['id'];
-                $comment['user_id'] = $this->session->get('user_id');
-                $comment['comment'] = $_POST['init_post'];
-                $comment['comment_date'] = date('Y-m-d H:i:s');
-                $this->commentModel->insert($comment);
-                $activityLog['user'] = $this->session->get('user_id');
-                $activityLog['description'] = 'Added an discussion thread';
-                $this->activityLogModel->save($activityLog);
-                $this->session->setFlashdata('successMsg', 'Thread added successfully');
-                return redirect()->to(base_url('discussions/'. $threadData['link']));
+            if($this->validate('discussion')){
+
+                $post = $_POST;
+                $post['visibility'] = $id;
+                $post['creator'] = $this->session->get('user_id');
+                $post['status'] = 'a';
+                $post['link'] = random_string('alnum', 8);
+                if($this->threadModel->insert($post)) {
+                    $threadData = $this->threadModel->where('link', $post['link'])->first();
+                    $comment['image'] = '';
+                    $file = $this->request->getFile('image');
+                    if($file->isValid()) {
+                        $comment['image'] = $file->getRandomName();
+                        $file->move('public/uploads/threads', $comment['image']);
+                    }
+                    $comment['thread_id'] = $threadData['id'];
+                    $comment['user_id'] = $this->session->get('user_id');
+                    $comment['comment'] = $_POST['init_post'];
+                    $comment['comment_date'] = date('Y-m-d H:i:s');
+                    $this->commentModel->insert($comment);
+                    $activityLog['user'] = $this->session->get('user_id');
+                    $activityLog['description'] = 'Added an discussion thread';
+                    $this->activityLogModel->save($activityLog);
+                    $this->session->setFlashdata('successMsg', 'Thread added successfully');
+                    return redirect()->to(base_url('discussions/'. $threadData['link']));
+                }
+                else{
+                    $this->session->setFlashdata('failMsg', 'Failed to add thread');
+                    
+                }
+                    
             } else {
-                $this->session->setFlashdata('failMsg', 'Failed to add thread');
+                $data['value'] = $_POST;
+                $data['errors'] = $this->validation->getErrors();
             }
             return redirect()->to(base_url('discussions'));
         }

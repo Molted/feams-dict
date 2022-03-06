@@ -86,9 +86,8 @@ class ElectoralPositions extends BaseController
         foreach($data['rolePermission'] as $rolePerms) {
             array_push($data['perms'], $rolePerms['perm_mod']);
         }
-
-
-        $data['value'] = $this->electoralPositionModel->where(['id' => $id])->first();
+        $data['id'] = $id;
+        $data['value'] = $this->electoralPositionModel->find($id);
         $data['edit'] = true;
         if(empty($data['value'])){
             $this->session->setFlashdata('sweetalertfail', true);
@@ -114,7 +113,7 @@ class ElectoralPositions extends BaseController
                 $data['errors'] = $this->validation->getErrors();
             }
         }
-
+        
         $data['user_details'] = user_details($this->session->get('user_id'));
         $data['active'] = 'elec_positions';
         $data['title'] = 'Electoral Position';

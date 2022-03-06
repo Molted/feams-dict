@@ -241,25 +241,50 @@ foreach($perm_id['perm_id'] as $perms) {
       <div class="form-row">
         <div class="form-group col-md-4">
           <label for="first_name">First Name</label>
-          <input type="text" class="form-control" id="first_name" name="first_name" placeholder="Enter first name" value="<?= $user['first_name']?>" required>
+          <input type="text" class="form-control <?=isset($errors['first_name']) ? 'is-invalid': ''?>" id="first_name" name="first_name" placeholder="Enter first name" value="<?= $user['first_name']?>" required>
+          <?php if(isset($errors['first_name'])):?>
+            <div class="invalid-feedback">
+                <?=esc($errors['first_name'])?>
+            </div>
+          <?php endif;?>
         </div>
         <div class="form-group col-md-4">
           <label for="middle_name">Middle Name</label>
-          <input type="text" class="form-control" name="middle_name" value="<?= $user['middle_name']?>" required>
+          <input type="text" class="form-control <?=isset($errors['middle_name']) ? 'is-invalid': ''?>" name="middle_name" value="<?= $user['middle_name']?>" required>
+          <?php if(isset($errors['middle_name'])):?>
+            <div class="invalid-feedback">
+                <?=esc($errors['middle_name'])?>
+            </div>
+          <?php endif;?>
         </div>
         <div class="form-group col-md-4">
           <label for="last_name">Last Name</label>
-          <input type="text" class="form-control" name="last_name" value="<?= $user['last_name']?>" required>
+          <input type="text" class="form-control <?=isset($errors['last_name']) ? 'is-invalid': ''?>" name="last_name" value="<?= $user['last_name']?>" required>
+          <?php if(isset($errors['last_name'])):?>
+            <div class="invalid-feedback">
+                <?=esc($errors['last_name'])?>
+            </div>
+          <?php endif;?>
         </div>
       </div>
       <div class="form-row">
         <div class="form-group col-md-6">
           <label for="email">Email address</label>
-          <input type="email" class="form-control" name="email" value="<?= $user['email']?>" readonly>
+          <input type="email" class="form-control <?=isset($errors['email']) ? 'is-invalid': ''?>" name="email" value="<?= $user['email']?>">
+          <?php if(isset($errors['email'])):?>
+            <div class="invalid-feedback">
+                <?=esc($errors['email'])?>
+            </div>
+          <?php endif;?>
         </div>
         <div class="form-group col-md-6">
           <label for="contact_number">Contact Number</label>
-          <input type="number" class="form-control" name="contact_number" value="<?= $user['contact_number']?>" required>
+          <input type="number" class="form-control <?=isset($errors['contact_number']) ? 'is-invalid': ''?>" name="contact_number" value="<?= $user['contact_number']?>" required>
+          <?php if(isset($errors['contact_number'])):?>
+            <div class="invalid-feedback">
+                <?=esc($errors['contact_number'])?>
+            </div>
+          <?php endif;?>
         </div>
       </div>
       <?php if($user['role'] != '0'):?>

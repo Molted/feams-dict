@@ -42,9 +42,18 @@
         <div class="form-group"> <!-- Subject -->
             <label for="init_post" class="required">Initial Post</label>
             <textarea name="init_post" id="summernote"></textarea>
-            <small class="form-text text-muted">
-                When using image upload, make sure image file won't exceed 100kb.
-            </small>
+        </div>
+        <div class="form-group"> <!-- Photo -->
+            <label for="image">Image</label>
+            <div class="custom-file"> 
+                <input type="file" class="custom-file-input <?=isset($errors['image']) ? 'is-invalid': ''?>" id="image" name="image">
+                <label class="custom-file-label" for="image">Upload an image</label>
+            </div>
+            <?php if(isset($errors['image'])):?>
+                <div class="text-danger" style="font-size: 80%; color: #dc3545; margin-top: .25rem;">
+                    <?=esc($errors['image'])?>
+                </div>
+            <?php endif;?>
         </div>
     </div>
     <div class="card-footer">
@@ -70,10 +79,15 @@
         [ 'color', [ 'color' ] ],
         [ 'para', [ 'ol', 'ul', 'paragraph', 'height' ] ],
         [ 'table', [ 'table' ] ],
-        [ 'insert', [ 'link', 'picture'] ],
         [ 'view', [ 'undo', 'redo', 'codeview', 'help' ] ]
     ]
   });
+
+  $(".custom-file-input").on("change", function() {
+    var fileName = $(this).val().split("\\").pop();
+        $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+    });
+    </script>
 </script>
 
 <?= $this->endSection() ?>

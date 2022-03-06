@@ -42,7 +42,7 @@
   </div>
 <?php endif;?>
 
-<form action="<?= base_url('admin/electoral-positions')?>/<?= $edit ? 'edit/'.esc($value['id']): 'add'?>" method="post" enctype="multipart/form-data" id="posForm">
+<form action="<?= base_url('admin/electoral-positions')?>/<?= $edit ? 'edit/'.esc($id): 'add'?>" method="post" enctype="multipart/form-data" id="posForm">
 
 <div class="card card-light">
     <div class="card-body">
@@ -57,7 +57,7 @@
       </div>
       <div class="form-group"> <!-- Max no. of Candidates -->
         <label for="max_candidate">Max no. of Candidates</label>
-        <input type="number" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="2"class="form-control <?=isset($errors['max_candidate']) ? 'is-invalid': ''?>" id="max_candidate" name="max_candidate">
+        <input type="number" value="<?=isset($value['max_candidate']) ? esc($value['max_candidate']): ''?>" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="2"class="form-control <?=isset($errors['max_candidate']) ? 'is-invalid': ''?>" id="max_candidate" name="max_candidate">
         <?php if(isset($errors['max_candidate'])):?>
             <div class="invalid-feedback">
                 <?=esc($errors['max_candidate'])?>

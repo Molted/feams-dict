@@ -52,6 +52,9 @@
                                 </span>
                                 <h3 class="timeline-header"><a href="<?= base_url()?>/user/<?= esc($comment['username'])?>"><?= esc($comment['first_name'])?> <?= esc($comment['last_name'])?></a> commented</h3>
                                 <div class="timeline-body">
+                                    <?php if(isset($comment['image']) && !empty($comment['image'])): ?>
+                                        <img src="<?= base_url().'/public/uploads/threads/'.esc($comment['image'])?>" class="img-fluid" alt="Responsive image">
+                                    <?php endif; ?>
                                     <?= $comment['comment']?>
                                 </div>
                                 <?php $access = false;?>
@@ -78,9 +81,6 @@
                         <h3 class="timeline-header">Write Comment</h3>
                         <div class="timeline-body">
                             <textarea class="form-control  <?=isset($errors['comment']) ? 'is-invalid': ''?> comment" id="comment" rows="2" name="comment"></textarea>
-                            <small id="passwordHelpBlock" class="form-text text-muted">
-                                When using image upload, make sure image file won't exceed 100kb.
-                            </small>
                             <?php if(isset($errors['comment'])):?>
                                 <div class="invalid-feedback">
                                     <?=esc($errors['comment'])?>

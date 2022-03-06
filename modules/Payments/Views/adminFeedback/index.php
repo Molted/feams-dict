@@ -49,6 +49,7 @@
           <th scope="col">Subject</th>
           <th scope="col">Comment</th>
           <th scope="col">Added by</th>
+          <th scope="col">Image</th>
         </tr>
       </thead>
       <tbody>
@@ -59,6 +60,7 @@
             <td><?= esc($fback['subject'])?></td>
             <td><?= esc($fback['comment'])?></td>
             <td><?= esc($fback['first_name'])?> <?= esc($fback['last_name'])?></td>
+            <td><a href="<?= base_url().'/public/uploads/feedbacks/'.$fback['attachment']?>" target="_blank">View Image</a></td>
           </tr>
           <?php $ctr++?>
         <?php endforeach?>

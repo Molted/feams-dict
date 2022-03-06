@@ -137,4 +137,16 @@ class Candidates extends BaseController
         $data['positions'] = $this->electoralPositionModel->positionNameOnCandidate($id);
         return view('Modules\Election\Views\candidates\positions', $data);
     }
+
+    public function delete($id) {
+        if($this->candidateModel->delete($id)) {
+            $activityLog['user'] = $this->session->get('user_id');
+            $activityLog['description'] = 'Deleted a candidate.';
+            $this->activityLogModel->save($activityLog);
+          $this->session->setFlashData('successMsg', 'Successfully deleted candidate');
+        } else {
+          $this->session->setFlashData('failMsg', 'Something went wrong!');
+        }
+        return redirect()->to(base_url('admin/candidates'));
+    }
 }

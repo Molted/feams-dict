@@ -60,6 +60,15 @@ class UserModel extends Model {
     $this->join('roles', 'roles.id = users.role', 'left');
     return $this->get()->getFirstRow('array');
   }
+
+  public function checkEmailExists($email) {
+    $this->select('id', 'email');
+    $this->where('email', $email);
+    $row = $this->get()->getResultArray();
+    if($this->countAll())
+      return true;
+    return false;
+  }
   
 //   public function getFileUploads($id) {
 //     $this->select('users.id, files.name, files.size, files.uploaded_at');

@@ -63,7 +63,7 @@
         $(function() {
           $('input[name="birthdate"]').daterangepicker({
               "locale": {
-                  "format": "MMM DD,YYYY",
+                  "format": "MMMM DD, YYYY",
                   cancelLabel: 'Clear'
               },
               startDate: '01/01/2010',

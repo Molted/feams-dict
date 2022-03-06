@@ -85,7 +85,7 @@
     <!-- Contact Number -->
     <div class="col">  
       <label class="required">Contact Number</label>
-      <input type="number" class="form-control" placeholder="" name="contact_number" required value="<?=isset($value['contact_number']) ? esc($value['contact_number']): ''?>">
+      <input type="number" class="form-control <?=isset($errors['contact_number']) ? 'is-invalid': ''?>" placeholder="e.g. 9123456789" name="contact_number" required value="<?=isset($value['contact_number']) ? esc($value['contact_number']): ''?>">
       <?php if(isset($errors['contact_number'])):?>
         <div class="invalid-feedback">
             <?=esc($errors['contact_number'])?>
@@ -104,13 +104,18 @@
 <br>
 
 <div class="form-group">
-  <label for="type">Employee Type <i class="far fa-question-circle"data-toggle="tooltip" data-placement="top" title="What is your status as an employee"></i></label>
-  <select id="type" class="form-control" name="type" required>
-    <option value="" selected>Choose...</option>
-    <option value="1" selected>Regular</option>
-    <option value="2" selected>Part-Time</option>
-    <option value="3" selected>Admin</option>
+  <label for="type">Employee Type <i class="far fa-question-circle" data-toggle="tooltip" data-placement="top" title="What is your status as an employee"></i></label>
+  <select id="type" class="form-control <?=isset($errors['type']) ? 'is-invalid': ''?>" name="type" required>
+    <option value="" selected disabled>Choose...</option>
+    <option value="1" <?= isset($value['type']) ? (esc($value['type']) == '1' ? 'selected' : '')  : ''?>>Regular</option>
+    <option value="2" <?= isset($value['type']) ? (esc($value['type']) == '2' ? 'selected' : '')  : ''?>>Part-Time</option>
+    <option value="3" <?= isset($value['type']) ? (esc($value['type']) == '3' ? 'selected' : '')  : ''?>>Admin</option>
   </select>
+  <?php if(isset($errors['type'])):?>
+    <div class="invalid-feedback">
+        <?=esc($errors['type'])?>
+    </div>
+  <?php endif;?>
 </div>
 
 <!-- Account Info -->
@@ -167,10 +172,15 @@
 
 <div class="form-group">
   <label for="payment_method">Payment Method <i class="far fa-question-circle"data-toggle="tooltip" data-placement="top" title="How you want to pay your membership fee"></i></label>
-  <select id="payment_method" class="form-control" name="payment_method" required>
-    <option selected>Choose...</option>
+  <select id="payment_method" class="form-control  <?=isset($errors['payment_method']) ? 'is-invalid': ''?>" name="payment_method" required>
+    <option selected disabled>Choose...</option>
     <?php foreach($paymentMethods as $payMethod):?>
-      <option value="<?= esc($payMethod['id'])?>"><?= esc($payMethod['name'])?></option>
+      <option value="<?= esc($payMethod['id'])?>" <?= isset($value['payment_method']) ? (esc($value['payment_method']) == esc($payMethod['id']) ? 'selected' : '')  : ''?>><?= esc($payMethod['name'])?></option>
     <?php endforeach?>
   </select>
+  <?php if(isset($errors['payment_method'])):?>
+    <div class="invalid-feedback">
+        <?=esc($errors['payment_method'])?>
+    </div>
+  <?php endif;?>
 </div>

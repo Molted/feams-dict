@@ -49,7 +49,7 @@ class Validation
 		],
 		'middle_name' => [
 			'label' => 'Middle name',
-			'rules' => 'min_length[2]|max_length[30]|alpha_space'
+			'rules' => 'permit_empty|max_length[30]|alpha_space'
 		],
 		'last_name' => [
 			'label' => 'Last Name', 
@@ -57,11 +57,17 @@ class Validation
 		],
 		'email' => [
 			'label' => 'Email', 
-			'rules' => 'required|min_length[5]|max_length[70]|valid_email|is_unique[users.email]'
+			'rules' => 'required|min_length[5]|max_length[70]|valid_email|is_unique[users.email]',
+			'errors' => [
+				'is_unique' => 'Email already exists!',	
+			]
 		],
 		'username' => [
 			'label' => 'Username', 
-			'rules' => 'required|min_length[5]|max_length[30]|is_unique[users.username]|alpha_numeric'
+			'rules' => 'required|min_length[5]|max_length[30]|is_unique[users.username]|alpha_numeric',
+			'errors' => [
+				'is_unique' => 'Username already exists!',	
+			]
 		],
 		'password' => [
 			'label' => 'Password', 
@@ -79,20 +85,30 @@ class Validation
 			'label' => 'Contact Number', 
 			'rules' => 'required|min_length[10]|max_length[10]',
 			'errors' => [
-				'max_length|min_length' => 'The number of digits are not equal to 10. (e.g. 9876543211)',
+				'max_length' => 'The number of digits are not equal to 10. (e.g. 9123456789)',
+				'min_length' => 'The number of digits are not equal to 10. (e.g. 9123456789)',
 			],
 		],
+		'type' => [
+			'label' => 'Employee Type',
+			'rules' => 'required'
+		],
+		'payment_method' => [
+			'label' => 'Payment Method',
+			'rules' => 'required'
+		]
 	];
 
 	public $roles = [
 		'role_name' => [
 			'label' => 'Role Name', 
-			'rules' => 'required|min_length[3]|max_length[30]|alpha_numeric_space',
+			'rules' => 'required|min_length[3]|max_length[30]|alpha_numeric_space|is_unique[roles.role_name]',
 			'errors' => [
 				'required' => 'Role name is required',
 				'min_length' => 'Role name too short',
 				'max_length' => 'Role name exceeds max characters',
-				'alpha_numeric_space' => 'Role name only accepts alphanumeric characters'
+				'alpha_numeric_space' => 'Role name only accepts alphanumeric characters',
+				'is_unique' => 'Role already exists'
 			],
 		],
 	];
@@ -144,7 +160,7 @@ class Validation
 	public $sliders = [
 		'title' => [
 			'label' => 'Title', 
-			'rules' => 'max_length[999]',
+			'rules' => 'required|max_length[999]',
 			'errors' => [
 				'required' => 'Title field is required',
 				'min_length' => 'Title field too short',
@@ -153,7 +169,7 @@ class Validation
 		],
 		'description' => [
 			'label' => 'Description', 
-			'rules' => 'max_length[999]',
+			'rules' => 'required|max_length[999]',
 			'errors' => [
 				'required' => 'Description field is required',
 				'min_length' => 'Description field too short',
@@ -340,7 +356,7 @@ class Validation
 	],
 	'middle_name' => [
 		'label' => 'Middle name',
-		'rules' => 'min_length[2]|max_length[30]|alpha_space'
+		'rules' => 'permit_empty|max_length[30]|alpha_space'
 	],
 	'last_name' => [
 		'label' => 'Last Name', 
@@ -351,6 +367,14 @@ class Validation
 		'rules' => 'ext_in[image,png,jpg,jpeg]',
 		'errors' => [
 			'ext_in' => 'Profile picture is not an image',
+		],
+	],
+	'contact_number' => [
+		'label' => 'Contact Number', 
+		'rules' => 'required|min_length[10]|max_length[10]',
+		'errors' => [
+			'max_length' => 'The number of digits are not equal to 10. (e.g. 9123456789)',
+			'min_length' => 'The number of digits are not equal to 10. (e.g. 9123456789)',
 		],
 	],
   ];
@@ -375,12 +399,16 @@ class Validation
   public $electoral_position = [
     'position_name' => [
         'label' => 'Position Name',
-        'rules' => 'required|max_length[100]|alpha_numeric_space',
+        'rules' => 'required|max_length[100]|alpha_numeric_space|is_unique[electoral_positions.position_name]',
         'errors' => [
             'required' => 'Position name is required',
             'max_length' => 'Position name exceed maximum length',
             'alpha_numeric_space' => 'Position name includes symbols',
         ],
+    ],
+    'max_candidate' => [
+        'label' => 'Max no. of Candidate',
+        'rules' => 'required',
     ],
   ];
 
@@ -494,7 +522,7 @@ class Validation
   public $news = [
       'title' => [
           'label' => 'Title', 
-          'rules' => 'max_length[999]',
+          'rules' => 'required|max_length[999]',
           'errors' => [
               'required' => 'Title field is required',
               'min_length' => 'Title field too short',
@@ -606,4 +634,22 @@ class Validation
 	  'rules' => 'required|min_length[5]|max_length[30]'
 	],
   ];	
+
+  public $discussion = [
+	'subject' => [
+		'label' => 'Subject',
+		'rules' => 'required',
+	],
+	'image' => [
+		'label' => 'Image', 
+		'rules' => 'ext_in[image,png,jpg,jpeg]',
+		'errors' => [
+			'ext_in' => 'Image uploaded is not an image',
+		],
+	],
+	'init_post' => [
+		'label' => 'Initial Post',
+		'rules' => 'required',
+	]
+  ];
 }

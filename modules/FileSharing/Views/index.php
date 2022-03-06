@@ -132,6 +132,7 @@
                 </td>
               </tr>
             <?php endif;?>
+            <?php $ctr++;?>
           <?php endif;?>
         <?php endforeach;?>
       </tbody>
@@ -203,6 +204,7 @@
                 </td>
               </tr>
             <?php endif;?>
+            <?php $ctr++;?>
           <?php endif;?>
         <?php endforeach;?>
       </tbody>
@@ -274,6 +276,7 @@
                 </td>
               </tr>
             <?php endif;?>
+            <?php $ctr++;?>
           <?php endif;?>
         <?php endforeach;?>
       </tbody>
@@ -346,6 +349,7 @@
               </tr>
             <?php endif;?>
           <?php endif;?>
+          <?php $ctr++;?>
         <?php endforeach;?>
       </tbody>
     </table>

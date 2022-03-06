@@ -89,6 +89,10 @@ class Users extends BaseController
                 $file = $this->request->getFile('image');
                 $_POST['id'] = $data['user']['id'];
                 if($_POST['email'] != $data['user']['email']) {
+                    if($this->userModel->checkEmailExists($_POST['email'])){
+                        $this->session->setFlashData('failMsg', 'Email already exists!');
+                        return redirect()->back();
+                    }
                     $_POST['email_code'] = random_string('alnum', 5);
                     $_POST['status'] = '4';
                 }
@@ -134,7 +138,6 @@ class Users extends BaseController
                     return redirect()->back();
                 }
             } else {
-                $this->session->setFlashData('failMsg', 'New and Confirm New Password do not match.');
                 $data['errors'] = $this->validation->getErrors();
             }
           }

@@ -31,7 +31,7 @@ $routes->group('admin/candidates', ['namespace' => 'Modules\Election\Controllers
   $routes->get('/', 'Candidates::index', ["filter" => "auth"]);
   $routes->get('election/(:num)', 'Candidates::tables/$1', ["filter" => "auth"]);
   $routes->match(['get', 'post'], 'add', 'Candidates::add', ["filter" => "auth"]);
-  $routes->get('delete/(:num)', 'Candidates3::delete/$1', ["filter" => "auth"]);
+  $routes->get('delete/(:num)', 'Candidates::delete/$1', ["filter" => "auth"]);
   $routes->get('elec/(:num)', 'Candidates::other/$1', ["filter" => "auth"]);
 });
 
