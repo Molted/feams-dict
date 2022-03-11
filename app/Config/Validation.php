@@ -49,7 +49,10 @@ class Validation
 		],
 		'middle_name' => [
 			'label' => 'Middle name',
-			'rules' => 'permit_empty|max_length[30]|alpha_space'
+			'rules' => 'max_length[30]|regex_match[/^$|^[a-zA-Z0-9]+$/]',
+			'errors' => [
+				'regex_match' => 'The Middle Name field may only contain alphabetical characters and spaces.',
+			]
 		],
 		'last_name' => [
 			'label' => 'Last Name', 
@@ -83,7 +86,7 @@ class Validation
 		],
 		'contact_number' => [
 			'label' => 'Contact Number', 
-			'rules' => 'required|min_length[10]|max_length[10]',
+			'rules' => 'required|min_length[10]|max_length[10]|is_natural',
 			'errors' => [
 				'max_length' => 'The number of digits are not equal to 10. (e.g. 9123456789)',
 				'min_length' => 'The number of digits are not equal to 10. (e.g. 9123456789)',
@@ -356,11 +359,21 @@ class Validation
 	],
 	'middle_name' => [
 		'label' => 'Middle name',
-		'rules' => 'permit_empty|max_length[30]|alpha_space'
+		'rules' => 'max_length[30]|regex_match[/^$|^[a-zA-Z0-9]+$/]',
+		'errors' => [
+			'regex_match' => 'The Middle Name field may only contain alphabetical characters and spaces.',
+		]
 	],
 	'last_name' => [
 		'label' => 'Last Name', 
 		'rules' => 'required|min_length[2]|max_length[30]|alpha_space'
+	],
+	'email' => [
+		'label' => 'Email', 
+		'rules' => 'required|min_length[5]|max_length[70]|valid_email',
+		'errors' => [
+			'is_unique' => 'Email already exists!',	
+		]
 	],
 	'image' => [
 		'label' => 'Profile Picture', 
@@ -371,7 +384,7 @@ class Validation
 	],
 	'contact_number' => [
 		'label' => 'Contact Number', 
-		'rules' => 'required|min_length[10]|max_length[10]',
+		'rules' => 'required|min_length[10]|max_length[10]|is_natural',
 		'errors' => [
 			'max_length' => 'The number of digits are not equal to 10. (e.g. 9123456789)',
 			'min_length' => 'The number of digits are not equal to 10. (e.g. 9123456789)',

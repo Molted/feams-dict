@@ -64,6 +64,7 @@
               <button type="button" class="btn btn-danger btn-sm del" data-toggle="tooltip" data-placement="bottom" title="Delete contribution" value="<?= esc($contri['id'])?>"><i class="fas fa-trash"></i></button>
             </td>
           </tr>
+          <?php $ctr++;?>
         <?php endforeach;?>
       </tbody>
     </table>

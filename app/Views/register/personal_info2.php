@@ -17,13 +17,13 @@
     <div class="col-md-4 mb-3">
       <label for="middle_name">Middle Name</label>
       <div class="input-group">
-        <input type="text" class="form-control" id="middle_name" name="middle_name" placeholder="Middle Name" value="<?=isset($value['middle_name']) ? esc($value['middle_name']): ''?>">
+        <input type="text" class="form-control <?=isset($errors['middle_name']) ? 'is-invalid': ''?>" id="middle_name" name="middle_name" placeholder="Middle Name" value="<?=isset($value['middle_name']) ? esc($value['middle_name']): ''?>">
+        <?php if(isset($errors['middle_name'])):?>
+          <div class="invalid-feedback">
+              <?=esc($errors['middle_name'])?>
+          </div>
+        <?php endif;?>
       </div>
-      <?php if(isset($errors['middle_name'])):?>
-        <div class="invalid-feedback">
-            <?=esc($errors['middle_name'])?>
-        </div>
-      <?php endif;?>
     </div>
     <div class="col-md-4 mb-3">
       <label for="last_name" class="required">Last name</label>

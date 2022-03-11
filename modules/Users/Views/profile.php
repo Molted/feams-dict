@@ -279,7 +279,7 @@ foreach($perm_id['perm_id'] as $perms) {
         </div>
         <div class="form-group col-md-6">
           <label for="contact_number">Contact Number</label>
-          <input type="number" class="form-control <?=isset($errors['contact_number']) ? 'is-invalid': ''?>" name="contact_number" value="<?= $user['contact_number']?>" required>
+          <input type="text" class="form-control <?=isset($errors['contact_number']) ? 'is-invalid': ''?>" name="contact_number" value="<?= $user['contact_number']?>" required>
           <?php if(isset($errors['contact_number'])):?>
             <div class="invalid-feedback">
                 <?=esc($errors['contact_number'])?>
