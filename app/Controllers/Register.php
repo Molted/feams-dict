@@ -64,6 +64,9 @@ class Register extends BaseController {
         $this->email->setTo($userData['email']);
         $this->email->setFrom('feamsystem@gmail.com', 'Faculty and Employees Association');
         $this->email->setSubject('Account Confirmation');
+        $fileName = base_url().'/public/uploads/paymentmethods/'.$userData['paymentMethod']['image'];
+        $this->email->attach($fileName);
+        // $userData['cid'] = $this->email->setAttachmentCID($fileName);
         $message = view('regiEmail', $userData);
         $this->email->setMessage($message);
         if ($this->email->send()) {

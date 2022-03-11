@@ -49,7 +49,7 @@ class Validation
 		],
 		'middle_name' => [
 			'label' => 'Middle name',
-			'rules' => 'max_length[30]|regex_match[/^$|^[a-zA-Z0-9]+$/]',
+			'rules' => 'max_length[30]|regex_match[/^$|^[a-zA-Z\s]*$/]',
 			'errors' => [
 				'regex_match' => 'The Middle Name field may only contain alphabetical characters and spaces.',
 			]
@@ -359,7 +359,7 @@ class Validation
 	],
 	'middle_name' => [
 		'label' => 'Middle name',
-		'rules' => 'max_length[30]|regex_match[/^$|^[a-zA-Z0-9]+$/]',
+		'rules' => 'max_length[30]|regex_match[/^$|^[a-zA-Z\s]*$/]',
 		'errors' => [
 			'regex_match' => 'The Middle Name field may only contain alphabetical characters and spaces.',
 		]
@@ -520,6 +520,13 @@ class Validation
             'uploaded' => 'Steps to pay is required',
         ],
     ],
+	'image' => [
+		'label' => 'Image', 
+		'rules' => 'is_image[image]',
+		'errors' => [
+			'is_image' => 'Uploaded file is not an image',
+		]
+	],
   ];
 
 //   upload membership proof after registering

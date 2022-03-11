@@ -52,16 +52,36 @@ class PaymentMethods extends BaseController
         $data['edit'] = false;
         if($this->request->getMethod() == 'post') {
             if($this->validate('payment_method')){
-                if($this->paymentMethModel->save($_POST)) {
-                    $activityLog['user'] = $this->session->get('user_id');
-                    $activityLog['description'] = 'Added a new payment method';
-                    $this->activityLogModel->save($activityLog);
-                    $this->session->setFlashData('successMsg', 'Adding payment method successful');
-                    return redirect()->to(base_url('admin/payment-methods'));
+
+                $file = $this->request->getFile('image');
+                if (!$file->isValid()){
+                    if($this->paymentMethModel->save($_POST)) {
+                        $activityLog['user'] = $this->session->get('user_id');
+                        $activityLog['description'] = 'Added a new payment method';
+                        $this->activityLogModel->save($activityLog);
+                        $this->session->setFlashData('successMsg', 'Adding payment method successful');
+                        return redirect()->to(base_url('admin/payment-methods'));
+                    } else {
+                        $this->session->setFlashData('failMsg', 'There is an error on adding payment method. Please try again.');
+                        return redirect()->back()->withInput();
+                    }
                 } else {
-                    $this->session->setFlashData('failMsg', 'There is an error on adding payment method. Please try again.');
-                    return redirect()->back()->withInput();
+                    if ($file->isValid() && !$file->hasMoved()) {
+                        $_POST['image'] = $file->getRandomName();
+                        $file->move('public/uploads/paymentmethods', $_POST['image']);
+                    }
+                    if($this->paymentMethModel->insert($_POST)) {
+                        $activityLog['user'] = $this->session->get('user_id');
+                        $activityLog['description'] = 'Added a new payment method';
+                        $this->activityLogModel->save($activityLog);
+                        $this->session->setFlashData('successMsg', 'Adding payment method successful');
+                        return redirect()->to(base_url('admin/payment-methods'));
+                    } else {
+                        $this->session->setFlashData('failMsg', 'There is an error on adding payment method. Please try again.');
+                        return redirect()->back()->withInput();
+                    }
                 }
+                
             } else {
                 $data['value'] = $_POST;
                 $data['errors'] = $this->validation->getErrors();
@@ -93,14 +113,31 @@ class PaymentMethods extends BaseController
         $data['id'] = $data['value']['id'];
         if($this->request->getMethod() == 'post') {
             if($this->validate('payment_method')){
-                if($this->paymentMethModel->update($data['id'], $_POST)) {
-                    $activityLog['user'] = $this->session->get('user_id');
-                    $activityLog['description'] = 'Edited an payment method';
-                    $this->activityLogModel->save($activityLog);
-                    $this->session->setFlashData('successMsg', 'Editing payment method successful.');
-                    return redirect()->to(base_url('admin/payment-methods'));
+                $file = $this->request->getFile('image');
+                if (!$file->isValid()){
+                    if($this->paymentMethModel->update($data['id'], $_POST)) {
+                        $activityLog['user'] = $this->session->get('user_id');
+                        $activityLog['description'] = 'Edited an payment method';
+                        $this->activityLogModel->save($activityLog);
+                        $this->session->setFlashData('successMsg', 'Editing payment method successful.');
+                        return redirect()->to(base_url('admin/payment-methods'));
+                    } else {
+                        $this->session->setFlashData('failMsg', 'There is an error on editing payment method. Please try again.');
+                    }
                 } else {
-                    $this->session->setFlashData('failMsg', 'There is an error on editing payment method. Please try again.');
+                    if ($file->isValid() && !$file->hasMoved()) {
+                        $_POST['image'] = $file->getRandomName();
+                        $file->move('public/uploads/paymentmethods', $_POST['image']);
+                    }
+                    if($this->paymentMethModel->update($data['id'], $_POST)) {
+                        $activityLog['user'] = $this->session->get('user_id');
+                        $activityLog['description'] = 'Edited an payment method';
+                        $this->activityLogModel->save($activityLog);
+                        $this->session->setFlashData('successMsg', 'Editing payment method successful.');
+                        return redirect()->to(base_url('admin/payment-methods'));
+                    } else {
+                        $this->session->setFlashData('failMsg', 'There is an error on editing payment method. Please try again.');
+                    }
                 }
             } else {
                 $data['value'] = $_POST;

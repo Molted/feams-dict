@@ -9,7 +9,7 @@ class PaymentMethodModel extends Model {
   
     protected $useAutoIncrement = true;
     
-    protected $allowedFields = ['name', 'steps', 'deleted_at'];
+    protected $allowedFields = ['name', 'steps', 'image', 'deleted_at'];
     protected $useSoftDeletes = true;
   
     protected $useTimestamps = true;

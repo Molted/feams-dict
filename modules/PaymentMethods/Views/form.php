@@ -43,6 +43,25 @@
                 </div>
             <?php endif;?>
         </div>
+        <div class="form-group"> <!-- Image -->
+            <label for="image">Image</label>
+            <div class="custom-file"> 
+                <input type="file" class="custom-file-input <?=isset($errors['image']) ? 'is-invalid': ''?>" id="image" name="image">
+                <label class="custom-file-label" for="customFile"><?= $edit ? 'Replace or Upload an Image (optional)' : 'Upload an Image (optional)'?></label>
+            </div>
+            <?php if(isset($errors['image'])):?>
+                <div class="text-danger" style="font-size: 80%; color: #dc3545; margin-top: .25rem;">
+                    <?=esc($errors['image'])?>
+                </div>
+            <?php endif;?>
+        </div>
+        <?php if(isset($value['image'])): ?>
+            <?php if(esc($value['image'])):?>
+                <img src="<?= base_url()?>/public/uploads/paymentmethods/<?= esc($value['image'])?>" class="rounded img-thumbnail" width="25%" alt="image">
+            <?php else:?>
+                No Image Uploaded
+            <?php endif;?>
+        <?php endif;?>
     </div>
     <div class="card-footer">
         <button type="submit" class="float-end btn btn-primary btn-sm" >Submit</button>
@@ -60,10 +79,15 @@
         toolbar: [
             // [groupName, [list of button]]
             ['style', ['bold', 'italic', 'underline', 'clear']],
-            ['insert', ['link', 'picture']],
             ['para', ['ul', 'ol', 'paragraph']],
         ]
     });
 </script>
-
+<script>
+  document.querySelector('.custom-file-input').addEventListener('change', function (e) {
+    var name = document.getElementById("image").files[0].name;
+    var nextSibling = e.target.nextElementSibling
+    nextSibling.innerText = name
+  })
+</script>
 <?= $this->endSection() ?>
