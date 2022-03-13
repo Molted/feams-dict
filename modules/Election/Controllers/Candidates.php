@@ -88,7 +88,7 @@ class Candidates extends BaseController
                 $data['isCandi'] = $this->candidateModel->where(['election_id' => $_POST['election_id'], 'user_id' => $_POST['user_id']])->first();
                 if(!empty($data['isCandi'])) {
                     $this->session->setFlashdata('failMsg', 'User is currently a candidate');
-                    return redirect()->back()->withInput();
+                    return redirect()->to(base_url('admin/candidates/add'))->withInput();
                 }
                 // bilangin ilang candidates meron sa pos na yun
                 $data['candiPosi'] = $this->candidateModel->where(['position_id' => $_POST['position_id'], 'election_id' => $_POST['election_id']])->countAllResults(false);
@@ -96,7 +96,7 @@ class Candidates extends BaseController
                 $data['max'] = $this->electoralPositionModel->where('id', $_POST['position_id'])->first();
                 if($data['candiPosi'] == $data['max']['max_candidate']) {
                     $this->session->setFlashdata('failMsg', 'Position exceed max candidates');
-                    return redirect()->back()->withInput();
+                    return redirect()->to(base_url('admin/candidates/add'))->withInput();
                 }
                 $file = $this->request->getFile('photo');
                 if (!$file->isValid()) {
