@@ -23,7 +23,7 @@ class App extends BaseConfig
 	 *
 	 * @var string
 	 */
-	public $baseURL = 'http://localhost/feams/';
+	public $baseURL = 'http://localhost/feams-dict/';
 
 	/**
 	 * --------------------------------------------------------------------------
