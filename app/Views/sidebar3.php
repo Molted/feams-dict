@@ -252,6 +252,86 @@
   </li>
 <?php endif;?>
 
+<?php $pay_mgmt = ['CONT', 'PAY']; $payMgmt_access = false;?>
+<?php if(count(array_intersect($perms, $pay_mgmt)) >= 1):?>
+  <?php $payMgmt_access = true;?>
+  <?php $pays = ['contributions', 'payments', 'payment_method', 'payment_feedback']?>
+  <!-- Inventory Management -->
+  <li class="nav-item has-treeview <?= in_array($active, $pays) ? 'menu-open' : ''?>">
+    <a href="#" class="nav-link <?= in_array($active, $pays) ? 'active' : ''?>">
+      <i class="nav-icon fas fa-box"></i>
+      <p>
+        Inventory Management
+        <i class="fas fa-angle-left right"></i>
+      </p>
+    </a>
+    <ul class="nav nav-treeview" style="margin-left: 15px;">
+      <?php if(in_array('CONT', $perms)):?>
+        <!-- Item Purchased -->
+        <li class="nav-item">
+            <a href="<?= base_url('admin/contributions')?>" class="nav-link <?= $active=="contributions" ? 'active': ''?>">
+                <i class="nav-icon fas fa-box"></i>
+                <p>
+                    Item Purchased
+                </p>
+            </a>
+        </li>
+      <?php endif;?>
+      <?php if(in_array('PAY', $perms)):?>
+        <!-- Item Category -->
+        <li class="nav-item">
+            <a href="<?= base_url('admin/payment-methods')?>" class="nav-link <?= $active=="payment_method" ? 'active': ''?>">
+                <i class="nav-icon fas fa-box"></i>
+                <p>
+                  Item Category
+                </p>
+            </a>
+        </li>
+      <?php endif;?>
+    </ul>
+  </li>
+<?php endif;?>
+
+<?php $pay_mgmt = ['CONT', 'PAY']; $payMgmt_access = false;?>
+<?php if(count(array_intersect($perms, $pay_mgmt)) >= 1):?>
+  <?php $payMgmt_access = true;?>
+  <?php $pays = ['contributions', 'payments', 'payment_method', 'payment_feedback']?>
+  <!-- Financial Management -->
+  <li class="nav-item has-treeview <?= in_array($active, $pays) ? 'menu-open' : ''?>">
+    <a href="#" class="nav-link <?= in_array($active, $pays) ? 'active' : ''?>">
+      <i class="nav-icon fas fa-money-check"></i>
+      <p>
+       Financial Management
+        <i class="fas fa-angle-left right"></i>
+      </p>
+    </a>
+    <ul class="nav nav-treeview" style="margin-left: 15px;">
+      <?php if(in_array('CONT', $perms)):?>
+        <!-- Expenses -->
+        <li class="nav-item">
+            <a href="<?= base_url('admin/contributions')?>" class="nav-link <?= $active=="contributions" ? 'active': ''?>">
+                <i class="nav-icon fas fa-hand-holding-usd"></i>
+                <p>
+                    Expenses
+                </p>
+            </a>
+        </li>
+      <?php endif;?>
+      <?php if(in_array('PAY', $perms)):?>
+        <!-- Financial Reports -->
+        <li class="nav-item">
+            <a href="<?= base_url('admin/payment-methods')?>" class="nav-link <?= $active=="payment_method" ? 'active': ''?>">
+                <i class="nav-icon fas fa-file"></i>
+                <p>
+                  Financial Reports
+                </p>
+            </a>
+        </li>
+      <?php endif;?>
+    </ul>
+  </li>
+<?php endif;?>
+
 <?php if(!$payMgmt_access):?>
   <!-- Payments -->
   <li class="nav-item">
@@ -320,6 +400,24 @@
               <i class="nav-icon fas fa-file-invoice-dollar"></i>
               <p>
                   Payment Reports
+              </p>
+          </a>
+      </li>
+      <!-- Election -->
+      <li class="nav-item">
+          <a href="<?= base_url('admin/reports/payments')?>" class="nav-link <?= $active=="pay_repo" ? 'active': ''?>">
+              <i class="nav-icon fas fa-file"></i>
+              <p>
+                  Election Report
+              </p>
+          </a>
+      </li>
+      <!-- Expenses -->
+      <li class="nav-item">
+          <a href="<?= base_url('admin/reports/payments')?>" class="nav-link <?= $active=="pay_repo" ? 'active': ''?>">
+              <i class="nav-icon fas fa-file"></i>
+              <p>
+                  Expenses Report
               </p>
           </a>
       </li>
