@@ -33,12 +33,13 @@
   </div>
 <?php endif;?>
 
-<div class="container">
+<div class="container-fluid m-2">
   <div class="row">
     <!-- News Start here -->
-    <div class="col-md-8">
-      <h3>Latest Announcement</h3>
-      <div class="mt-2">
+    <div class="card col-sm-7 m-2 p-2">
+    <div class="card-header"><h3>Latest Announcement</h3></div>
+      
+      <div class="card-body">
         <?php foreach($announcements as $announce):?>
         <h5><?= esc($announce['title'])?></h5>
         <?= esc($announce['description'], 'raw')?>
@@ -46,8 +47,8 @@
         <?php endforeach;?>
       </div>
     </div>
-    <div class="col-md-4">
-      <h3>Other announcements</h3>
+    <div class="card col-sm-4 m-2 p-2">
+    <div class="card-header"><h3>Other announcements</h3></div>
       <ul class="list-group list-group-flush">
         <?php foreach($announcements as $announce):?>
           <a href="<?= base_url()?>/announcements/<?= esc($announce['link'])?>" class="list-group-item list-group-item-action" style="background-color: transparent;"><?= esc($announce['title'])?></a>

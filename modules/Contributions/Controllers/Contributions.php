@@ -294,7 +294,7 @@ class Contributions extends BaseController
         
 		$date = date('F d,Y');
         $this->response->setHeader('Content-Type', 'application/pdf');
-		$this->pdf->Output('D', $data['cont']['name']. ' Contribution Report.pdf'); 
+		$this->pdf->Output('I', $data['cont']['name']. ' Contribution Report.pdf'); 
     } 
 
     // mpdf library

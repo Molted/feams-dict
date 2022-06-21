@@ -170,7 +170,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <h3 class="text-danger"><i class="fas fa-bullhorn"></i> Announcements</h3>
             <ul class="list-group list-group-flush">
               <?php foreach($announces as $announce):?>
-                <a href="<?= base_url()?>/announcements/<?= esc($announce['link'], 'raw')?>" class="list-group-item list-group-item-action" style="background: transparent;"><?= esc($announce['title'])?></a>
+                <a href="<?= base_url()?>/announcements/<?= esc($announce['link'], 'raw')?>" class="list-group-item list-group-item-action" style="background: transparent; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;"><?= esc($announce['title'])?></a>
               <?php endforeach?>
               <li class="list-group-item" style="background: transparent;">
                 <div class="row">

@@ -128,6 +128,7 @@ class LoginReport extends BaseController
 		}
 		$date = date('F d,Y');
         $this->response->setHeader('Content-Type', 'application/pdf');
-		$this->pdf->Output('D', 'Login Report ['.$date.'].pdf'); 
+		// $this->pdf->Output('D', 'Login Report ['.$date.'].pdf'); 
+        return redirect()->to($this->pdf->Output('Login Report ['.$date.'].pdf', 'I'));
     }
 }

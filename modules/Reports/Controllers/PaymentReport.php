@@ -173,7 +173,7 @@ class PaymentReport extends BaseController
         $data['payments'] = array();
         $data['totalPayment'] = 0;
 		foreach($this->paymentModel->allPaid() as $pay) {
-            if(date('Y-m-d', strtotime($pay['created_at'])) >= $data['start'] && date('Y-m-d', strtotime($pay['created_at'])) <= $data['end']) {
+            if($pay['created_at'] >= $data['start'] && $pay['created_at'] <= $data['end']) {
                 $payDetails['name'] = ucwords(strtolower($pay['first_name'])).' '.ucwords(strtolower($pay['last_name']));
                 $payDetails['amount'] = $pay['amount'].'.00';
                 $payDetails['contriName'] = $pay['name'];
@@ -181,8 +181,11 @@ class PaymentReport extends BaseController
                 $payDetails['created_at'] = $created_at;
                 array_push($data['payments'], $payDetails);
                 $data['totalPayment'] += $pay['amount'];
+
             }
+            
 		}
+       
         $start = strtotime($data['start']);
         $end = strtotime($data['end']);
         // echo '<pre>';
@@ -192,7 +195,8 @@ class PaymentReport extends BaseController
         $pdf->AddPage();
         $pdf->writeHTML(view('Modules\Reports\Views\reports\paid', $data), true, false, true, false, '');
         $pdf->Ln(4);
-        $pdf->Output('List of paid for the contribution ['.date('m-d-Y', $start) . ' - '. date('m-d-Y', $end).'].pdf', 'D');
+        $this->response->setHeader('Content-Type', 'application/pdf');
+        return redirect()->to($pdf->Output('List of paid for the contribution ['.date('m-d-Y', $start) . ' - '. date('m-d-Y', $end).'].pdf', 'I'));
     }
 
     private function generatePaid($data) {
@@ -214,7 +218,7 @@ class PaymentReport extends BaseController
 		foreach($this->paymentModel->allPaid() as $pay) {
 			$this->pdf->SetX(55);
 			$this->pdf->SetFont('Arial', '' ,8);
-            if($pay['created_at'] >= $data['start'] && $pay['created_at'] <= $data['end']) {
+            if(strtotime($data['start']) >= strtotime($pay['created_at']) && strtotime($pay['created_at']) <= strtotime($data['end'])) {
                 $this->pdf->Cell(50,8,$pay['first_name'].' '. $pay['last_name'],1);
                 $this->pdf->Cell(50,8,$pay['amount'],1);
                 $this->pdf->Cell(50,8,$pay['name'],1);
@@ -230,7 +234,9 @@ class PaymentReport extends BaseController
         $endDate = date_create($data['end']);
         $end = date_format($endDate, 'F d, Y');
         $this->response->setHeader('Content-Type', 'application/pdf');
-		$this->pdf->Output('D', 'Payment Report ['.$start.' -'. $end .'].pdf'); 
+		// $this->pdf->Output('D', 'Payment Report ['.$start.' -'. $end .'].pdf'); 
+        return redirect()->to($this->pdf->Output('Payment Report ['.$start.' -'. $end .'].pdf', 'I'));
+        
     }
     
     private function generateNotPaid($data) {
@@ -273,7 +279,8 @@ class PaymentReport extends BaseController
         $endDate = date_create($data['end']);
         $end = date_format($endDate, 'F d, Y');
         $this->response->setHeader('Content-Type', 'application/pdf');
-		$this->pdf->Output('D', 'Payment Report ['.$start.' -'. $end .'].pdf'); 
+		//$this->pdf->Output('D', 'Payment Report ['.$start.' -'. $end .'].pdf'); 
+        return redirect()->to($this->pdf->Output('Payment Report ['.$start.' -'. $end .'].pdf', 'I'));
     }
 
     // landscaped version
@@ -319,7 +326,9 @@ class PaymentReport extends BaseController
         $pdf->AddPage();
         $pdf->writeHTML(view('Modules\Reports\Views\reports\notPaidL', $data), true, false, true, false, '');
         $pdf->Ln(4);
-        $pdf->Output('List of not paid for the contribution - '.$data['contriDetails']['name'].'.pdf', 'D');
+        $this->response->setHeader('Content-Type', 'application/pdf');
+        return redirect()->to($pdf->Output('List of not paid for the contribution - '.$data['contriDetails']['name'].' - P.pdf', 'I'));
+        //$pdf->Output('List of not paid for the contribution - '.$data['contriDetails']['name'].'.pdf', 'D');
     }
 
     // portrait version
@@ -365,6 +374,9 @@ class PaymentReport extends BaseController
         $pdf->AddPage();
         $pdf->writeHTML(view('Modules\Reports\Views\reports\notPaidP', $data), true, false, true, false, '');
         $pdf->Ln(4);
-        $pdf->Output('List of not paid for the contribution - '.$data['contriDetails']['name'].' - P.pdf', 'D');
+        $this->response->setHeader('Content-Type', 'application/pdf');
+        return redirect()->to($pdf->Output('List of not paid for the contribution - '.$data['contriDetails']['name'].' - P.pdf', 'I'));
+    
+        // $this->pdf->Output('I', 'Payment Report ['.$start.' -'. $end .'].pdf'); 
     }
 }

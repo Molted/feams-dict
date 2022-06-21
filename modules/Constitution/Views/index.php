@@ -52,7 +52,7 @@
           <?= esc($const['content'], 'raw')?>
           <?php if(session()->get('role') == '1'):?>
             <a class="btn btn-primary btn-sm mt-2" href="<?= base_url('constitution/edit')?>/<?= esc($const['id'], 'raw')?>" role="button">Edit <?= esc($const['area'], 'raw')?></a>
-            <a class="btn btn-danger btn-sm mt-2" href="<?= base_url('constitution/delete')?>/<?= esc($const['id'], 'raw')?>" role="button">Delete <?= esc($const['area'], 'raw')?></a>
+            <button type="button" class="btn btn-danger btn-sm mt-2 del" value="<?= esc($const['id'])?>" >Delete <?= esc($const['area'], 'raw')?></button>
           <?php endif;?>
         </div>
         <?php $ctr++;?>
@@ -70,6 +70,44 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('scripts') ?>
+
+<!-- SweetAlert JS -->
+<script src="<?= base_url();?>/public/js/sweetalert.min.js"></script>
+<script src="<?= base_url();?>/public/js/sweetalert2.all.min.js"></script>
+<!-- SweetAlert2 -->
+<script type="text/javascript">
+
+  $(document).ready(function ()
+  {
+    $('.del').click(function (e)
+    {
+      e.preventDefault();
+      var id = $(this).val();
+      console.log(id);
+
+      Swal.fire({
+        icon: 'question',
+        title: 'Delete?',
+        text: 'Are you sure to delete thread?',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      })/*swal2*/.then((result) =>
+      {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed)
+        {
+          window.location = 'constitution/delete/' + id;
+        }
+        else if (result.isDenied)
+        {
+          Swal.fire('Changes are not saved', '', 'info')
+        }
+      })//then
+    });
+  });
+</script>
 
 <?= $this->endSection() ?>
     
