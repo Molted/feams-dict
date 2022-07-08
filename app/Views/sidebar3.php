@@ -252,13 +252,13 @@
   </li>
 <?php endif;?>
 
-<?php $pay_mgmt = ['CONT', 'PAY']; $payMgmt_access = false;?>
-<?php if(count(array_intersect($perms, $pay_mgmt)) >= 1):?>
-  <?php $payMgmt_access = true;?>
-  <?php $pays = []?>
+<?php $inv_mgmt = ['INV']; $invMgmt_access = false;?>
+<?php if(count(array_intersect($perms, $inv_mgmt)) >= 1):?>
+  <?php $invMgmt_access = true;?>
+  <?php $items = ['items','categories']?>
   <!-- Inventory Management -->
-  <li class="nav-item has-treeview <?= in_array($active, $pays) ? 'menu-open' : ''?>">
-    <a href="#" class="nav-link <?= in_array($active, $pays) ? 'active' : ''?>">
+  <li class="nav-item has-treeview <?= in_array($active, $items) ? 'menu-open' : ''?>">
+    <a href="#" class="nav-link <?= in_array($active, $items) ? 'active' : ''?>">
       <i class="nav-icon fas fa-box"></i>
       <p>
         Inventory Management
@@ -266,10 +266,10 @@
       </p>
     </a>
     <ul class="nav nav-treeview" style="margin-left: 15px;">
-      <?php if(in_array('CONT', $perms)):?>
+      <?php if(in_array('INV', $perms)):?>
         <!-- Item Purchased -->
         <li class="nav-item">
-            <a href="<?= base_url('admin/contributions')?>" class="nav-link <?= $active=="" ? 'active': ''?>">
+            <a href="<?= base_url('admin/inventory')?>" class="nav-link <?= $active=="items" ? 'active': ''?>">
                 <i class="nav-icon fas fa-box"></i>
                 <p>
                     Item Purchased
@@ -277,7 +277,16 @@
             </a>
         </li>
       <?php endif;?>
-      <?php if(in_array('PAY', $perms)):?>
+      <!-- Catergory -->
+      <?php if(in_array('INV', $perms)):?>
+        <li class="nav-item">
+            <a href="<?= base_url('admin/category')?>" class="nav-link <?= $active=="categories" ? 'active': ''?>">
+                <i class="nav-icon fas fa-box"></i>
+                <p>
+                    Item Category
+                </p>
+            </a>
+        </li>
       <?php endif;?>
     </ul>
   </li>

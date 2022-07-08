@@ -48,7 +48,7 @@ class Permissions extends BaseController
             return redirect()->to(base_url());
         }
         $data['rolePermission'] = $data['perm_id']['rolePermission'];
-
+        
         $data['permissions'] = $this->permissionModel->findAll();
         $data['role_perms'] = $this->rolePermissionModel->where('role_id', $role_id)->get()->getResultArray();
         $data['selectedRole'] = $this->roleModel->where('id', $role_id)->first();
@@ -57,6 +57,9 @@ class Permissions extends BaseController
         foreach($data['rolePermission'] as $rolePerms) {
             array_push($data['perms'], $rolePerms['perm_mod']);
         }
+        // echo '<pre>';
+        // print_r($data['perms']);
+        // die();
 
         
         if($this->request->getMethod() == 'post') {

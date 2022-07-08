@@ -173,7 +173,8 @@ class PaymentReport extends BaseController
         $data['payments'] = array();
         $data['totalPayment'] = 0;
 		foreach($this->paymentModel->allPaid() as $pay) {
-            if($pay['created_at'] >= $data['start'] && $pay['created_at'] <= $data['end']) {
+            $convert_create = date('Y-m-d', strtotime($pay['created_at']));
+            if($convert_create >= $data['start'] && $convert_create <= $data['end']) {
                 $payDetails['name'] = ucwords(strtolower($pay['first_name'])).' '.ucwords(strtolower($pay['last_name']));
                 $payDetails['amount'] = $pay['amount'].'.00';
                 $payDetails['contriName'] = $pay['name'];
