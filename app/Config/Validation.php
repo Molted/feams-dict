@@ -672,4 +672,34 @@ class Validation
 		'rules' => 'required',
 	]
   ];
+
+//   public $roles = [
+// 	'role_name' => [
+// 		'label' => 'Role Name', 
+// 		'rules' => 'required|min_length[3]|max_length[30]|alpha_numeric_space|is_unique[roles.role_name]',
+// 		'errors' => [
+// 			'required' => 'Role name is required',
+// 			'min_length' => 'Role name too short',
+// 			'max_length' => 'Role name exceeds max characters',
+// 			'alpha_numeric_space' => 'Role name only accepts alphanumeric characters',
+// 			'is_unique' => 'Role already exists'
+// 			],
+// 		],
+// 	];
+
+	public $item_categories = [
+		'category_name' => [
+			'label' => 'Category Name', 
+			'rules' => 'required|min_length[3]|max_length[30]|alpha_numeric_space|is_unique[item_category.category_name]',
+			'errors' => [
+				'required' => 'Category name is required',
+				'min_length' => 'Category name too short',
+				'max_length' => 'Category name exceeds max characters',
+				'alpha_numeric_space' => 'Category name only accepts alphanumeric characters',
+				'is_unique' => 'Category already exists'
+			],
+		],
+	];
+
+  
 }

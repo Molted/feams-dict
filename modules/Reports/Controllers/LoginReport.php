@@ -52,7 +52,11 @@ class LoginReport extends BaseController
         } elseif($id == '4') {
             $data['logins'] = $this->loginModel->monthly();
             return view('Modules\Reports\Views\login\table', $data);
+        } elseif($id == '5') {
+            $data['logins'] = $this->loginModel->custom();
+            return view('Modules\Reports\Views\login\table', $data);
         }
+
     }
 
     public function generatePDF() {
@@ -66,7 +70,9 @@ class LoginReport extends BaseController
                 $details = $this->loginModel->weekly();
             } elseif($records == '4') {
                 $details = $this->loginModel->monthly();
-            }
+            } elseif($records == '5') {
+                $details = $this->loginModel->custom();
+            }    
         }
 		$this->pdf->AliasNbPages();
 		// $details = $this->loginModel->withRole();
@@ -128,6 +134,7 @@ class LoginReport extends BaseController
 		}
 		$date = date('F d,Y');
         $this->response->setHeader('Content-Type', 'application/pdf');
-		$this->pdf->Output('D', 'Login Report ['.$date.'].pdf'); 
+		// $this->pdf->Output('D', 'Login Report ['.$date.'].pdf'); 
+        return redirect()->to($this->pdf->Output('Login Report ['.$date.'].pdf', 'I'));
     }
 }

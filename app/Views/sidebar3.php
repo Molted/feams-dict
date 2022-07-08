@@ -252,13 +252,13 @@
   </li>
 <?php endif;?>
 
-<?php $pay_mgmt = ['CONT', 'PAY']; $payMgmt_access = false;?>
-<?php if(count(array_intersect($perms, $pay_mgmt)) >= 1):?>
-  <?php $payMgmt_access = true;?>
-  <?php $pays = ['contributions', 'payments', 'payment_method', 'payment_feedback']?>
+<?php $inv_mgmt = ['INV']; $invMgmt_access = false;?>
+<?php if(count(array_intersect($perms, $inv_mgmt)) >= 1):?>
+  <?php $invMgmt_access = true;?>
+  <?php $items = ['items','categories']?>
   <!-- Inventory Management -->
-  <li class="nav-item has-treeview <?= in_array($active, $pays) ? 'menu-open' : ''?>">
-    <a href="#" class="nav-link <?= in_array($active, $pays) ? 'active' : ''?>">
+  <li class="nav-item has-treeview <?= in_array($active, $items) ? 'menu-open' : ''?>">
+    <a href="#" class="nav-link <?= in_array($active, $items) ? 'active' : ''?>">
       <i class="nav-icon fas fa-box"></i>
       <p>
         Inventory Management
@@ -266,10 +266,10 @@
       </p>
     </a>
     <ul class="nav nav-treeview" style="margin-left: 15px;">
-      <?php if(in_array('CONT', $perms)):?>
+      <?php if(in_array('INV', $perms)):?>
         <!-- Item Purchased -->
         <li class="nav-item">
-            <a href="<?= base_url('admin/contributions')?>" class="nav-link <?= $active=="contributions" ? 'active': ''?>">
+            <a href="<?= base_url('admin/inventory')?>" class="nav-link <?= $active=="items" ? 'active': ''?>">
                 <i class="nav-icon fas fa-box"></i>
                 <p>
                     Item Purchased
@@ -277,13 +277,13 @@
             </a>
         </li>
       <?php endif;?>
-      <?php if(in_array('PAY', $perms)):?>
-        <!-- Item Category -->
+      <!-- Catergory -->
+      <?php if(in_array('INV', $perms)):?>
         <li class="nav-item">
-            <a href="<?= base_url('admin/payment-methods')?>" class="nav-link <?= $active=="payment_method" ? 'active': ''?>">
+            <a href="<?= base_url('admin/category')?>" class="nav-link <?= $active=="categories" ? 'active': ''?>">
                 <i class="nav-icon fas fa-box"></i>
                 <p>
-                  Item Category
+                    Item Category
                 </p>
             </a>
         </li>
@@ -295,7 +295,7 @@
 <?php $pay_mgmt = ['CONT', 'PAY']; $payMgmt_access = false;?>
 <?php if(count(array_intersect($perms, $pay_mgmt)) >= 1):?>
   <?php $payMgmt_access = true;?>
-  <?php $pays = ['contributions', 'payments', 'payment_method', 'payment_feedback']?>
+  <?php $pays = []?>
   <!-- Financial Management -->
   <li class="nav-item has-treeview <?= in_array($active, $pays) ? 'menu-open' : ''?>">
     <a href="#" class="nav-link <?= in_array($active, $pays) ? 'active' : ''?>">
@@ -309,7 +309,7 @@
       <?php if(in_array('CONT', $perms)):?>
         <!-- Expenses -->
         <li class="nav-item">
-            <a href="<?= base_url('admin/contributions')?>" class="nav-link <?= $active=="contributions" ? 'active': ''?>">
+            <a href="<?= base_url('admin/contributions')?>" class="nav-link <?= $active=="" ? 'active': ''?>">
                 <i class="nav-icon fas fa-hand-holding-usd"></i>
                 <p>
                     Expenses
@@ -320,7 +320,7 @@
       <?php if(in_array('PAY', $perms)):?>
         <!-- Financial Reports -->
         <li class="nav-item">
-            <a href="<?= base_url('admin/payment-methods')?>" class="nav-link <?= $active=="payment_method" ? 'active': ''?>">
+            <a href="<?= base_url('admin/payment-methods')?>" class="nav-link <?= $active=="" ? 'active': ''?>">
                 <i class="nav-icon fas fa-file"></i>
                 <p>
                   Financial Reports
@@ -404,23 +404,23 @@
           </a>
       </li>
       <!-- Election -->
-      <li class="nav-item">
+      <!-- <li class="nav-item">
           <a href="<?= base_url('admin/reports/payments')?>" class="nav-link <?= $active=="pay_repo" ? 'active': ''?>">
               <i class="nav-icon fas fa-file"></i>
               <p>
                   Election Report
               </p>
           </a>
-      </li>
+      </li> -->
       <!-- Expenses -->
-      <li class="nav-item">
+      <!-- <li class="nav-item">
           <a href="<?= base_url('admin/reports/payments')?>" class="nav-link <?= $active=="pay_repo" ? 'active': ''?>">
               <i class="nav-icon fas fa-file"></i>
               <p>
                   Expenses Report
               </p>
           </a>
-      </li>
+      </li> -->
     </ul>
   </li>
 <?php endif;?>

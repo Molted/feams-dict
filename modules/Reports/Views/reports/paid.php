@@ -1,8 +1,5 @@
-<?php $start = strtotime($start)?>
-<?php $end = strtotime($end)?>
-
 <h3 style="text-align: center;">Paid for the contributions</h3>
-<h4 style="text-align: center;">Dates: <?= date('F d, Y', $start)?> - <?= date('F d, Y',$end)?></h4>
+<h4 style="text-align: center;">Dates: <?= date('F d, Y', strtotime($start))?> - <?= date('F d, Y',strtotime($end))?></h4>
 
 <br>
 <div style="width: 100%">

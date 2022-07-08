@@ -49,6 +49,7 @@
                     <option value="2">This day</option>
                     <option value="3">Weekly</option>
                     <option value="4">Monthly</option>
+                    <option value="5">Custom Range</option>
                 </select>
             </div>
             <div class="col-md-2 offset-md-7 d-flex justify-content-end">
