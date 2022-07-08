@@ -24,7 +24,7 @@ class App extends BaseConfig
 	 * @var string
 	 */
   
-	public $baseURL = 'http://localhost:8080/feams-test/';
+	public $baseURL = 'http://localhost/feams-test/';
 
 	/**
 	 * --------------------------------------------------------------------------
