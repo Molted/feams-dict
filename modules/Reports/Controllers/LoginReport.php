@@ -51,17 +51,13 @@ class LoginReport extends BaseController
         } elseif($id == '4') {
             $data['logins'] = $this->loginModel->monthly();
             return view('Modules\Reports\Views\login\table', $data);
-        } elseif($id == '5') {
-            $data['logins'] = $this->loginModel->custom();
-            return view('Modules\Reports\Views\login\table', $data);
         }
-
         elseif($id == '5') {    
             $this->customRange($id);
         }
     }
 
-    public function customRange($id){    
+    public function customRange($id){
         if($this->request->getMethod() == 'post') {
             $data = $_POST;
             $data['logins'] = array();
@@ -97,9 +93,7 @@ class LoginReport extends BaseController
                 $details = $this->loginModel->weekly();
             } elseif($records == '4') {
                 $details = $this->loginModel->monthly();
-
-            } 
-            elseif($records == '5') {
+            }elseif($records == '5') {
                 $details = array();
                 // RETRIEVING EACH DATA THAT FOUND IN DATABASE
                 foreach ($this->loginModel->withRole() as $login) {
@@ -119,11 +113,8 @@ class LoginReport extends BaseController
                 }
             }
 
-            } elseif($records == '5') {
-                $details = $this->loginModel->custom();
-            }    
-
         }
+        
 		$this->pdf->AliasNbPages();
 		// $details = $this->loginModel->withRole();
 		$dt   = new Time('now');

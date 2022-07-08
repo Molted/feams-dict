@@ -67,17 +67,6 @@
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
-
-        <div class="row mb-3">
-            <div class="col-md-3">
-                <select class="custom-select" id="records" name="records">
-                    <option value="1" selected>Daily</option>
-                    <option value="2">This day</option>
-                    <option value="3">Weekly</option>
-                    <option value="4">Monthly</option>
-                    <option value="5">Custom Range</option>
-                </select>
-
             </div>
 
             <div class="modal-body">              
