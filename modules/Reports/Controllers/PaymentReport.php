@@ -47,24 +47,6 @@ class PaymentReport extends BaseController
         return view('Modules\Reports\Views\payments\index', $data);
     }
 
-    public function changeTable($id) {
-        if($id == '1') {
-            $data['logins'] = $this->loginModel->withRole();
-            return view('Modules\Reports\Views\login\table', $data);
-        } elseif($id === '2') {
-            $data['logins'] = $this->loginModel->thisDay();
-            // echo '<pre>';
-            // print_r($data['logins']);
-            return view('Modules\Reports\Views\login\table', $data);
-        } elseif($id == '3') {
-            $data['logins'] = $this->loginModel->weekly();
-            return view('Modules\Reports\Views\login\table', $data);
-        } elseif($id == '4') {
-            $data['logins'] = $this->loginModel->monthly();
-            return view('Modules\Reports\Views\login\table', $data);
-        }
-    }
-
     private function generatePDF($data) {
         if($this->request->getMethod() == 'post') {
             if($_POST['type'] == '1') {

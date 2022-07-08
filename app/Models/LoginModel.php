@@ -48,6 +48,6 @@ class LoginModel extends Model
         $this->join('roles', 'roles.id = logins.role_id');
         $this->where("login_date > DATE_SUB(now(), INTERVAL 1 MONTH)", false);
         return $this->get()->getResultArray();
-        // query: SELECT users.first_name, users.last_name, users.username, roles.role_name, login_date FROM logins JOIN users on users.id = logins.user_id JOIN roles on roles.id = logins.role_id WHERE login_date > DATE_SUB(NOW(), INTERVAL 1 WEEK)
+        // query: SELECT users.first_name, users.last_name, users.username, roles.role_name, login_date FROM logins JOIN users on users.id = logins.user_id JOIN roles on roles.id = logins.role_id WHERE login_date > DATE_SUB(NOW(), INTERVAL 1 MONTH)
     }
 }
