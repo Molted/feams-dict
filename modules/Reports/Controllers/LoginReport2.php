@@ -52,6 +52,10 @@ class LoginReport extends BaseController
         } elseif($id == '4') {
             $data['logins'] = $this->loginModel->monthly();
             return view('Modules\Reports\Views\login\table', $data);
+        }   
+          elseif($id == '5') {
+            $data['logins'] = $this->loginModel->custom();
+            return view('Modules\Reports\Views\login\table', $data);  
         }
     }
 
@@ -66,6 +70,8 @@ class LoginReport extends BaseController
                 $details = $this->loginModel->weekly();
             } elseif($records == '4') {
                 $details = $this->loginModel->monthly();
+            } elseif($records == '5') {
+                $details = $this->loginModel->custom();
             }
         }
 		$this->pdf->AliasNbPages();
@@ -82,6 +88,8 @@ class LoginReport extends BaseController
             $this->pdf->Cell(70,10,'Weekly Login Reports  ['.$date.']');
         } elseif($records == '4') {
             $this->pdf->Cell(70,10,'Monthly Login Reports  ['.$date.']');
+        } elseif($records == '5') {
+            $this->pdf->Cell(70,10,'Custom Range Login Reports  ['.$date.']');
         }
 		// $this->pdf->Cell(70,10,'Login Reports  ['.$date.']');
 		$this->pdf->Ln();

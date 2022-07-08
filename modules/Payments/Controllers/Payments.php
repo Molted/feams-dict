@@ -145,21 +145,26 @@ class Payments extends BaseController
                 $_POST['user_id'] = $this->session->get('user_id');
                 $_POST['added_by'] = $this->session->get('user_id');
                 $_POST['is_approved'] = '2';
+
                 $user = $this->userModel->where('id', $this->session->get('user_id'))->first();
                 $userData = [
                     'first_name' => $user['first_name'],
                     'last_name' => $user['last_name'],
                     'contri_name' => $contri['name'],
                 ];
+                
                 // echo '<pre>';
                 // print_r($userData);
                 // die();
                 // $this->paymentModel->where(['user_id' => $this->session->get('user_id'), 'contri_id' => $_POST['contri_id']])->delete();
+
+
                 if($this->paymentModel->insert($_POST)) {
                     $file->move('public/uploads/payments', $_POST['photo']);
                     $contri = $this->contriModel->where('id', $_POST['contri_id'])->first();
                     $activityLog['user'] = $this->session->get('user_id');
                     $activityLog['description'] = 'Paid '. $_POST['amount'] .' for the contribution: '. $contri['name'];
+                    $this->sendMail($userData);
                     $this->activityLogModel->save($activityLog);
                     // NEWLY ADDED
                     $this->sendMail($userData);       
