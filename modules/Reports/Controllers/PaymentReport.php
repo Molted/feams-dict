@@ -47,24 +47,6 @@ class PaymentReport extends BaseController
         return view('Modules\Reports\Views\payments\index', $data);
     }
 
-    public function changeTable($id) {
-        if($id == '1') {
-            $data['logins'] = $this->loginModel->withRole();
-            return view('Modules\Reports\Views\login\table', $data);
-        } elseif($id === '2') {
-            $data['logins'] = $this->loginModel->thisDay();
-            // echo '<pre>';
-            // print_r($data['logins']);
-            return view('Modules\Reports\Views\login\table', $data);
-        } elseif($id == '3') {
-            $data['logins'] = $this->loginModel->weekly();
-            return view('Modules\Reports\Views\login\table', $data);
-        } elseif($id == '4') {
-            $data['logins'] = $this->loginModel->monthly();
-            return view('Modules\Reports\Views\login\table', $data);
-        }
-    }
-
     private function generatePDF($data) {
         if($this->request->getMethod() == 'post') {
             if($_POST['type'] == '1') {
@@ -173,7 +155,8 @@ class PaymentReport extends BaseController
         $data['payments'] = array();
         $data['totalPayment'] = 0;
 		foreach($this->paymentModel->allPaid() as $pay) {
-            if($pay['created_at'] >= $data['start'] && $pay['created_at'] <= $data['end']) {
+            $convert_create = date('Y-m-d', strtotime($pay['created_at']));
+            if($convert_create >= $data['start'] && $convert_create <= $data['end']) {
                 $payDetails['name'] = ucwords(strtolower($pay['first_name'])).' '.ucwords(strtolower($pay['last_name']));
                 $payDetails['amount'] = $pay['amount'].'.00';
                 $payDetails['contriName'] = $pay['name'];

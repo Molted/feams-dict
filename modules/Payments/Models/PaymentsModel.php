@@ -8,7 +8,15 @@ class PaymentsModel extends Model {
   
     protected $useAutoIncrement = true;
     
-    protected $allowedFields = ['user_id', 'photo', 'contri_id', 'amount', 'added_by', 'is_approved','deleted_at'];
+    protected $allowedFields = [
+        'user_id', 
+        'photo', 
+        'contri_id', 
+        'amount', 
+        'added_by', 
+        'is_approved',
+        'deleted_at'];
+        
     protected $useSoftDeletes = true;
   
     protected $useTimestamps = true;
@@ -28,6 +36,7 @@ class PaymentsModel extends Model {
         $this->where(['payments.deleted_at' => NULL, 'payments.user_id' => $id]);
         $this->join('users', 'payments.user_id = users.id');
         $this->join('contributions', 'payments.contri_id = contributions.id');
+        // $this->orderBy('payments.updated_at', 'DESC')->groupBy('payments.contri_id');
         return $this->get()->getResultArray();
     }
 

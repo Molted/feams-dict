@@ -95,6 +95,7 @@ class Payments extends BaseController
         return view('Modules\Payments\Views\formAdmin', $data);
     }
 
+    // ADMIN SIDE
     public function contriTable($id) {
         $data['contri']  = $this->contriModel->viewAll();
         $data['payments'] = $this->paymentModel->viewOne($id);
@@ -104,6 +105,7 @@ class Payments extends BaseController
         return view('Modules\Payments\Views\contriTable', $data);
     }
 
+    //USER SIDE
     public function add() {
         // checking roles and permissions
         $data['perm_id'] = check_role('', '', $this->session->get('role'));
@@ -143,12 +145,24 @@ class Payments extends BaseController
                 $_POST['user_id'] = $this->session->get('user_id');
                 $_POST['added_by'] = $this->session->get('user_id');
                 $_POST['is_approved'] = '2';
+                $user = $this->userModel->where('id', $this->session->get('user_id'))->first();
+                $userData = [
+                    'first_name' => $user['first_name'],
+                    'last_name' => $user['last_name'],
+                    'contri_name' => $contri['name'],
+                ];
+                // echo '<pre>';
+                // print_r($userData);
+                // die();
+                // $this->paymentModel->where(['user_id' => $this->session->get('user_id'), 'contri_id' => $_POST['contri_id']])->delete();
                 if($this->paymentModel->insert($_POST)) {
                     $file->move('public/uploads/payments', $_POST['photo']);
                     $contri = $this->contriModel->where('id', $_POST['contri_id'])->first();
                     $activityLog['user'] = $this->session->get('user_id');
                     $activityLog['description'] = 'Paid '. $_POST['amount'] .' for the contribution: '. $contri['name'];
                     $this->activityLogModel->save($activityLog);
+                    // NEWLY ADDED
+                    $this->sendMail($userData);       
                     $this->session->setFlashData('successMsg', 'Contribution paid successfully');
                     return redirect()->to(base_url('payments'));
                 } else {
@@ -165,6 +179,23 @@ class Payments extends BaseController
         $data['active'] = 'payments';
         $data['title'] = 'Payments';
         return view('Modules\Payments\Views\form', $data);
+    }
+
+    private function sendMail($userData){
+        // ADDED - PAYMENT NOTIFICATION TO ADMIN
+        $this->email->setTo('puptfeams2022@gmail.com');
+        $this->email->setFrom('puptfeams2022@gmail.com', 'Faculty and Employees Association');
+        $this->email->setSubject('FEA - Member payment update');
+        $message = view('Modules\Payments\Views\payEmail', $userData);
+        $this->email->setMessage($message);
+        if ($this->email->send()) {
+            // return true;
+        }
+        else {
+            $data = $this->email->printDebugger(['headers']);
+            print_r($data);
+            // return false;
+        }
     }
 
     public function edit($id) {
