@@ -78,7 +78,7 @@ class Categories extends BaseController
         }
         $data['rolePermission'] = $data['perm_id']['rolePermission'];
         if($this->categoryModel->where('id', $id)->delete()) {
-          $this->session->setFlashData('successMsg', 'Successfully deleted user');
+          $this->session->setFlashData('successMsg', 'Successfully deleted category');
         } else {
           $this->session->setFlashData('errorMsg', 'Something went wrong!');
         }

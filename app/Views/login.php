@@ -21,6 +21,9 @@
                             <div class="form-group">
                                 <!-- <i class="fas fa-lock" style="color: #616161;"></i>  --><label style="color: #616161;"></label><br>
                                 <input type="password" name="password" id="password" class="form-control" placeholder="Enter Password" required>
+                                <div class="text-center mt-3">
+                                  <input type="checkbox" onclick="showPass()"> Show Password
+                                </div>                                
                             </div>
 
                             <input type="submit" name="submit" class="btn btn-info btn-md login-btn" value="Submit">
@@ -76,6 +79,17 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('scripts') ?>
+
+<script>
+  function showPass() {
+  var x = document.getElementById("password");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+</script>
 
 <!-- SweetAlert JS -->
 <script src="<?= base_url();?>/public/js/sweetalert.min.js"></script>

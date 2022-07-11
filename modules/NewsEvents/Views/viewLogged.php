@@ -58,19 +58,7 @@
     </div>
   </div>
 </div>
-<!-- <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-9">
-            <img src="<?= base_url()?>/public/uploads/news/<?= esc($news['image'])?>" class="rounded img-fluid" alt="News image">
-        </div>
-      </div>
-      <br>
-      <div class="row justify-content-center">
-        <div class="col-md-6 text-left">
-            <?= esc($news['content'], 'raw')?>
-        </div>
-      </div>
-</div> -->
+
 <?= $this->endSection() ?>
 
 <?= $this->section('scripts') ?>

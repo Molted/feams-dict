@@ -68,7 +68,7 @@
 <!-- address
 <div class="form-group">
     <label class="required">Address</label>
-    <!-- <textarea name="address" class="form-control" rows="3" placeholder="Enter ..." required></textarea> 
+    <textarea name="address" class="form-control" rows="3" placeholder="Enter ..." required></textarea> 
 </div> -->
 
 <div class="form-row">
@@ -140,6 +140,7 @@
     <div class="form-group col-md-6">
       <label for="password" class="required">Password</label>
       <input type="password" class="form-control <?=isset($errors['password']) ? 'is-invalid': ''?>" id="password" name="password" placeholder="Password" required>
+      <input type="checkbox" onclick="showPass()"> Show Password
       <?php if(isset($errors['password'])):?>
         <div class="invalid-feedback">
             <?=esc($errors['password'])?>
@@ -149,7 +150,7 @@
 </div>
 
 <div class="form-group">
-    <label for="exampleInputFile">Profile Picture</label>
+    <label for="exampleInputFile" class="required">Profile Picture</label>
     <div class="input-group">
         <div class="custom-file">
             <input type="file" class="custom-file-input <?php if(!empty($errors['image'])) echo 'is-invalid';?>" id="image" name="image" required>
@@ -184,3 +185,14 @@
     </div>
   <?php endif;?>
 </div>
+
+<script>
+  function showPass() {
+  var x = document.getElementById("password");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+</script>

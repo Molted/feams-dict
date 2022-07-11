@@ -94,7 +94,8 @@ class PaymentReport extends BaseController
         $data['contri'] = array();
         $data['total_amount'] = 0;
 		foreach($this->contriModel->findAll() as $contri) {
-            if(date('Y-m-d', strtotime($pay['created_at'])) >= $data['start'] && date('Y-m-d', strtotime($pay['created_at'])) <= $data['end']) {
+            $convert_create = date('Y-m-d', strtotime($contri['created_at']));
+            if($convert_create >= $data['start'] && $convert_create <= $data['end']) {
                 $amount = 0;
                 foreach($this->paymentModel->findAll() as $pay) {
                     if($pay['contri_id'] == $contri['id']) {
@@ -110,9 +111,8 @@ class PaymentReport extends BaseController
                     'created_at' => $created_at,
                 ];
                 array_push($data['contri'], $contrib);
+                $data['total_amount'] += $amount;
             }
-
-            $data['total_amount'] += $amount;
 		}
         
         $start = strtotime($data['start']);
@@ -124,33 +124,17 @@ class PaymentReport extends BaseController
         $pdf->AddPage();
         $pdf->writeHTML(view('Modules\Reports\Views\reports\list', $data), true, false, true, false, '');
         $pdf->Ln(4);
-        $pdf->Output('List of contributions ['.date('m-d-Y', $start) . ' - '. date('m-d-Y', $end).'].pdf', 'D');
+        $this->response->setHeader('Content-Type', 'application/pdf');
+        $pdf->Output('List of contributions ['.date('m-d-Y', $start) . ' - '. date('m-d-Y', $end).'].pdf', 'I');
     }
 
-    private function printPaid($data) {
+    public function printPaid($data) {
         $pdf = new $this->tcpdf('L', 'mm', 'A4', true, 'UTF-8', false);
         // die(PDF_HEADER_LOGO);
         $pdf->SetHeaderData('feamsheader.png', '130', '', '');
         $pdf->setPrintHeader(true);
         $pdf->setHeaderFont(Array('times', 'Times New Roman', PDF_FONT_SIZE_MAIN));
         $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
-        
-        $style = array(
-            'position' => '',
-            'align' => 'C',
-            'stretch' => false,
-            'fitwidth' => true,
-            'cellfitalign' => '',
-            'border' => true,
-            'hpadding' => 'auto',
-            'vpadding' => 'auto',
-            'fgcolor' => array(0, 0, 0),
-            'bgcolor' => false, //array(255,255,255),
-            'text' => true,
-            'font' => 'helvetica',
-            'fontsize' => 8,
-            'stretchtext' => 4
-        );
 
         $data['payments'] = array();
         $data['totalPayment'] = 0;
@@ -164,9 +148,7 @@ class PaymentReport extends BaseController
                 $payDetails['created_at'] = $created_at;
                 array_push($data['payments'], $payDetails);
                 $data['totalPayment'] += $pay['amount'];
-
-            }
-            
+            }            
 		}
        
         $start = strtotime($data['start']);
@@ -178,8 +160,8 @@ class PaymentReport extends BaseController
         $pdf->AddPage();
         $pdf->writeHTML(view('Modules\Reports\Views\reports\paid', $data), true, false, true, false, '');
         $pdf->Ln(4);
-        $this->response->setHeader('Content-Type', 'application/pdf');
-        return redirect()->to($pdf->Output('List of paid for the contribution ['.date('m-d-Y', $start) . ' - '. date('m-d-Y', $end).'].pdf', 'I'));
+        $this->response->setContentType('application/pdf');
+        $pdf->Output('List of paid for the contribution ['.date('m-d-Y', $start) . ' - '. date('m-d-Y', $end).'].pdf', 'I');
     }
 
     private function generatePaid($data) {
@@ -218,8 +200,7 @@ class PaymentReport extends BaseController
         $end = date_format($endDate, 'F d, Y');
         $this->response->setHeader('Content-Type', 'application/pdf');
 		// $this->pdf->Output('D', 'Payment Report ['.$start.' -'. $end .'].pdf'); 
-        return redirect()->to($this->pdf->Output('Payment Report ['.$start.' -'. $end .'].pdf', 'I'));
-        
+        $this->pdf->Output( 'I', 'Payment Report ['.$start.' -'. $end .'].pdf');
     }
     
     private function generateNotPaid($data) {

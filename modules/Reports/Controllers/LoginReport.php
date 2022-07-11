@@ -27,7 +27,7 @@ class LoginReport extends BaseController
         }
 
         if($this->request->getMethod() == 'post') {
-                $this->generatePDF();                    
+                $this->generatePDF();
         }
         $data['logins'] = $this->loginModel->withRole();
 
@@ -111,83 +111,86 @@ class LoginReport extends BaseController
                         array_push($details, $loginDetails);
                     }
                 }
+            }        
+        
+            $this->pdf->AliasNbPages();
+            // $details = $this->loginModel->withRole();
+            $dt   = new Time('now');
+            $date = date('F d,Y');
+            $week = date_sub($dt,date_interval_create_from_date_string("7 days"));
+            $month = new Time('-1 month');
+            
+            $start = date_format(date_create($dateRange['start']), 'F d, Y');
+            $end = date_format(date_create($dateRange['end']), 'F d, Y');
+
+            // echo '<pre>';
+            // print_r($start);
+            // die();
+
+            $this->pdf->AddPage('l', 'Legal');
+            $this->pdf->SetFont('Arial','B',12);
+            if($records == '1') {
+                $this->pdf->Cell(0,10,'Daily Login Reports',0,0,'C');
+                $this->pdf->Ln();
+                $this->pdf->SetFont('Arial','B',10);
+                $this->pdf->Cell(0,10,'All logins up to: '.$date,0,0,'C');
+            } elseif($records === '2') {
+                $this->pdf->Cell(0,10,'Today Login Reports  ['.$date.']',0,0,'C');
+                $this->pdf->Ln();
+                $this->pdf->SetFont('Arial','B',10);
+                $this->pdf->Cell(0,10,'Date: '.$date,0,0,'C');
+            } elseif($records == '3') {
+                $this->pdf->Cell(0,10,'Weekly Login Reports',0,0,'C');
+                $this->pdf->Ln();
+                $this->pdf->SetFont('Arial','B',10);
+                $this->pdf->Cell(0,10,'Dates: '.date_format($week,"F d,Y").' - '.$date,0,0,'C');
+            } elseif($records == '4') {
+                $this->pdf->Cell(0,10,'Monthly Login Reports  ['.$date.']',0,0,'C');
+                $this->pdf->Ln();
+                $this->pdf->SetFont('Arial','B',10);
+                $this->pdf->Cell(0,10,'Dates: '.date_format($month,"F d,Y").' - '.$date,0,0,'C');
+            } elseif($records == '5') {
+                $this->pdf->Cell(0,10,'Custom Date Login Reports: '.$start.' - '.$end,0,0,'C');
+                $this->pdf->Ln();
+                $this->pdf->SetFont('Arial','B',10);
+                $this->pdf->Cell(0,10,'Dates: '.$start.' - '.$end,0,0,'C');
+            }
+            // $this->pdf->Cell(70,10,'Login Reports  ['.$date.']');
+
+            $this->pdf->Ln();
+            $this->pdf->SetFont('Helvetica', 'B' ,8);
+            $this->pdf->SetX(55);
+            $this->pdf->Cell(10,10,'#',1);
+            $this->pdf->Cell(50,10,'First Name',1);
+            $this->pdf->Cell(40,10,'Last Name',1);
+            $this->pdf->Cell(30,10,'Username',1);
+            $this->pdf->Cell(50,10,'Role',1);
+            $this->pdf->Cell(60,10,'Login Date',1);
+            $this->pdf->Ln();
+            $ctr = 1;
+            foreach($details as $detail) {
+                $this->pdf->SetX(55);
+                $this->pdf->SetFont('Helvetica', '' ,8);
+                $date = date_create($detail['login_date']);
+                $datelogged = date_format($date, 'F d, Y H:i:s');
+
+                $this->pdf->Cell(10,8,$ctr,1);
+                $this->pdf->Cell(50,8,$detail['first_name'],1);
+                $this->pdf->Cell(40,8,$detail['last_name'],1);
+                $this->pdf->Cell(30,8,$detail['username'],1);
+                $this->pdf->Cell(50,8,$detail['role_name'],1);
+                $this->pdf->Cell(60,8,$datelogged,1);
+                $this->pdf->Ln();
+                $ctr++;
             }
 
+            // echo "<pre>";
+            // print_r($details);
+            // die();
+            $date = date('F d,Y');
+            $this->response->setHeader('Content-Type', 'application/pdf');
+            $this->pdf->Output($date. ' Login Report.pdf', 'I');
+            // $this->pdf->Output('D', 'Login Report ['.$date.'].pdf');
         }
-        
-		$this->pdf->AliasNbPages();
-		// $details = $this->loginModel->withRole();
-		$dt   = new Time('now');
-		$date = date('F d,Y');
-        $week = date_sub($dt,date_interval_create_from_date_string("7 days"));
-        $month = new Time('-1 month');
-        
-        $start = date_format(date_create($dateRange['start']), 'F d, Y');
-        $end = date_format(date_create($dateRange['end']), 'F d, Y');
-
-        // echo '<pre>';
-        // print_r($start);
-        // die();
-
-		$this->pdf->AddPage('l', 'Legal');
-		$this->pdf->SetFont('Arial','B',12);
-        if($records == '1') {
-            $this->pdf->Cell(0,10,'Daily Login Reports',0,0,'C');
-            $this->pdf->Ln();
-            $this->pdf->SetFont('Arial','B',10);
-            $this->pdf->Cell(0,10,'All logins up to: '.$date,0,0,'C');
-        } elseif($records === '2') {
-            $this->pdf->Cell(0,10,'Today Login Reports  ['.$date.']',0,0,'C');
-            $this->pdf->Ln();
-            $this->pdf->SetFont('Arial','B',10);
-            $this->pdf->Cell(0,10,'Date: '.$date,0,0,'C');
-        } elseif($records == '3') {
-            $this->pdf->Cell(0,10,'Weekly Login Reports',0,0,'C');
-            $this->pdf->Ln();
-            $this->pdf->SetFont('Arial','B',10);
-            $this->pdf->Cell(0,10,'Dates: '.date_format($week,"F d,Y").' - '.$date,0,0,'C');
-        } elseif($records == '4') {
-            $this->pdf->Cell(0,10,'Monthly Login Reports  ['.$date.']',0,0,'C');
-            $this->pdf->Ln();
-            $this->pdf->SetFont('Arial','B',10);
-            $this->pdf->Cell(0,10,'Dates: '.date_format($month,"F d,Y").' - '.$date,0,0,'C');
-        } elseif($records == '5') {
-            $this->pdf->Cell(0,10,'Custom Date Login Reports: '.$start.' - '.$end,0,0,'C');
-            $this->pdf->Ln();
-            $this->pdf->SetFont('Arial','B',10);
-            $this->pdf->Cell(0,10,'Dates: '.$start.' - '.$end,0,0,'C');
-        }
-		// $this->pdf->Cell(70,10,'Login Reports  ['.$date.']');
-
-        $this->pdf->Ln();
-		$this->pdf->SetFont('Helvetica', 'B' ,8);
-		$this->pdf->SetX(55);
-		$this->pdf->Cell(10,10,'#',1);
-		$this->pdf->Cell(50,10,'First Name',1);
-		$this->pdf->Cell(40,10,'Last Name',1);
-		$this->pdf->Cell(30,10,'Username',1);
-		$this->pdf->Cell(50,10,'Role',1);
-		$this->pdf->Cell(60,10,'Login Date',1);
-		$this->pdf->Ln();
-        $ctr = 1;
-		foreach($details as $detail) {
-			$this->pdf->SetX(55);
-            $this->pdf->SetFont('Helvetica', '' ,8);
-			$date = date_create($detail['login_date']);
-			$datelogged = date_format($date, 'F d, Y H:i:s');
-
-			$this->pdf->Cell(10,8,$ctr,1);
-			$this->pdf->Cell(50,8,$detail['first_name'],1);
-			$this->pdf->Cell(40,8,$detail['last_name'],1);
-			$this->pdf->Cell(30,8,$detail['username'],1);
-			$this->pdf->Cell(50,8,$detail['role_name'],1);
-			$this->pdf->Cell(60,8,$datelogged,1);
-			$this->pdf->Ln();
-            $ctr++;
-		}
-		$date = date('F d,Y');
-        $this->response->setHeader('Content-Type', 'application/pdf');
-		// $this->pdf->Output('D', 'Login Report ['.$date.'].pdf'); 
-        return redirect()->to($this->pdf->Output('Login Report ['.$date.'].pdf', 'I'));
     }
 }

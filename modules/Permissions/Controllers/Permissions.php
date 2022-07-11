@@ -58,9 +58,8 @@ class Permissions extends BaseController
             array_push($data['perms'], $rolePerms['perm_mod']);
         }
         // echo '<pre>';
-        // print_r($data['perms']);
+        // print_r($data['selectedRole']);
         // die();
-
         
         if($this->request->getMethod() == 'post') {
             if($this->validate('role_perm')) {

@@ -21,6 +21,7 @@
     <!-- News Start here -->
     <div class="col-md-8">
       <h3>Latest News</h3>
+      <img src="<?= base_url()?>/public/uploads/news/<?= esc($firstNews['image'])?>" alt="<?= esc($firstNews['title'])?>" class="img-thumbnail">
       <h5><?= (isset($firstNews['title'])) ? esc($firstNews['title']) : 'No News to Display' ?></h5>
       <?= (isset($firstNews['content'])) ? esc($firstNews['content'], 'raw') : ''?>
     </div>

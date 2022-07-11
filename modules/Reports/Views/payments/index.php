@@ -76,7 +76,7 @@
   </div>
 </div>
 
-<form action="<?= base_url('admin/reports/payments')?>" method="post">
+<form action="<?= base_url('admin/reports/payments')?>" method="post" target="_blank">
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">

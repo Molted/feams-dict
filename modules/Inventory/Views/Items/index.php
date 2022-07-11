@@ -64,16 +64,22 @@
         </thead>
         <tbody>
             <?php $ctr = 1;?>
-            <?php foreach($items as $item): ?>
+            <?php foreach($combineTables as $item): ?>
                 <tr>
                     <th scope="row"><?= esc($ctr)?></th>
                     <td scope="row"><?= esc($item['item_name'])?></td>
                     <td scope="row"><?= esc($item['date_purchased'])?></td>
                     <td scope="row"><?= esc($item['cost'])?></td>
-                    <td scope="row"><?= esc($item['category_id'])?></td>
+                    <td scope="row"><?= esc($item['category_name'])?></td>
                     <td>
-                      <a class="btn btn-info btn-sm" href="<?= base_url()?>/user/<?= esc($user['username'])?>" role="button" data-toggle="tooltip" data-placement="bottom" title="View User"><i class="fa fa-bars" aria-hidden="true"></i></a>
-                    </td>
+                      <!-- <a class="btn btn-info btn-sm" href="#" role="button">Link</a> -->
+                      <?php foreach($perm_id['perm_id'] as $perms):?>
+                        <?php if($perms == '45'):?>
+                          <a class="btn btn-warning btn-sm" href="<?=base_url('admin/inventory/edit/' . esc($item['id'], 'url'))?>" data-toggle="tooltip" data-placement="bottom" title="Edit Item"><i class="fas fa-edit"></i></a>
+                        <?php endif;?>
+                      <?php endforeach;?>                     
+                      <button type="button" value="<?= esc($item['id'])?>" class="btn btn-danger btn-sm del" data-toggle="tooltip" data-placement="bottom" title="Delete Item"><i class="fas fa-trash"></i></button>
+                    </td>                    
                 </tr>
                 <?php $ctr++?>            
             <?php endforeach;?>
@@ -86,63 +92,14 @@
 
 <?= $this->section('scripts') ?>
 
-<!-- file uploads para mapalitan agad file name once makaselect na ng file -->
-<script>
-    document.querySelector('.custom-file-input').addEventListener('change', function (e)
-    {
-    var name = document.getElementById("file").files[0].name;
-    var nextSibling = e.target.nextElementSibling
-    nextSibling.innerText = name
-    })
-</script>
-<!-- change status -->
-<script type='text/javascript'> 
-  function submitForm(username){ 
-    console.log('user_'+username);
-    // Call submit() method on <form id='myform'>
-    var form = $(this).closest('form');
-    form.submit();
-    // pagebutton.click();
-    // document.editRole.submit();
-  } 
-</script>
-
-<!-- Select2 -->
-<script src="<?= base_url();?>/public/dist/select2/js/select2.full.min.js"></script>
-<script>
-  $(function () {
-    //Initialize Select2 Elements
-    $('.select2').select2()
-    //Initialize Select2 Elements
-    // $('.select2bs4').select2({
-    //   theme: 'bootstrap4',
-    // })
-  })
-</script>
-
-<script>
-// BS4 tooltips
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })
-  
-  // DataTables
-  $(function () {
-    $('#users').DataTable({
-      "responsive": true,
-      "autoWidth": false,
-      });
-  });
-</script>
-
 <!-- SweetAlert JS -->
 <script src="<?= base_url();?>/public/js/sweetalert.min.js"></script>
 <script src="<?= base_url();?>/public/js/sweetalert2.all.min.js"></script>
 <!-- SweetAlert2 -->
 <script type="text/javascript">
 
-  $(document).ready(function ()
-  {
+$(document).ready(function ()
+{
     $('.status').on('change', function() {
       var $form = $(this).closest('form');
       $form.submit();
@@ -157,7 +114,7 @@
       Swal.fire({
         icon: 'question',
         title: 'Delete?',
-        text: 'Are you sure to delete user?',
+        text: 'Are you sure to delete item?',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
@@ -167,7 +124,7 @@
         /* Read more about isConfirmed, isDenied below */
         if (result.isConfirmed)
         {
-          window.location = 'users/delete/' + id;
+          window.location = 'inventory/delete/' + id;
         }
         else if (result.isDenied)
         {
@@ -175,7 +132,7 @@
         }
       })//then
     });
-  });
+});
 </script>
 <?= $this->endSection() ?>
 

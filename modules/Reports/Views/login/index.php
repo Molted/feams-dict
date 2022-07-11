@@ -41,7 +41,7 @@
 
 <div class="card">
   <div class="card-body">
-    <form action="<?= base_url('admin/reports/login')?>" method="post">
+    <form action="<?= base_url('admin/reports/login')?>" method="post" target="_blank">
 
       <div class="row mb-3">
         <div class="col-md-3">

@@ -74,7 +74,10 @@ class Validation
 		],
 		'password' => [
 			'label' => 'Password', 
-			'rules' => 'required|min_length[5]|max_length[30]'
+			'rules' => 'required|regex_match[/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,30}$/]',
+			'errors' => [
+				'regex_match' => '8-30 characters, One Uppercase, One Number, Special Characters (!@#$%^&*-)',
+			]
 		],
 		'image' => [
 			'label' => 'Profile Picture', 
@@ -136,7 +139,7 @@ class Validation
 	public $announcements = [
 		'title' => [
 			'label' => 'Title', 
-			'rules' => 'required|min_length[2]|max_length[999]',
+			'rules' => 'required|min_length[2]|max_length[50]',
 			'errors' => [
 				'required' => 'Title field is required',
 				'min_length' => 'Title field too short',
@@ -647,11 +650,11 @@ class Validation
 	],
 	'new_password' =>[
 	  'label' => 'New Password', 
-	  'rules' => 'required|min_length[5]|max_length[30]|matches[confirm_new_password]'
+	  'rules' => 'required|regex_match[/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,30}$/]|matches[confirm_new_password]'
 	],
 	'confirm_new_password' =>[
 	  'label' => 'Confirm New Password', 
-	  'rules' => 'required|min_length[5]|max_length[30]'
+	  'rules' => 'required|min_length[8]|max_length[30]'
 	],
   ];	
 
@@ -700,6 +703,35 @@ class Validation
 			],
 		],
 	];
-
+	
+	public $inventory = [
+        'item_name' => [
+            'label' => 'Item Name',
+            'rules' => 'required|alpha_numeric_space',
+            'errors' => [
+                'required' => 'Name is required',
+                'alpha_numeric_space' => 'Name includes invalid symbols',
+            ],
+        ],
+        'date_purchased' => [
+            'label' => 'Date',
+            'rules' => 'required',
+        ],
+		'cost' => [
+            'label' => 'Cost',
+            'rules' => 'required|numeric',
+            'errors' => [
+                'required' => 'Cost is required',
+                'numeric' => 'Cost only includes numbers',
+            ],
+        ],
+        'category_id' => [
+            'label' => 'Category',
+            'rules' => 'required|numeric',
+            'errors' => [
+                'required' => 'Category is required',
+            ],
+        ],
+	];
   
 }

@@ -21,7 +21,7 @@
 
 <?= $this->section('content') ?>
 
-<form action="<?= base_url('admin/category')?>/<?= 'add'?>" method="post" enctype="multipart/form-data" id="form">
+<form action="<?= base_url('admin/category')?>/<?='add'?>" method="post" enctype="multipart/form-data" id="form">
 
 <div class="card card-light">
     <div class="card-body">

@@ -21,6 +21,7 @@ class NewsModel extends Model {
         $this->select('news.id, title, content, image, news.status, news.created_at, news.updated_at, news.deleted_at, users.first_name, users.last_name');
         $this->where('news.deleted_at', null);
         $this->join('users', 'users.id = news.author');
+        $this->orderBy('created_at', 'DESC');
         return $this->get()->getResultArray();
     }
 }

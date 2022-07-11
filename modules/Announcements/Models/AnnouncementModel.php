@@ -21,6 +21,7 @@ class AnnouncementModel extends Model {
         $this->select('announcements.id, title, description, image, users.first_name, users.last_name, link, announcements.created_at, announcements.updated_at, announcements.deleted_at');
         $this->where('announcements.deleted_at', null);
         $this->join('users', 'users.id = announcements.uploader');
+        $this->orderBy('announcements.created_at', 'DESC');
         return $this->get()->getResultArray();
     }
 }

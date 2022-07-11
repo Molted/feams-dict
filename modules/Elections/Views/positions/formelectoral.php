@@ -103,7 +103,7 @@
 
   $(document).ready(function ()
   {
-    $('.sub').click(function (e)
+    $('input[type="submit"]').click(function (e)
     {
       e.preventDefault();
 

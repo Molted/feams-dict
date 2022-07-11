@@ -31,13 +31,13 @@ class NewsEvents extends BaseController
         // die();
         $data['user_details'] = user_details($this->session->get('user_id'));
         $data['active'] = 'news';
-        $data['title'] = 'News and Events';
+        $data['title'] = 'News';
         return view('Modules\NewsEvents\Views\index', $data);
     }
 
     public function newsList() {
         $data['news'] = $this->newsModel->viewAuthor();
-        $data['firstNews'] = $this->newsModel->first();
+        $data['firstNews'] = $this->newsModel->orderBy('created_at', 'DESC')->first();
         $data['title'] = 'News and Events';
         $data['active'] = 'news';
         // echo '<pre>';
@@ -45,10 +45,10 @@ class NewsEvents extends BaseController
         // die();
         // checking roles and permissions
         $data['perm_id'] = check_role('41', 'NEWS', $this->session->get('role'));
-        if($data['perm_id']['perm_access']) {
-            // $this->session->setFlashdata('sweetalertfail', 'Error accessing the page, please try again');
-            return redirect()->to('admin/news');
-        }
+        // if($data['perm_id']['perm_access']) {
+        //     // $this->session->setFlashdata('sweetalertfail', 'Error accessing the page, please try again');
+        //     return redirect()->to('admin/news');
+        // }
         if($this->session->get('isLoggedIn')) {
             // checking roles and permissions
             $data['perm_id'] = check_role('', '', $this->session->get('role'));
@@ -90,6 +90,8 @@ class NewsEvents extends BaseController
             }
             if($this->validate('news')){
                 $file = $this->request->getFile('image');
+                // echo "<pre>";
+                // die(print_r($file));
                 $_POST['image'] = $file->getRandomName();
                 $_POST['author'] = $this->session->get('user_id');
                 if($this->newsModel->insert($_POST)) {
@@ -120,7 +122,10 @@ class NewsEvents extends BaseController
 
     public function view($id) {
         $data['news'] = $this->newsModel->where('id', $id)->first();
-        $data['otherNews'] = $this->newsModel->findAll();
+        $data['otherNews'] = $this->newsModel->orderBy('created_at', 'DESC')->findAll();
+        // echo "<pre>";
+        // die(print_r($data['news']));
+
         if($this->session->get('isLoggedIn')) {
             // checking roles and permissions
             $data['perm_id'] = check_role('', '', $this->session->get('role'));

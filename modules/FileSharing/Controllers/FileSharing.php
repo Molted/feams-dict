@@ -288,6 +288,7 @@ class FileSharing extends BaseController
         $pdf->AddPage();
         $pdf->writeHTML(view('Modules\FileSharing\Views\reports\fileDownloads', $data), true, false, true, false, '');
         $pdf->Ln(4);
-        $pdf->Output('File Reports '.date('F d,Y').'.pdf', 'D');
+        $this->response->setHeader('Content-Type', 'application/pdf');
+        $pdf->Output('File Reports '.date('F d,Y').'.pdf', 'I');
     }
 }
