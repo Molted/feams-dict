@@ -90,6 +90,7 @@ class DashboardModel extends Model
         $builder = $db->table('activity_log');
         $builder->select('users.first_name, users.last_name, users.username, users.profile_pic, activity_log.*');
         $builder->join('users', 'users.id = activity_log.user', 'left');
+        $builder->orderBy('created_at', 'DESC');
         return $builder->get()->getResultArray();
     }
 

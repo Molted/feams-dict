@@ -237,7 +237,7 @@
             <!-- User image -->
             <a href="<?= base_url('user')?>/<?= esc($acts['username'])?>">
               <?php if(empty($acts['profile_pic'])):?>
-                <img class="img-circle img-sm" src="<?= base_url()?>/public/img/blank.jpg" alt="User Image">
+                <img class="img-circle img-sm" src="<?= base_url()?>/public/img/blank.jpg" alt="User">
               <?php else:?>
                 <img class="img-circle img-sm" src="<?= base_url()?>/public/uploads/profile_pic/<?= $acts['profile_pic']?>" alt="User Image">
               <?php endif;?>

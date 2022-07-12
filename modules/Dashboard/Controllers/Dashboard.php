@@ -4,11 +4,13 @@ namespace Modules\Dashboard\Controllers;
 use CodeIgniter\Controller;
 use App\Controllers\BaseController;
 use Modules\Dashboard\Models as Models;
+use App\Models as UserModels;
 
 class Dashboard extends BaseController
 {
 	function __construct() {
 		$this->dashboardModel = new Models\DashboardModel();
+        $this->userModel = new UserModels\UserModel();
 	}
 	
 	public function index() {
@@ -22,7 +24,7 @@ class Dashboard extends BaseController
         foreach($data['rolePermission'] as $rolePerms) {
             array_push($data['perms'], $rolePerms['perm_mod']);
         }
-		$data['userCount'] = $this->dashboardModel->allUsers();
+		$data['userCount'] = $this->userModel->where('status =', 1 )->countAllResults();
         // echo '<pre>';
         // print_r($data['userCount']);
         // die();
@@ -44,6 +46,9 @@ class Dashboard extends BaseController
         // activity logs
         $data['activities'] = $this->dashboardModel->getActivity();
         // announcement count
+        // echo '<pre>';
+        // print_r($data['activities']);
+        // die();
         $data['announcements'] = $this->dashboardModel->announcements();
         // echo '<pre>';
         // print_r($data['announcements']);
