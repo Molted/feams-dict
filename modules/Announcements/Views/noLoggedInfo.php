@@ -60,41 +60,41 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- /.navbar -->
 
   <!-- Content Wrapper. Contains page content -->
-  <div class="card container-fluid m-1 p-2">
-    <div class="row mb-2">
-        <div class="col">
-            <h1><?= esc($title)?></h1>
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container">
+        <div class="card container-fluid m-1 p-2">
+          <div class="row mb-2">
+            <div class="col">
+              <h1><?= esc($title)?></h1>
+            </div>
+            <div class="col">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="<?= base_url()?>">Home</a></li>
+                <li class="breadcrumb-item active"><?= esc($title)?></li>
+              </ol>
+            </div>
+          </div>
         </div>
-        <!-- <div class="col">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item"><a href="/admin/announcements">Announcements</a></li>
-              <li class="breadcrumb-item active"></li>
-            </ol>
-        </div> -->
-    </div>
-  </div>
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
     <!-- /.content-header -->
 
     <div class="container-fluid m-2">
-      <div class="row">
-        <div class="card col-md-7 m-2 p-2">
-          <div class="row justify-content-center">
-              <div class="col">
-                  <?php if(esc($announce['image'])):?>
-                    <img src="<?= base_url()?>/public/uploads/announcements/<?= esc($announce['image'])?>" class="rounded img-fluid" alt="Announcement image">
-                  <?php endif;?>
-              </div>
-          </div>
-          <br>
-          <div class="row">
-              <div class="col">
-                  <?= esc($announce['description'], 'raw')?>
-              </div>
+      <div class="row justify-content-center">
+        <!-- News Start here -->
+        <div class="card col-sm-7 m-2 p-2">     
+          <div class="card-body">
+            <?php if(esc($announce['image'])):?>
+              <img src="<?= base_url()?>/public/uploads/announcements/<?= esc($announce['image'])?>" class="rounded img-fluid" alt="Announcement image">
+            <?php endif;?>
+              <p><?= esc($announce['description'], 'raw')?></p>
           </div>
         </div>
-        <div class="card col-md-4 m-2 p-2">
-          <h4>Other Announcements</h4>
+        <div class="card col-sm-4 m-2 p-2">
+          <div class="card-header">
+            <h4>Other Announcements</h4>
+          </div>
           <ul class="list-group list-group-flush">
             <?php foreach($announces as $ann):?>
               <a href="<?= base_url()?>/announcements/<?= $ann['link']?>" class="list-group-item list-group-item-action" style="background-color: transparent;"><?= $ann['title']?></a>
@@ -103,6 +103,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
         </div>
       </div>
     </div>
+
+  </div>
   <!-- /.content-wrapper -->
 
   <!-- Control Sidebar -->

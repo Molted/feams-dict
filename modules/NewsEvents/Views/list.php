@@ -64,49 +64,48 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark"> <?= esc($title)?></h1>
-          </div><!-- /.col -->
-          <!-- <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item"><a href="#">Layout</a></li>
-              <li class="breadcrumb-item active">Top Navigation</li>
-            </ol>
-          </div>/.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
+        <div class="card container-fluid m-1 p-2">
+          <div class="row mb-2">
+            <div class="col">
+              <h1><?= esc($title)?></h1>
+            </div>
+            <div class="col">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="<?= base_url()?>">Home</a></li>
+                <li class="breadcrumb-item active"><?= esc($title)?></li>
+              </ol>
+            </div>
+          </div>
+        </div>
+      </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
     <!-- /.content-header -->
 
     <!-- Main content -->
-    <div class="content">
-      <div class="container">
-        <div class="row">
-          <!-- News Start here -->
-          <div class="col-md-8">
-            <h3>Latest News</h3>
-            <h5><?= (isset($firstNews['title'])) ? esc($firstNews['title']) : 'No News to Display' ?></h5>
-            <?= (isset($firstNews['content'])) ? esc($firstNews['content'], 'raw') : ''?>
-            <h3>More news</h3>
-            <ul class="list-group list-group-flush">
-              <?php foreach($news as $news):?>
-                <a href="<?= base_url()?>/news/<?= esc($news['id'])?>" class="list-group-item list-group-item-action" style="background-color: transparent;"><?= esc($news['title'])?></a>
-              <?php endforeach?>
-            </ul>
-          </div>
-          <div class="col-md-4">
-            <h3>Other Links</h3>
-            <ul class="list-group list-group-flush">
-              <a href="<?= base_url()?>" class="list-group-item list-group-item-action" style="background-color: transparent;">Home</a>
-              <a href="<?= base_url()?>/login" class="list-group-item list-group-item-action" style="background-color: transparent;">Login</a>
-              <a href="<?= base_url()?>/announcements" class="list-group-item list-group-item-action" style="background-color: transparent;">Announcements</a>
-            </ul>
+    <div class="container-fluid m-2">
+      <div class="row justify-content-center">
+        <!-- News Start here -->
+        <div class="card col-sm-7 m-2 p-2">     
+          <div class="card-body">        
+            <?php if(esc($firstNews['image'])):?>
+              <img src="<?= base_url()?>/public/uploads/news/<?= esc($firstNews['image'])?>" alt="<?= esc($firstNews['title'])?>" class="img-thumbnail">
+            <?php endif;?>
+            <h5 class="mt-3" style="font-weight: 800;"><?= (isset($firstNews['title'])) ? esc($firstNews['title']) : 'No News to Display'?></h5>
+            <p><?= (isset($firstNews['content'])) ? esc($firstNews['content'], 'raw') : ''?></p>
           </div>
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
+        <div class="card col-sm-4 m-2 p-2">
+          <div class="card-header">
+            <h3>More news</h3>
+          </div>
+          <ul class="list-group list-group-flush">
+            <?php foreach($news as $news):?>
+              <a href="<?= base_url()?>/news/<?= esc($news['id'])?>" class="list-group-item list-group-item-action" style="background-color: transparent;"><?= esc($news['title'])?></a>
+            <?php endforeach?>
+          </ul>
+        </div>
+
+      </div>
     </div>
     <!-- /.content -->
   </div>

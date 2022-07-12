@@ -38,17 +38,13 @@ class NewsEvents extends BaseController
     public function newsList() {
         $data['news'] = $this->newsModel->viewAuthor();
         $data['firstNews'] = $this->newsModel->orderBy('created_at', 'DESC')->first();
-        $data['title'] = 'News and Events';
+        // echo "<pre>";
+        // die(print_r($data['firstNews']));
+        $data['title'] = 'Latest News';
         $data['active'] = 'news';
-        // echo '<pre>';
-        // print_r($data['firstNews']);
-        // die();
         // checking roles and permissions
         $data['perm_id'] = check_role('41', 'NEWS', $this->session->get('role'));
-        // if($data['perm_id']['perm_access']) {
-        //     // $this->session->setFlashdata('sweetalertfail', 'Error accessing the page, please try again');
-        //     return redirect()->to('admin/news');
-        // }
+        
         if($this->session->get('isLoggedIn')) {
             // checking roles and permissions
             $data['perm_id'] = check_role('', '', $this->session->get('role'));
@@ -125,7 +121,8 @@ class NewsEvents extends BaseController
         $data['otherNews'] = $this->newsModel->orderBy('created_at', 'DESC')->findAll();
         // echo "<pre>";
         // die(print_r($data['news']));
-
+        $data['active'] = 'news';
+        $data['title'] = $data['news']['title'];
         if($this->session->get('isLoggedIn')) {
             // checking roles and permissions
             $data['perm_id'] = check_role('', '', $this->session->get('role'));
@@ -135,8 +132,6 @@ class NewsEvents extends BaseController
                 array_push($data['perms'], $rolePerms['perm_mod']);
             }
             $data['user_details'] = user_details($this->session->get('user_id'));
-            $data['active'] = 'news';
-            $data['title'] = $data['news']['title'];
             // die('this is for the logged in members');
             return view('Modules\NewsEvents\Views\viewLogged', $data);
         } else {

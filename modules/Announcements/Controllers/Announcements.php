@@ -65,7 +65,7 @@ class Announcements extends BaseController
 
         $data['user_details'] = user_details($this->session->get('user_id'));
         $data['active'] = 'announcements';
-        $data['title'] = 'Announcements';
+        $data['title'] = 'Latest Announcement';
         if($this->session->get('isLoggedIn')) {
             return view('Modules\Announcements\Views\member', $data);
         } else {
@@ -246,7 +246,7 @@ class Announcements extends BaseController
             $this->session->setFlashdata('sweetalertfail', 'Error accessing the page, please try again');
             return redirect()->to(base_url());
         }
-        $data['announces'] = $this->announceModel->findAll();
+        $data['announces'] = $this->announceModel->orderBy('created_at', 'DESC')->findAll();
         $data['active'] = 'announcements';
         $data['title'] = $data['announce']['title'];
 

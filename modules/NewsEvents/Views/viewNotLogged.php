@@ -40,6 +40,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <li class="nav-item">
             <a href="<?= base_url();?>" class="nav-link">Home</a>
           </li>
+          <li class="nav-item <?= $active == 'announcements' ? 'active' : ''?>">
+            <a href="<?= base_url('announcements');?>" class="nav-link">Announcements</a>
+          </li>
+          <li class="nav-item <?= $active == 'news' ? 'active' : ''?>">
+            <a href="<?= base_url('news');?>" class="nav-link">News</a>
+          </li>
         </ul>
       </div>
 
@@ -58,65 +64,50 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1 class="m-0 text-dark"> <?= esc($news['title'])?></h1>
-          </div><!-- /.col -->
-          <!-- <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item"><a href="#">Layout</a></li>
-              <li class="breadcrumb-item active">Top Navigation</li>
-            </ol>
-          </div>/.col -->
-        </div><!-- /.row -->
-      </div><!-- /.container-fluid -->
-    </div>
-    <!-- /.content-header -->
-
-    <!-- Main content -->
-    <div class="content">
-      <div class="container">
-        <div class="row">
-          <!-- News Start here -->
-          <div class="col-md-7 mr-5">
-            <div class="row">
-              <img src="<?= base_url()?>/public/uploads/news/<?= esc($news['image'])?>" class="rounded img-fluid" alt="News image">
+        <div class="card container-fluid m-1 p-2">
+          <div class="row mb-2">
+            <div class="col">
+              <h1><?= esc($title)?></h1>
             </div>
-            <div class="row justify-content-center mt-2">
-              <div class="col">
-                <?= esc($news['content'], 'raw')?>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4">
-            <h5 class="text-center">Other news</h5>
-            <ul class="list-group list-group-flush">
-              <?php foreach($otherNews as $others):?>
-                <a href="<?= base_url();?>/news/<?= $others['id']?>" class="list-group-item list-group-item-action <?= $news['id'] == $others['id'] ? 'active' : ''?>" <?= $news['id'] == $others['id'] ? '' : 'style="background: transparent;"'?>><?= $others['title']?></a>
-              <?php endforeach?>
-            </ul>
-            <div class="row justify-content-end mt-2">
-                <a href="<?= base_url();?>/news">See all</a>
+            <div class="col">
+              <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="<?= base_url()?>">Home</a></li>
+                <li class="breadcrumb-item active"><?= esc($title)?></li>
+              </ol>
             </div>
           </div>
         </div>
-        <!-- /.row -->
-      </div><!-- /.container-fluid -->
+      </div><!-- /.row -->
+    </div><!-- /.row -->
+    <!-- /.container-fluid -->
+
+    <!-- /.content-header -->
+
+    <!-- Main content -->
+    <div class="container-fluid m-2">
+      <div class="row justify-content-center">
+        <!-- News Start here -->
+        <div class="card col-sm-7 m-2 p-2">      
+          <div class="card-body">
+            <img src="<?= base_url()?>/public/uploads/news/<?= esc($news['image'])?>" class="rounded img-fluid" alt="News image">
+            <p><?= esc($news['content'], 'raw')?></p>
+          </div>
+        </div>
+        <div class="card col-sm-4 m-2 p-2">
+          <div class="card-header">
+            <h4>Other News</h4>
+          </div>
+          <ul class="list-group list-group-flush">
+            <?php foreach($otherNews as $others):?>
+              <a href="<?= base_url();?>/news/<?= $others['id']?>" class="list-group-item list-group-item-action" style="background-color: transparent;"><?= $others['title']?></a>
+            <?php endforeach?>
+          </ul>
+        </div>
+      </div>
     </div>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-
-  <!-- Control Sidebar -->
-  <aside class="control-sidebar control-sidebar-dark">
-    <!-- Control sidebar content goes here -->
-    <div class="p-3">
-      <h5>Title</h5>
-      <p>Sidebar content</p>
-    </div>
-  </aside>
-  <!-- /.control-sidebar -->
 
   <!-- Main Footer -->
   <footer class="main-footer">
