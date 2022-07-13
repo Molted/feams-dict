@@ -166,26 +166,25 @@ class Validation
 	public $sliders = [
 		'title' => [
 			'label' => 'Title', 
-			'rules' => 'required|max_length[999]',
+			'rules' => 'max_length[999]',
 			'errors' => [
-				'required' => 'Title field is required',
 				'min_length' => 'Title field too short',
 				'max_length' => 'Title field reached max character length',
 			]
 		],
 		'description' => [
 			'label' => 'Description', 
-			'rules' => 'required|max_length[999]',
+			'rules' => 'max_length[999]',
 			'errors' => [
-				'required' => 'Description field is required',
 				'min_length' => 'Description field too short',
 				'max_length' => 'Description field reached max character length',
 			]
 		],
 		'image' => [
 			'label' => 'Image', 
-			'rules' => 'uploaded[image]|is_image[image]',
+			'rules' => 'required|uploaded[image]|is_image[image]',
 			'errors' => [
+				'required' => 'Image is required',
 				'uploaded' => 'No image uploaded',
 				'is_image' => 'Uploaded file is not an image',
 			]
