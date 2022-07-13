@@ -69,6 +69,10 @@ class FileSharing extends BaseController
                     $file_taken = true;
                 }
             }
+
+            // echo "<pre>";
+            // die(print_r($_FILES));
+
             if($this->validate('files') && !$file_taken){ 
                 // $file = $this->request->getFile('file');
                 $userData['extension'] = $file->getClientExtension();

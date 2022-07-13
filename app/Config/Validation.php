@@ -308,7 +308,7 @@ class Validation
 			'label' => 'Photo', 
 			'rules' => 'is_image[photo]',
 			'errors' => [
-				'is_image' => 'Uploaded file is not an photo',
+				'is_image' => 'Uploaded file is not a photo',
 			]
 		],
 		'platform' => [
@@ -339,8 +339,11 @@ class Validation
 			'rules' => 'required|min_length[5]|max_length[30]|alpha_numeric_space'
 		],
 		'file' => [
-			'label' => 'File', 
-			'rules' => 'uploaded[file]|max_size[file,20000]'
+			'label' => 'File',
+			'rules' => 'uploaded[file]|max_size[file,20480]',
+			'errors' => [
+				'max_size' => 'File size must be less than 20Mb',
+			],
 		],
 	];
 	
@@ -501,13 +504,13 @@ class Validation
             'numeric' => 'Amount should be in numerical form',
         ],
     ],
-    'photo' => [
-        'rules' => 'uploaded[photo]|ext_in[photo,png,jpg,jpeg]',
-        'errors' => [
-            'uploaded' => 'Photo is required',
-            'ext_in' => 'Photo is not an image',
-        ],
-    ],
+	'photo' => [
+		'label' => 'Photo', 
+		'rules' => 'is_image[photo]',
+		'errors' => [
+			'is_image' => 'Uploaded file is not an image',
+		],
+	],
   ];
 
   public $payment_method = [

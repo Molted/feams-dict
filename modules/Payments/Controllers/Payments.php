@@ -167,7 +167,7 @@ class Payments extends BaseController
                     $this->sendMail($userData);
                     $this->activityLogModel->save($activityLog);
                     // NEWLY ADDED
-                    $this->sendMail($userData);       
+                    // $this->sendMail($userData);      
                     $this->session->setFlashData('successMsg', 'Contribution paid successfully');
                     return redirect()->to(base_url('payments'));
                 } else {
@@ -187,8 +187,13 @@ class Payments extends BaseController
     }
 
     private function sendMail($userData){
-        // ADDED - PAYMENT NOTIFICATION TO ADMIN
-        $this->email->setTo('puptfeams2022@gmail.com');
+        // ADDED - PAYMENT NOTIFICATION TO Admin and Treasurer/s
+        $recipients = $this->userModel->where('role !=', 2)->findColumn('email');
+        // echo '<pre>';
+        // print_r($recipients);
+        // die();
+
+        $this->email->setTo($recipients);
         $this->email->setFrom('puptfeams2022@gmail.com', 'Faculty and Employees Association');
         $this->email->setSubject('FEA - Member payment update');
         $message = view('Modules\Payments\Views\payEmail', $userData);

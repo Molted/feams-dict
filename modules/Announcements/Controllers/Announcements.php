@@ -90,7 +90,9 @@ class Announcements extends BaseController
         $data['edit'] = false;
         if($this->request->getMethod() == 'post') {
             // echo "<pre>";
-            // die(print_r($_POST));
+            // // print_r($_POST);
+            // print_r($this->request->getFile('image'));
+            // die();
 
             if($_POST['description'] == "<p><br></p>"){
                 $_POST['description'] = "";
