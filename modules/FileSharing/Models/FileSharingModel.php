@@ -22,6 +22,7 @@ class FileSharingModel extends Model
         $this->select('file_sharing.*, users. first_name, users.last_name');
         $this->where('file_sharing.deleted_at', NULL);
         $this->join('users', 'users.id = file_sharing.uploader', 'left');
+        $this->orderBy('uploaded_at', 'DESC');
         return $this->get()->getResultArray();
     }
 

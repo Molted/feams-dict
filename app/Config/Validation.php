@@ -340,7 +340,7 @@ class Validation
 		],
 		'file' => [
 			'label' => 'File',
-			'rules' => 'uploaded[file]|max_size[file,20480]',
+			'rules' => 'uploaded[file]|max_size[file,20971520]',
 			'errors' => [
 				'max_size' => 'File size must be less than 20Mb',
 			],

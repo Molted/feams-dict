@@ -57,7 +57,7 @@ class FileSharing extends BaseController
         foreach($data['rolePermission'] as $rolePerms) {
             array_push($data['perms'], $rolePerms['perm_mod']);
         }
-
+        
         $data['edit'] = false;
 
         $file_taken = false;
@@ -69,10 +69,8 @@ class FileSharing extends BaseController
                     $file_taken = true;
                 }
             }
-
             // echo "<pre>";
             // die(print_r($_FILES));
-
             if($this->validate('files') && !$file_taken){ 
                 // $file = $this->request->getFile('file');
                 $userData['extension'] = $file->getClientExtension();
