@@ -156,8 +156,7 @@ class Payments extends BaseController
                 // echo '<pre>';
                 // print_r($userData);
                 // die();
-                // $this->paymentModel->where(['user_id' => $this->session->get('user_id'), 'contri_id' => $_POST['contri_id']])->delete();
-
+                $this->paymentModel->where(['user_id' => $this->session->get('user_id'), 'contri_id' => $_POST['contri_id']])->delete();
 
                 if($this->paymentModel->insert($_POST)) {
                     $file->move('public/uploads/payments', $_POST['photo']);

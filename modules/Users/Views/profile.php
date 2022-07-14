@@ -407,6 +407,7 @@ foreach($perm_id['perm_id'] as $perms) {
               <div class="form-group col-md-4">
                 <label for="new_password">New Password</label>
                 <input type="password" class="form-control <?php if(!empty($errors['new_password'])) echo 'is-invalid';?>" id="new_password" name="new_password" placeholder="Enter new password">
+                <input type="checkbox" onclick="showPass()"> Show Password
                 <?php if(isset($errors['new_password'])): ?>
                   <small id="new_password_help" class="form-text text-danger"><?= $errors['new_password']?></small>
                 <?php endif; ?>

@@ -181,10 +181,9 @@ class Validation
 			]
 		],
 		'image' => [
-			'label' => 'Image', 
-			'rules' => 'required|uploaded[image]|is_image[image]',
+			'label' => 'image', 
+			'rules' => 'uploaded[image]|is_image[image]',
 			'errors' => [
-				'required' => 'Image is required',
 				'uploaded' => 'No image uploaded',
 				'is_image' => 'Uploaded file is not an image',
 			]
@@ -658,7 +657,21 @@ class Validation
 	  'label' => 'Confirm New Password', 
 	  'rules' => 'required|min_length[8]|max_length[30]'
 	],
-  ];	
+  ];
+
+  public $reset_password = [
+	'password' =>[
+		'label' => 'Password', 
+	  	'rules' => 'required|regex_match[]|matches[confirm_new_password]',
+	  	'errors' => [
+			'regex_match' => '8-30 characters, One Uppercase, One Number, Special Characters (!@#$%^&*-)',
+		],
+	],
+	'confirm_new_password' =>[
+	  'label' => 'Confirm New Password', 
+	  'rules' => 'required|min_length[8]|max_length[30]'
+	],
+  ];
 
   public $discussion = [
 	'subject' => [

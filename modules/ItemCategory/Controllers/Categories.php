@@ -3,6 +3,7 @@ namespace Modules\ItemCategory\Controllers;
 
 use App\Controllers\BaseController;
 use Modules\ItemCategory\Models as CategoryModels;
+use Modules\Inventory\Models as ItemModels;
 use App\Models as AppModels;
 
 
@@ -11,6 +12,7 @@ class Categories extends BaseController
     public function __construct() {
         $this->categoryModel = new CategoryModels\CategoryModel();
         $this->activityLogModel = new AppModels\ActivityLogModel();
+        $this->itemModel = new ItemModels\ItemModel();
         helper('text');
     }
 
@@ -77,13 +79,17 @@ class Categories extends BaseController
             return redirect()->to(base_url());
         }
         $data['rolePermission'] = $data['perm_id']['rolePermission'];
-        if($this->categoryModel->where('id', $id)->delete()) {
-          $this->session->setFlashData('successMsg', 'Successfully deleted category');
+
+        if($this->itemModel->where('category_id', $id)->countAllResults(false) == 0){
+            if($this->categoryModel->where('id', $id)->delete()) {
+            $this->session->setFlashData('successMsg', 'Successfully deleted category');
+            } else {
+            $this->session->setFlashData('errorMsg', 'Something went wrong!');
+            }
         } else {
-          $this->session->setFlashData('errorMsg', 'Something went wrong!');
+            $this->session->setFlashData('failMsg', 'Cannot delete - there are items with this category!');
         }
         return redirect()->to(base_url('admin/category'));
     }
-
 
 }

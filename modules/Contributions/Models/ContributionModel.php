@@ -20,6 +20,7 @@ class ContributionModel extends Model {
         $this->select('contributions.*, users.first_name, users.last_name');
         $this->where(['contributions.deleted_at' => NULL]);
         $this->join('users', 'contributions.created_by = users.id');
+        $this->orderBy('created_at', 'DESC');
         return $this->get()->getResultArray();
     }
 
