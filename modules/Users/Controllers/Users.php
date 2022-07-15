@@ -82,7 +82,7 @@ class Users extends BaseController
         foreach($data['rolePermission'] as $rolePerms) {
             array_push($data['perms'], $rolePerms['perm_mod']);
         }
-
+        
         if($this->request->getMethod() == 'post') {
           if($this->request->getVar('form_type') == 'userdetails'){
             if($this->validate('editUser')) {

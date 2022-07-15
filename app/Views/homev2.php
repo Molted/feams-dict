@@ -38,9 +38,17 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="collapse navbar-collapse order-3" id="navbarCollapse">
         <!-- Left navbar links -->
         <ul class="navbar-nav">
-          <li class="nav-item">
+          <li class="nav-item active">
             <a href="<?= base_url();?>" class="nav-link">Home</a>
           </li>
+          <?php if(session()->get('isLoggedIn') == FALSE):?>
+            <li class="nav-item <?= $active == 'announcements' ? 'active' : ''?>">
+              <a href="<?= base_url('announcements');?>" class="nav-link">Announcements</a>
+            </li>
+            <li class="nav-item <?= $active == 'news' ? 'active' : ''?>">
+              <a href="<?= base_url('news');?>" class="nav-link">News</a>
+            </li>
+          <?php endif ?>
           <?php if(session()->get('isLoggedIn') == TRUE):?>
             <li class="nav-item">
               <a class="nav-link" href="<?= base_url();?>/user/<?= esc($user['username'])?>">Profile <span class="sr-only">(current)</span></a>
@@ -208,7 +216,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- <div class="float-right d-none d-sm-block">
       <b>Version</b> 3.0.5
     </div> -->
-    <strong>Copyright &copy; 2021 <a href="#" data-toggle="modal" data-target="#developerModal">Data Driven Squad</a>.</strong> All rights
+    <strong>Copyright &copy; 2022 <a href="#" data-toggle="modal" data-target="#developerModal">ABCS Tech</a>.</strong> All rights
     reserved.
   </footer>
 </div>

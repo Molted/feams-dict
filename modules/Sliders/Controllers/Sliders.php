@@ -51,6 +51,8 @@ class Sliders extends BaseController
         helper('text');
         $data['edit'] = false;
         if($this->request->getMethod() == 'post') {
+            // echo "<pre>";
+            // die(print_r($_FILES));
             if($this->validate('sliders')){
                 $file = $this->request->getFile('image');
                 $slider = $_POST;

@@ -291,10 +291,12 @@ class Contributions extends BaseController
             }
             $ctr++;
         }
-        
+        // echo "<pre>";
+        // print_r($data['cont']);
+        // die();
 		$date = date('F d,Y');
-        $this->response->setHeader('Content-Type', 'application/pdf');
-		$this->pdf->Output('I', $data['cont']['name']. ' Contribution Report.pdf'); 
+        $this->response->setContentType('application/pdf');
+		$this->pdf->Output('I', $data['cont']['name']. ' Contribution Report.pdf');
     } 
 
     // mpdf library

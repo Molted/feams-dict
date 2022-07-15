@@ -62,12 +62,17 @@ class UserModel extends Model {
   }
 
   public function checkEmailExists($email) {
-    $this->select('id', 'email');
+    $this->select('email');
     $this->where('email', $email);
     $row = $this->get()->getResultArray();
-    if($this->countAll())
+    
+    // echo "<pre>";
+    // die(print_r($rows));
+    if(!empty($row)){
       return true;
-    return false;
+    }
+    return false;   
+    
   }
   
 //   public function getFileUploads($id) {

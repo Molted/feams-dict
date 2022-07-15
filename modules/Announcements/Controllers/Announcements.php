@@ -28,9 +28,6 @@ class Announcements extends BaseController
         }
 
         $data['announcements'] = $this->announceModel->viewUploader();
-        // echo '<pre>';
-        // print_r($data['perm_id']);
-        // die();
         $data['user_details'] = user_details($this->session->get('user_id'));
         $data['active'] = 'announcements';
         $data['title'] = 'Announcements';
@@ -68,7 +65,7 @@ class Announcements extends BaseController
 
         $data['user_details'] = user_details($this->session->get('user_id'));
         $data['active'] = 'announcements';
-        $data['title'] = 'Announcements';
+        $data['title'] = 'Latest Announcement';
         if($this->session->get('isLoggedIn')) {
             return view('Modules\Announcements\Views\member', $data);
         } else {
@@ -92,6 +89,11 @@ class Announcements extends BaseController
         helper('text');
         $data['edit'] = false;
         if($this->request->getMethod() == 'post') {
+            // echo "<pre>";
+            // // print_r($_POST);
+            // print_r($this->request->getFile('image'));
+            // die();
+
             if($_POST['description'] == "<p><br></p>"){
                 $_POST['description'] = "";
             }
@@ -99,7 +101,7 @@ class Announcements extends BaseController
                 $file = $this->request->getFile('image');
                 $ann = $_POST;
                 
-                if(is_uploaded_file($_FILES['image']['name'])){
+                if(is_uploaded_file($file)){
                     $ann['image'] = $file->getRandomName();
                 }
                 else{
@@ -109,29 +111,22 @@ class Announcements extends BaseController
                 $ann['link'] = random_string('alnum', 5);
                 $ann['uploader'] = $this->session->get('user_id');
                 if($this->announceModel->insert($ann)) {
-                    $activityLog['user'] = $this->session->get('user_id');
-                    $activityLog['description'] = 'Added a new announcement';
-                    $this->activityLogModel->save($activityLog);
-                    if(is_uploaded_file($_FILES['image']['name'])){
+                    if(!empty($ann['image'])){
                         $file->move('public/uploads/announcements', $ann['image']);
-                        if ($file->hasMoved()) {
-                            if(isset($_POST['sendMail']) == 'yes') {
-                                $this->sendMail();
-                            }
-                            else {
-                                $this->session->setFlashData('successMsg', 'Adding annoucement successful');
-                            }
+                    }                    
+                    $activityLog['user'] = $this->session->get('user_id');
+                    $activityLog['description'] = 'Added a new Announcement';
+                    $this->activityLogModel->save($activityLog);
+                    if(is_uploaded_file($file)){
+                        if ($file->hasMoved()) {                            
+                            $this->sendMail($ann);
                         }
                         else {
                             $this->session->setFlashData('failMsg', 'There is an error on adding announcement. Please try again.');
                         }
                     } else {
-                        if(isset($_POST['sendMail']) == 'yes') {
-                            $this->sendMail();
-                        }
-                        else {
-                            $this->session->setFlashData('successMsg', 'Adding annoucement successful');
-                        }
+                        // Dito mapupunta kapag walang photo attachment
+                        $this->sendMail($ann);
                     }
                     return redirect()->to(base_url('admin/announcements'));
                 } else {
@@ -190,7 +185,7 @@ class Announcements extends BaseController
                             $activityLog['user'] = $this->session->get('user_id');
                             $activityLog['description'] = 'Edited an announcement';
                             $this->activityLogModel->save($activityLog);
-                            $this->session->setFlashData('successMsg', 'Editing annoucement successful.');
+                            $this->session->setFlashData('successMsg', 'Editing announcement successful.');
                         }
                         else {
                             $this->session->setFlashData('failMsg', 'There is an error on editing announcement. Please try again.');
@@ -246,7 +241,7 @@ class Announcements extends BaseController
             $this->session->setFlashdata('sweetalertfail', 'Error accessing the page, please try again');
             return redirect()->to(base_url());
         }
-        $data['announces'] = $this->announceModel->findAll();
+        $data['announces'] = $this->announceModel->orderBy('created_at', 'DESC')->findAll();
         $data['active'] = 'announcements';
         $data['title'] = $data['announce']['title'];
 
@@ -266,16 +261,23 @@ class Announcements extends BaseController
         }
     }
 
-    private function sendMail() {
-        $mails = $this->userModel->where('id !=', $this->session->get('user_id'))->findColumn('email');
+    private function sendMail($data) {
+        $mails = $this->userModel
+                ->where('id !=', $this->session->get('user_id'))
+                ->where('status =', 1 )
+                ->findColumn('email');
+        // echo "<pre>";
+        // die(print_r($mails));
 
         foreach($mails as $mail) {
             $this->email->clear();
             $this->email->setFrom('feamsystem@gmail.com', 'Faculty and Employees Association');
-            $this->email->setTo($mail);
+            $this->email->setTo($mails);
             $this->email->setSubject($_POST['title']);
             $content = view('Modules\Announcements\Views\email', $_POST);
             $this->email->setMessage($content);
+            $filename = 'public/uploads/announcements/'. $data['image']; //you can use the App patch 
+            $this->email->attach($filename);
             if($this->email->send()) {
                 $this->session->setFlashData('successMsg', 'Successfully emailed members and added announcement');
                 return redirect()->to(base_url('admin/announcements'));

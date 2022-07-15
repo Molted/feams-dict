@@ -59,7 +59,7 @@ class Home extends BaseController
         // echo '<pre>';
         // print_r($data['allDiscussion']);
         // die();
-
+        $data['active'] = ['announcements','news'];
         $data['user_details'] = user_details($this->session->get('user_id'));
 		return view('homev2', $data);
 	}

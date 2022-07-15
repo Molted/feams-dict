@@ -80,46 +80,8 @@
 
 <?= $this->section('scripts') ?>
 
-<!-- file uploads para mapalitan agad file name once makaselect na ng file -->
 <script>
-    document.querySelector('.custom-file-input').addEventListener('change', function (e)
-    {
-    var name = document.getElementById("file").files[0].name;
-    var nextSibling = e.target.nextElementSibling
-    nextSibling.innerText = name
-    })
-</script>
-<!-- change status -->
-<script type='text/javascript'> 
-  function submitForm(username){ 
-    console.log('user_'+username);
-    // Call submit() method on <form id='myform'>
-    var form = $(this).closest('form');
-    form.submit();
-    // pagebutton.click();
-    // document.editRole.submit();
-  } 
-</script>
 
-<!-- Select2 -->
-<script src="<?= base_url();?>/public/dist/select2/js/select2.full.min.js"></script>
-<script>
-  $(function () {
-    //Initialize Select2 Elements
-    $('.select2').select2()
-    //Initialize Select2 Elements
-    // $('.select2bs4').select2({
-    //   theme: 'bootstrap4',
-    // })
-  })
-</script>
-
-<script>
-// BS4 tooltips
-  $(function () {
-    $('[data-toggle="tooltip"]').tooltip()
-  })
-  
   // DataTables
   $(function () {
     $('#users').DataTable({

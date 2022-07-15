@@ -19,6 +19,14 @@
                             </div>
                             <div class="form-group">
                                 <input type="password" name="confirm_password" id="confirm_password" class="form-control" placeholder="Confirm New Password" required>
+								<?php if(isset($errors['password'])):?>
+									<div class="text-danger" style="font-size: 80%; color: #dc3545; margin-top: .25rem;">
+										<?=esc($errors['password'])?>
+									</div>
+								<?php endif;?>
+								<div class="text-center mt-3">
+                                	<input type="checkbox" onclick="showPass()"> Show Password
+                                </div>
                             </div>
                             
 
@@ -38,6 +46,20 @@
 <?= $this->endSection() ?>
 
 <?= $this->section('scripts') ?>
+
+<script>
+  function showPass() {
+  var x = document.getElementById("password");
+  var y = document.getElementById("confirm_password");
+  if (x.type === "password") {
+    x.type = "text";
+	y.type = "text";
+  } else {
+    x.type = "password";
+	y.type = "password";
+  }
+}
+</script>
 
 <!-- SweetAlert JS -->
 <script src="<?= base_url();?>/public/js/sweetalert.min.js"></script>

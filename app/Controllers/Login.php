@@ -153,10 +153,15 @@ class Login extends BaseController {
 
     public function reset_password($token){
         $resetData = $this->resetPasswordModel->find($token);
+        $regex = "/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,30}$/";
 
         if($this->request->getMethod() == "post"){
             if($this->request->getVar('password') != $this->request->getVar('confirm_password')){
                 $this->session->setFlashdata('failMsg', 'Passwords Do Not Match');
+                return redirect()->back(); 
+            }
+            if(!preg_match($regex, $this->request->getVar('password'))){
+                $this->session->setFlashdata('failMsg', ' 8-30 characters, One Uppercase, One Number, Special Characters (!@#$%^&*-)');
                 return redirect()->back(); 
             }
             if($this->userModel->updatePasswordEmail($resetData['email'], $this->request->getVar('password'))){

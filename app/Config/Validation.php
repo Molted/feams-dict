@@ -74,7 +74,10 @@ class Validation
 		],
 		'password' => [
 			'label' => 'Password', 
-			'rules' => 'required|min_length[5]|max_length[30]'
+			'rules' => 'required|regex_match[/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,30}$/]',
+			'errors' => [
+				'regex_match' => '8-30 characters, One Uppercase, One Number, Special Characters (!@#$%^&*-)',
+			]
 		],
 		'image' => [
 			'label' => 'Profile Picture', 
@@ -136,7 +139,7 @@ class Validation
 	public $announcements = [
 		'title' => [
 			'label' => 'Title', 
-			'rules' => 'required|min_length[2]|max_length[999]',
+			'rules' => 'required|min_length[2]|max_length[50]',
 			'errors' => [
 				'required' => 'Title field is required',
 				'min_length' => 'Title field too short',
@@ -163,24 +166,22 @@ class Validation
 	public $sliders = [
 		'title' => [
 			'label' => 'Title', 
-			'rules' => 'required|max_length[999]',
+			'rules' => 'max_length[999]',
 			'errors' => [
-				'required' => 'Title field is required',
 				'min_length' => 'Title field too short',
 				'max_length' => 'Title field reached max character length',
 			]
 		],
 		'description' => [
 			'label' => 'Description', 
-			'rules' => 'required|max_length[999]',
+			'rules' => 'max_length[999]',
 			'errors' => [
-				'required' => 'Description field is required',
 				'min_length' => 'Description field too short',
 				'max_length' => 'Description field reached max character length',
 			]
 		],
 		'image' => [
-			'label' => 'Image', 
+			'label' => 'image', 
 			'rules' => 'uploaded[image]|is_image[image]',
 			'errors' => [
 				'uploaded' => 'No image uploaded',
@@ -305,7 +306,7 @@ class Validation
 			'label' => 'Photo', 
 			'rules' => 'is_image[photo]',
 			'errors' => [
-				'is_image' => 'Uploaded file is not an photo',
+				'is_image' => 'Uploaded file is not a photo',
 			]
 		],
 		'platform' => [
@@ -336,8 +337,11 @@ class Validation
 			'rules' => 'required|min_length[5]|max_length[30]|alpha_numeric_space'
 		],
 		'file' => [
-			'label' => 'File', 
-			'rules' => 'uploaded[file]|max_size[file,20000]'
+			'label' => 'File',
+			'rules' => 'uploaded[file]|max_size[file,20971520]',
+			'errors' => [
+				'max_size' => 'File size must be less than 20Mb',
+			],
 		],
 	];
 	
@@ -498,13 +502,13 @@ class Validation
             'numeric' => 'Amount should be in numerical form',
         ],
     ],
-    'photo' => [
-        'rules' => 'uploaded[photo]|ext_in[photo,png,jpg,jpeg]',
-        'errors' => [
-            'uploaded' => 'Photo is required',
-            'ext_in' => 'Photo is not an image',
-        ],
-    ],
+	'photo' => [
+		'label' => 'Photo', 
+		'rules' => 'is_image[photo]',
+		'errors' => [
+			'is_image' => 'Uploaded file is not an image',
+		],
+	],
   ];
 
   public $payment_method = [
@@ -647,13 +651,27 @@ class Validation
 	],
 	'new_password' =>[
 	  'label' => 'New Password', 
-	  'rules' => 'required|min_length[5]|max_length[30]|matches[confirm_new_password]'
+	  'rules' => 'required|regex_match[/^(?=.*[!@#$%^&*-])(?=.*[0-9])(?=.*[A-Z]).{8,30}$/]|matches[confirm_new_password]'
 	],
 	'confirm_new_password' =>[
 	  'label' => 'Confirm New Password', 
-	  'rules' => 'required|min_length[5]|max_length[30]'
+	  'rules' => 'required|min_length[8]|max_length[30]'
 	],
-  ];	
+  ];
+
+  public $reset_password = [
+	'password' =>[
+		'label' => 'Password', 
+	  	'rules' => 'required|regex_match[]|matches[confirm_new_password]',
+	  	'errors' => [
+			'regex_match' => '8-30 characters, One Uppercase, One Number, Special Characters (!@#$%^&*-)',
+		],
+	],
+	'confirm_new_password' =>[
+	  'label' => 'Confirm New Password', 
+	  'rules' => 'required|min_length[8]|max_length[30]'
+	],
+  ];
 
   public $discussion = [
 	'subject' => [
@@ -700,6 +718,35 @@ class Validation
 			],
 		],
 	];
-
+	
+	public $inventory = [
+        'item_name' => [
+            'label' => 'Item Name',
+            'rules' => 'required|alpha_numeric_space',
+            'errors' => [
+                'required' => 'Name is required',
+                'alpha_numeric_space' => 'Name includes invalid symbols',
+            ],
+        ],
+        'date_purchased' => [
+            'label' => 'Date',
+            'rules' => 'required',
+        ],
+		'cost' => [
+            'label' => 'Cost',
+            'rules' => 'required|numeric',
+            'errors' => [
+                'required' => 'Cost is required',
+                'numeric' => 'Cost only includes numbers',
+            ],
+        ],
+        'category_id' => [
+            'label' => 'Category',
+            'rules' => 'required|numeric',
+            'errors' => [
+                'required' => 'Category is required',
+            ],
+        ],
+	];
   
 }

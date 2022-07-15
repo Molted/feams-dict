@@ -95,6 +95,7 @@ class Payments extends BaseController
         return view('Modules\Payments\Views\formAdmin', $data);
     }
 
+    // ADMIN SIDE
     public function contriTable($id) {
         $data['contri']  = $this->contriModel->viewAll();
         $data['payments'] = $this->paymentModel->viewOne($id);
@@ -104,6 +105,7 @@ class Payments extends BaseController
         return view('Modules\Payments\Views\contriTable', $data);
     }
 
+    //USER SIDE
     public function add() {
         // checking roles and permissions
         $data['perm_id'] = check_role('', '', $this->session->get('role'));
@@ -150,6 +152,11 @@ class Payments extends BaseController
                     'last_name' => $user['last_name'],
                     'contri_name' => $contri['name'],
                 ];
+                
+                // echo '<pre>';
+                // print_r($userData);
+                // die();
+                $this->paymentModel->where(['user_id' => $this->session->get('user_id'), 'contri_id' => $_POST['contri_id']])->delete();
 
                 if($this->paymentModel->insert($_POST)) {
                     $file->move('public/uploads/payments', $_POST['photo']);
@@ -158,6 +165,8 @@ class Payments extends BaseController
                     $activityLog['description'] = 'Paid '. $_POST['amount'] .' for the contribution: '. $contri['name'];
                     $this->sendMail($userData);
                     $this->activityLogModel->save($activityLog);
+                    // NEWLY ADDED
+                    // $this->sendMail($userData);      
                     $this->session->setFlashData('successMsg', 'Contribution paid successfully');
                     return redirect()->to(base_url('payments'));
                 } else {
@@ -177,8 +186,13 @@ class Payments extends BaseController
     }
 
     private function sendMail($userData){
-        // ADDED - PAYMENT NOTIFICATION TO ADMIN
-        $this->email->setTo('puptfeams2022@gmail.com');
+        // ADDED - PAYMENT NOTIFICATION TO Admin and Treasurer/s
+        $recipients = $this->userModel->where('role !=', 2)->findColumn('email');
+        // echo '<pre>';
+        // print_r($recipients);
+        // die();
+
+        $this->email->setTo($recipients);
         $this->email->setFrom('puptfeams2022@gmail.com', 'Faculty and Employees Association');
         $this->email->setSubject('FEA - Member payment update');
         $message = view('Modules\Payments\Views\payEmail', $userData);

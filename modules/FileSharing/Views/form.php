@@ -40,7 +40,7 @@
   </div>
 <?php endif;?>
 
-<form action="<?= base_url('file_sharing')?>/<?= $edit ? 'edit/'.esc($link): 'add'?>" method="post" enctype="multipart/form-data">
+<form action="<?= base_url('file_sharing')?>/<?= $edit ? 'edit/'.esc($link): 'add'?>" method="post" enctype="multipart/form-data" id="posForm">
 
 <div class="card card-light">
     <div class="card-body">
@@ -66,6 +66,7 @@
                     <?=esc($errors['file'])?>
                 </div>
             <?php endif;?>
+            <span id="error-message" class="validation-error-label"></span>
         </div>
         <div class="form-group">
             <div class="form-check">
@@ -98,6 +99,26 @@
       theme: 'bootstrap4',
     })
   })
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#file').on('change',function(){
+      for(var i=0; i< $(this).get(0).files.length; ++i){
+        var file1 = $(this).get(0).files[i].size;
+        if(file1){
+          var file_size = $(this).get(0).files[i].size;
+          if(file_size > 20971520){
+            $('#error-message').html("File upload size is larger than 20MB");
+            $('#error-message').css("display","block");
+            $('#error-message').css("color","#dc3545");
+          }else{
+            $('#error-message').css("display","none");
+          }
+        }
+      }
+    });
+  });
 </script>
 
 <script>

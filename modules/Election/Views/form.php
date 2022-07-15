@@ -45,65 +45,65 @@
 <form action="<?= base_url('admin/election')?>/<?= $edit ? 'edit/'.esc($id): 'add'?>" method="post" enctype="multipart/form-data">
 
 <div class="card card-light">
-    <div class="card-body">
-        <div class="form-group">
-          <label for="title">Election Title</label>
-          <input type="text" class="form-control <?=isset($errors['title']) ? 'is-invalid': ''?>" id="title" placeholder="Election Title" name="title" value="<?=isset($value['title']) ? esc($value['title']): ''?>">
-          <?php if(isset($errors['title'])):?>
-              <div class="invalid-feedback">
-                  <?=esc($errors['title'])?>
-              </div>
-          <?php endif;?>
-        </div>
-        <div class="form-group">
-          <label for="type">Election Type</label>
-          <select class="form-control <?=isset($errors['type']) ? 'is-invalid': ''?>" id="type" placeholder="Election Type" name="type" value="<?=isset($value['type']) ? esc($value['type']): ''?>">
-            <option value=''>Choose one...</option>
-            <option value='1'>By Party</option>
-            <option value='2'>By employee type</option>
-          </select>
-          <!-- <input type="text" class="form-control <?=isset($errors['type']) ? 'is-invalid': ''?>" id="title" placeholder="Election Title" name="title" value="<?=isset($value['title']) ? esc($value['title']): ''?>"> -->
-          <?php if(isset($errors['type'])):?>
-              <div class="invalid-feedback">
-                  <?=esc($errors['type'])?>
-              </div>
-          <?php endif;?>
-        </div>
-        <div class="form-row">
-          <!-- Vote datetime -->
-          <div class="form-group col-md-12">
-            <label for="title">Vote Dates</label>
-            <div class="input-group">
-                <div class="input-group-prepend">
-                  <span class="input-group-text">
-                    <i class="far fa-calendar-alt"></i>
-                  </span>
-                </div>
-                <input type="text" class="form-control float-right <?=isset($errors['vote_start']) ? 'is-invalid': ''?>  <?=isset($errors['vote_end']) ? 'is-invalid': ''?>" id="voteTime">
-                <?php if(isset($errors['vote_start']) && !isset($errors['vote_end'])):?>
-                  <div class="invalid-feedback">
-                      <?=esc($errors['vote_start'])?>
-                  </div>
-                <?php endif;?>
-                <?php if(isset($errors['vote_end']) && !isset($errors['vote_start'])):?>
-                  <div class="invalid-feedback">
-                      <?=esc($errors['vote_end'])?>
-                  </div>
-                <?php endif;?>
-                <?php if(isset($errors['vote_end']) && isset($errors['vote_start'])):?>
-                  <div class="invalid-feedback">
-                      Start and end date is invalid
-                  </div>
-                <?php endif;?>
+  <div class="card-body">
+      <div class="form-group">
+        <label for="title">Election Title</label>
+        <input type="text" class="form-control <?=isset($errors['title']) ? 'is-invalid': ''?>" id="title" placeholder="Election Title" name="title" value="<?=isset($value['title']) ? esc($value['title']): ''?>">
+        <?php if(isset($errors['title'])):?>
+            <div class="invalid-feedback">
+                <?=esc($errors['title'])?>
             </div>
-            <input type="hidden" name="vote_start" id="vote_start">
-            <input type="hidden" name="vote_end" id="vote_end">
+        <?php endif;?>
+      </div>
+      <div class="form-group">
+        <label for="type">Election Type</label>
+        <select class="form-control <?=isset($errors['type']) ? 'is-invalid': ''?>" id="type" placeholder="Election Type" name="type" value="<?=isset($value['type']) ? esc($value['type']): ''?>">
+          <option value=''>Choose one...</option>
+          <option value='1'>By Party</option>
+          <option value='2'>By employee type</option>
+        </select>
+        <!-- <input type="text" class="form-control <?=isset($errors['type']) ? 'is-invalid': ''?>" id="title" placeholder="Election Title" name="title" value="<?=isset($value['title']) ? esc($value['title']): ''?>"> -->
+        <?php if(isset($errors['type'])):?>
+            <div class="invalid-feedback">
+                <?=esc($errors['type'])?>
+            </div>
+        <?php endif;?>
+      </div>
+      <div class="form-row">
+        <!-- Vote datetime -->
+        <div class="form-group col-md-12">
+          <label for="title">Vote Dates</label>
+          <div class="input-group">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="far fa-calendar-alt"></i>
+                </span>
+              </div>
+              <input type="text" class="form-control float-right <?=isset($errors['vote_start']) ? 'is-invalid': ''?>  <?=isset($errors['vote_end']) ? 'is-invalid': ''?>" id="voteTime">
+              <?php if(isset($errors['vote_start']) && !isset($errors['vote_end'])):?>
+                <div class="invalid-feedback">
+                    <?=esc($errors['vote_start'])?>
+                </div>
+              <?php endif;?>
+              <?php if(isset($errors['vote_end']) && !isset($errors['vote_start'])):?>
+                <div class="invalid-feedback">
+                    <?=esc($errors['vote_end'])?>
+                </div>
+              <?php endif;?>
+              <?php if(isset($errors['vote_end']) && isset($errors['vote_start'])):?>
+                <div class="invalid-feedback">
+                    Start and end date is invalid
+                </div>
+              <?php endif;?>
           </div>
+          <input type="hidden" name="vote_start" id="vote_start">
+          <input type="hidden" name="vote_end" id="vote_end">
         </div>
-    </div>
-    <div class="card-footer">
-        <button type="submit" class="float-end btn btn-primary btn-sm" >Submit</button>
-    </div>
+      </div>
+  </div>
+  <div class="card-footer">
+      <button type="submit" class="float-end btn btn-primary btn-sm" >Submit</button>
+  </div>
 </div>
 </form>
 

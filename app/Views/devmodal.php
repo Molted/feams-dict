@@ -12,37 +12,37 @@
         <!--  -->
         <div class="row mb-2">
           <div class="col-md-6">
-            <img src="<?= base_url()?>/public/img/dds/christian.png" alt="" class="img-thumbnail">
+            <img src="<?= base_url()?>/public/img/dds/eudes.png" alt="" class="img-thumbnail">
           </div>
           <div class="col-md-6">
-            <span>Christian Lazaro<br>Programmer</span>
-          </div>
-        </div>
-        <!--  -->
-        <div class="row mb-2">
-          <div class="col-md-6">
-            <img src="<?= base_url()?>/public/img/dds/jasmine.png" alt="" class="img-thumbnail">
-          </div>
-          <div class="col-md-6">
-            <span>Jasmine D. Rakim<br>Document Analyst</span>
+            <span>Eudes Silerio<br>System Analyst and Tester</span>
           </div>
         </div>
         <!--  -->
         <div class="row mb-2">
           <div class="col-md-6">
-            <img src="<?= base_url()?>/public/img/dds/jamie.jpg" alt="" class="img-thumbnail">
+            <img src="<?= base_url()?>/public/img/dds/joshua.jpg" alt="" class="img-thumbnail">
           </div>
           <div class="col-md-6">
-            <span>Jamie B. Samar<br>Designer</span>
+            <span>Joshua Concepcion<br>Programmer</span>
           </div>
         </div>
         <!--  -->
         <div class="row mb-2">
           <div class="col-md-6">
-            <img src="<?= base_url()?>/public/img/dds/quiel.png" alt="" class="img-thumbnail">
+            <img src="<?= base_url()?>/public/img/dds/mark.jpg" alt="" class="img-thumbnail">
           </div>
           <div class="col-md-6">
-            <span>Quiel Jeremiah L. Cariaso<br>System Analyst and Tester</span>
+            <span>Mark Joshua Allado<br>Document Analyst</span>
+          </div>
+        </div>
+        <!--  -->
+        <div class="row mb-2">
+          <div class="col-md-6">
+            <img src="<?= base_url()?>/public/img/dds/diane.png" alt="" class="img-thumbnail">
+          </div>
+          <div class="col-md-6">
+            <span>Diane Basada<br>Document Analyst</span>
           </div>
         </div>
       </div>

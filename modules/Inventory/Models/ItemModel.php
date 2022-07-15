@@ -8,7 +8,7 @@ class ItemModel extends Model {
   
     protected $useAutoIncrement = true;
     
-    protected $allowedFields = ['role_name', 'item_name', 'date_purchased', 'cost', 'category_id', 'status'];
+    protected $allowedFields = ['item_name', 'date_purchased', 'cost', 'category_id'];
     protected $useSoftDeletes = true;
   
     protected $useTimestamps = true;
@@ -16,11 +16,10 @@ class ItemModel extends Model {
     protected $updatedField  = 'updated_at';
     protected $deletedField  = 'deleted_at';
 
-    public function get($conditions = []){
-        foreach($conditions as $field => $value){
-            $this->where($field, $value);
-        }
-
-        return $this->findAll();
+    public function viewItems() {
+        $this->select('items.id, item_category.category_name, items.item_name, items.date_purchased, items.cost, items.category_id');
+        $this->where('items.deleted_at', NULL);
+        $this->join('item_category', 'item_category.id = items.category_id');
+        return $this->get()->getResultArray();
     }
 }
