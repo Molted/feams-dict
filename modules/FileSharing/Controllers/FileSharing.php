@@ -62,6 +62,7 @@ class FileSharing extends BaseController
 
         $file_taken = false;
         if($this->request->getMethod() === 'post') {
+					if(!empty($_FILES)){
             $data['files'] = $this->fileSharingModel->getUserUpload();
             $file = $this->request->getFile('file');
             foreach($data['files'] as $files) {
@@ -116,6 +117,11 @@ class FileSharing extends BaseController
                 $data['value'] = $_POST;
                 $data['errors'] = $this->validation->getErrors();
             }
+					}
+					else {
+						$this->session->setFlashData('failMsg', 'Uploaded File size exceeds!');
+						return redirect()->to(base_url('file_sharing/add'));
+					}
         }
 
         $data['user_details'] = user_details($this->session->get('user_id'));

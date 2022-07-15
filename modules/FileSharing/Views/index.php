@@ -45,7 +45,7 @@
 <div class="clearfix mb-3 mr-1">
   <a class="btn btn-primary float-right ml-1" href="<?= base_url('file_sharing/add')?>" role="button">Upload file</a>
   <?php if($reportAccess):?>
-    <a class="btn btn-primary float-right" href="<?= base_url('file_sharing/generatePDF')?>" role="button">Generate PDF</a>
+    <a class="btn btn-primary float-right" href="<?= base_url('file_sharing/generatePDF')?>" role="button" target="_blank">Generate PDF</a>
   <?php endif;?>
 </div>
 

@@ -59,99 +59,99 @@ class Users extends BaseController
     }
 
     public function profile($username) {
-        $data['perm_id'] = check_role('', '', $this->session->get('role'));
-        // if(!$data['perm_id']['perm_access']) {
-        //     $this->session->setFlashdata('sweetalertfail', true);
-        //     return redirect()->to(base_url());
-        // }
-        $data['rolePermission'] = $data['perm_id']['rolePermission'];
         $data['user_details'] = user_details($this->session->get('user_id'));
-        $data['user'] = $this->userModel->viewProfile($username);
-        // echo '<pre>';
-        // print_r($data['user']);
-        // die();
-        // $data['files2'] = $this->userModel->getFileUploads($data['user']['id']);
-        $data['files'] = $this->userModel->getFileSharingUploads($data['user']['id']);
-        $data['contribs'] = $this->contriModel->findAll();
-        $data['payments'] = $this->payModel->where(['user_id' => $data['user']['id'], 'is_approved' => '1'])->findAll();
-        $data['roles'] = $this->roleModel->findAll();
-        if(!empty($data['perm_id']['perm_id']['36'])) {
-          $data['edit'] = true;
-        }
-        $data['perms'] = array();
-        foreach($data['rolePermission'] as $rolePerms) {
-            array_push($data['perms'], $rolePerms['perm_mod']);
-        }
+        $data['role'] = $this->session->get('role');
         
-        if($this->request->getMethod() == 'post') {
-          if($this->request->getVar('form_type') == 'userdetails'){
-            if($this->validate('editUser')) {
-                $file = $this->request->getFile('image');
-                $_POST['id'] = $data['user']['id'];
-                if($_POST['email'] != $data['user']['email']) {
-                    if($this->userModel->checkEmailExists($_POST['email'])){
-                        $this->session->setFlashData('failMsg', 'Email already exists!');
-                        return redirect()->back();
+        if($data['user_details']['username'] != $username && $data['role'] != 1 ){
+            $this->session->setFlashdata('sweetalertfail', 'Error accessing the page');
+            return redirect()->to(base_url());
+        } else {
+            $data['perm_id'] = check_role('', '', $this->session->get('role'));
+            $data['rolePermission'] = $data['perm_id']['rolePermission'];
+            $data['user'] = $this->userModel->viewProfile($username);
+            
+            // $data['files2'] = $this->userModel->getFileUploads($data['user']['id']);
+            $data['files'] = $this->userModel->getFileSharingUploads($data['user']['id']);
+            $data['contribs'] = $this->contriModel->findAll();
+            $data['payments'] = $this->payModel->where(['user_id' => $data['user']['id'], 'is_approved' => '1'])->findAll();
+            $data['roles'] = $this->roleModel->findAll();
+            if(!empty($data['perm_id']['perm_id']['36'])) {
+            $data['edit'] = true;
+            }
+            $data['perms'] = array();
+            foreach($data['rolePermission'] as $rolePerms) {
+                array_push($data['perms'], $rolePerms['perm_mod']);
+            }
+            
+            if($this->request->getMethod() == 'post') {
+                if($this->request->getVar('form_type') == 'userdetails'){
+                    if($this->validate('editUser')) {
+                        $file = $this->request->getFile('image');
+                        $_POST['id'] = $data['user']['id'];
+                        if($_POST['email'] != $data['user']['email']) {
+                            if($this->userModel->checkEmailExists($_POST['email'])){
+                                $this->session->setFlashData('failMsg', 'Email already exists!');
+                                return redirect()->back();
+                            }
+                            $_POST['email_code'] = random_string('alnum', 5);
+                            $_POST['status'] = '4';
+                        }
+                        if($file->isValid()) {
+                            $_POST['profile_pic'] = $file->getRandomName();
+                            $file->move('public/uploads/profile_pic', $_POST['profile_pic']);
+                            if(!$file->hasMoved()) {
+                                $_POST['profile_pic'] = $data['user']['profile_pic'];
+                            }
+                        }
+                        
+                        if($this->userModel->save($_POST)) {
+                            if($_POST['status'] == '4') {
+                                $this->sendMail($_POST);
+                            }
+                            if($_POST['email'] != $data['user']['email']) {
+                                // kapag yung nag edit is yung user
+                                if($data['user']['id'] == $this->session->get('user_id')) {
+                                    $this->session->destroy();
+                                    $this->session->setFlashData('successMsg', 'Email changed, please verify email before logging in again.');
+                                    return redirect()->to(base_url('login'));
+                                } else {
+                                    // kapag admin nag edit
+                                    $this->session->setFlashData('successMsg', 'User profile edited successfully.');
+                                    return redirect()->back();
+                                }
+                            } else {
+                                $this->session->setFlashData('successMsg', 'User profile edited successfully.');
+                                return redirect()->back();
+                            }
+                        }
+                    } else {
+                        $data['value'] = $_POST;
+                        $data['errors'] = $this->validation->getErrors();
                     }
-                    $_POST['email_code'] = random_string('alnum', 5);
-                    $_POST['status'] = '4';
-                }
-                if($file->isValid()) {
-                    $_POST['profile_pic'] = $file->getRandomName();
-                    $file->move('public/uploads/profile_pic', $_POST['profile_pic']);
-                    if(!$file->hasMoved()) {
-                        $_POST['profile_pic'] = $data['user']['profile_pic'];
-                    }
-                }
-                
-                if($this->userModel->save($_POST)) {
-                    if($_POST['status'] == '4') {
-                        $this->sendMail($_POST);
-                    }
-                    if($_POST['email'] != $data['user']['email']) {
-                        // kapag yung nag edit is yung user
-                        if($data['user']['id'] == $this->session->get('user_id')) {
-                            $this->session->destroy();
-                            $this->session->setFlashData('successMsg', 'Email changed, please verify email before logging in again.');
-                            return redirect()->to(base_url('login'));
+                } elseif ($this->request->getVar('form_type') == 'updatepass'){
+                    if($this->validate('updatePassword')) {
+                        if($this->userModel->updatePassword($username, $_POST['current_password'], $_POST['new_password'])){
+                            $this->session->setFlashData('successMsg', 'Password changed successfully.');
+                            return redirect()->back();
                         } else {
-                            // kapag admin nag edit
-                            $this->session->setFlashData('successMsg', 'User profile edited successfully.');
+                            $this->session->setFlashData('failMsg', 'Incorrect Password.');
                             return redirect()->back();
                         }
                     } else {
-                        $this->session->setFlashData('successMsg', 'User profile edited successfully.');
-                        return redirect()->back();
+                        $data['errors'] = $this->validation->getErrors();
                     }
-                }
-              } else {
-                $data['value'] = $_POST;
-                $data['errors'] = $this->validation->getErrors();
-              }
-          } elseif ($this->request->getVar('form_type') == 'updatepass'){
-            if($this->validate('updatePassword')) {
-                if($this->userModel->updatePassword($username, $_POST['current_password'], $_POST['new_password'])){
-                    $this->session->setFlashData('successMsg', 'Password changed successfully.');
-                    return redirect()->back();
-                } else {
-                    $this->session->setFlashData('failMsg', 'Incorrect Password.');
-                    return redirect()->back();
-                }
-            } else {
-                $data['errors'] = $this->validation->getErrors();
+                }            
             }
-          }
-          
-        }
 
-        $data['active'] = '';
-        $data['title'] = $data['user']['first_name'].' '. $data['user']['last_name'];
-        // echo $data['user']['status'];
-        // die();
-        if($data['user']['status'] == '3' || $data['user']['status'] == '0'){
-            return view('Modules\Users\Views\inactiveProfile', $data);
-        } else {
-            return view('Modules\Users\Views\profile', $data);
+            $data['active'] = '';
+            $data['title'] = $data['user']['first_name'].' '. $data['user']['last_name'];
+            // echo $data['user']['status'];
+            // die();
+            if($data['user']['status'] == '3' || $data['user']['status'] == '0'){
+                return view('Modules\Users\Views\inactiveProfile', $data);
+            } else {
+                return view('Modules\Users\Views\profile', $data);
+            }
         }
     }
 
