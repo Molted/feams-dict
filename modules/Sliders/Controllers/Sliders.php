@@ -102,7 +102,7 @@ class Sliders extends BaseController
         $data['value'] = $this->sliderModel->where('id', $id)->first();
         $data['id'] = $data['value']['id'];
         if($this->request->getMethod() == 'post') {
-            if($this->validate('announcements')){
+            if($this->validate('sliders')){
                 $file = $this->request->getFile('image');
                 $slider = $_POST;
                 $slider['image'] = $file->getRandomName();

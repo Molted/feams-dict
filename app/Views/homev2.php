@@ -177,16 +177,27 @@ scratch. This page gets rid of all links and provides the needed markup only.
           <div class="col-md-4">
             <h3 class="text-danger"><i class="fas fa-bullhorn"></i> Announcements</h3>
             <ul class="list-group list-group-flush">
+              <?php if(empty($announces)):?>
+                <li class="list-group-item text-center" style="background: transparent;">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <span>No current announcement uploaded</span>
+                    </div>
+                  </div>
+                </li>
+              <?php endif?>
               <?php foreach($announces as $announce):?>
                 <a href="<?= base_url()?>/announcements/<?= esc($announce['link'], 'raw')?>" class="list-group-item list-group-item-action" style="background: transparent; text-overflow:ellipsis; white-space:nowrap; overflow:hidden;"><?= esc($announce['title'])?></a>
               <?php endforeach?>
-              <li class="list-group-item" style="background: transparent;">
-                <div class="row">
-                  <div class="col-md-8 offset-md-2">
-                    <a href="<?= base_url('announcements')?>" class="btn btn-outline-primary w-100 text-center" role="button">View more</a>
+              <?php if(!empty($announces)):?>
+                <li class="list-group-item" style="background: transparent;">
+                  <div class="row">
+                    <div class="col-md-8 offset-md-2">
+                      <a href="<?= base_url('announcements')?>" class="btn btn-outline-primary w-100 text-center" role="button">View more</a>
+                    </div>
                   </div>
-                </div>
-              </li>
+                </li>
+              <?php endif?>
             </ul>
           </div>
         </div>

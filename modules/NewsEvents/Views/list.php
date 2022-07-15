@@ -86,12 +86,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <div class="row justify-content-center">
         <!-- News Start here -->
         <div class="card col-sm-7 m-2 p-2">     
-          <div class="card-body">        
-            <?php if(esc($firstNews['image'])):?>
+          <div class="card-body">                
+            <?php if(isset($firstNews['image'])):?>
               <img src="<?= base_url()?>/public/uploads/news/<?= esc($firstNews['image'])?>" alt="<?= esc($firstNews['title'])?>" class="img-thumbnail">
             <?php endif;?>
             <h5 class="mt-3" style="font-weight: 800;"><?= (isset($firstNews['title'])) ? esc($firstNews['title']) : 'No News to Display'?></h5>
-            <p><?= (isset($firstNews['content'])) ? esc($firstNews['content'], 'raw') : ''?></p>
+            <p><?= (isset($firstNews['content'])) ? esc($firstNews['content'], 'raw') : ''?></p>            
           </div>
         </div>
         <div class="card col-sm-4 m-2 p-2">
