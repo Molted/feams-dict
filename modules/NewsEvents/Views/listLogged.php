@@ -23,7 +23,7 @@
     <!-- News Start here -->
     <div class="card col-sm-7 m-2 p-2">     
       <div class="card-body">        
-        <?php if(esc($firstNews['image'])):?>
+        <?php if(isset($firstNews['image'])):?>
           <img src="<?= base_url()?>/public/uploads/news/<?= esc($firstNews['image'])?>" alt="<?= esc($firstNews['title'])?>" class="img-thumbnail">
         <?php endif;?>
         <h5 class="mt-3" style="font-weight: 800;"><?= (isset($firstNews['title'])) ? esc($firstNews['title']) : 'No News to Display'?></h5>

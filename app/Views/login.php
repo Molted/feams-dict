@@ -107,6 +107,7 @@
     $('#notPaidModal').on('hidden.bs.modal', function (e) {
       window.location = '<?= base_url()?>/logout';
     })
+    $('#notPaidModal').modal({backdrop: 'static', keyboard: false})
   </script>
 <?php endif;?>
 
