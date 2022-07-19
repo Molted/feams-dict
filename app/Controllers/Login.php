@@ -49,7 +49,13 @@ class Login extends BaseController {
                     return redirect()->back()->withInput(); 
                 }
                 $this->setUserSession($user);
-                return redirect()->to(base_url());
+                if($user['role'] == '1'){
+                    $this->session->setFlashData('welcomeMsg', 'Welcome to FEAMS!');
+                    return redirect()->withInput()->to(base_url('admin/dashboard'));
+                } else {
+                    $this->session->setFlashData('welcomeMsg', 'Welcome to FEAMS!');
+                    return redirect()->withInput()->to(base_url('user/'.$user['username']));
+                }
             }
         }
         return view('login');

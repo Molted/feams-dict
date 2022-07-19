@@ -10,6 +10,7 @@ class ElectoralPositions extends BaseController
     public function __construct() {
         $this->electionModel = new Models\ElectionModel();
         $this->electoralPositionModel = new Models\ElectoralPositionModel();
+        $this->candidateModel = new Models\CandidateModel();
         $this->activityLogModel = new AppModels\ActivityLogModel();
     }
     
@@ -121,14 +122,21 @@ class ElectoralPositions extends BaseController
     }
     
     public function delete($id) {
-        if($this->electoralPositionModel->delete($id)) {
-          $activityLog['user'] = $this->session->get('user_id');
-          $activityLog['description'] = 'Deleted an electoral position';
-          $this->activityLogModel->save($activityLog);
-          $this->session->setFlashData('successMsg', 'Successfully deleted electoral position');
+        echo "<pre>";
+        die(print_r($id));
+        if($this->candidateModel->where('position_id', $id)->countAllResults(false) == 0 || $this->electoralPositionModel->where('id', $id)->countAllResults(false) == 0){
+            if($this->electoralPositionModel->delete($id)) {
+                $activityLog['user'] = $this->session->get('user_id');
+                $activityLog['description'] = 'Deleted an electoral position';
+                $this->activityLogModel->save($activityLog);
+                $this->session->setFlashData('successMsg', 'Successfully deleted electoral position');
+            } else {
+                $this->session->setFlashData('failMsg', 'Something went wrong!');
+            }
         } else {
-          $this->session->setFlashData('failMsg', 'Something went wrong!');
+            $this->session->setFlashData('failMsg', 'Cannot delete - position is still in use!');
         }
+        
         return redirect()->to(base_url('admin/electoral-positions'));
     }
 }

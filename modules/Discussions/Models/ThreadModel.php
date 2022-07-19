@@ -29,6 +29,7 @@ class ThreadModel extends Model {
         $this->where(['threads.deleted_at' => NULL, 'threads.visibility' => '0']);
         $this->join('users', 'threads.creator = users.id');
         $this->join('roles', 'threads.visibility = roles.id', 'left');
+        $this->orderBy('created_at', 'DESC');
         return $this->paginate($paginate, '0');
     }
 

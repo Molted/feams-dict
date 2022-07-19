@@ -52,10 +52,13 @@ class Positions extends BaseController
         foreach($data['rolePermission'] as $rolePerms) {
             array_push($data['perms'], $rolePerms['perm_mod']);
         }
-
+        
         $data['edit'] = false;
         $data['election'] = $this->electionModel->where(['id' => $id])->first();
         $data['electoralPosition'] = $this->electoralPositionModel->findAll();
+        // echo '<pre>';
+        // print_r($data['electoralPosition']);
+        // die();
         $data['positions'] = $this->positionModel->where(['election_id' => $id])->findAll();
         if($this->request->getMethod() == 'post') {
             if($this->validate('positions2')) {

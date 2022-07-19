@@ -491,4 +491,49 @@
     options: options
   });
   </script>
+
+<?php if(!empty(session()->getFlashdata('welcomeMsg'))):?>
+	<!-- SweetAlert JS -->
+	<script src="<?= base_url();?>/public/js/sweetalert.min.js"></script>
+	<script src="<?= base_url();?>/public/js/sweetalert2.all.min.js"></script>
+	<script>
+		window.onload = function() {
+
+			Swal.fire({
+				icon: 'success',
+				title: 'Success!',
+				text: '<?= session()->getFlashdata('welcomeMsg');?>',
+				confirmButtonColor: '#3085d6',
+				confirmButtonText: 'Okay'
+			})/*swal2*/.then((result) =>
+			{
+				/* Read more about isConfirmed, isDenied below */
+				if (result.isConfirmed)
+				{
+					Swal.close()
+				}
+			})//then
+		};
+	</script>
+<?php elseif(!empty(session()->getFlashdata('failMsg'))):?>
+	<script>
+		window.onload = function() {
+
+			Swal.fire({
+				icon: 'error',
+				title: 'Error!',
+				text: '<?= session()->getFlashdata('failMsg');?>',
+				confirmButtonColor: '#3085d6',
+				confirmButtonText: 'Okay'
+			})/*swal2*/.then((result) =>
+			{
+				/* Read more about isConfirmed, isDenied below */
+				if (result.isConfirmed)
+				{
+					Swal.close()
+				}
+			})//then
+		};
+	</script>
+<?php endif;?>
 <?= $this->endSection() ?>
