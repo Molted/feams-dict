@@ -318,6 +318,16 @@ class Validation
 		],
 	];
 
+	public $vote = [
+		'admin[]' => [
+			'label' => 'admin', 
+			'rules' => 'required',
+			'errors' => [
+				'required' => 'Admin field is required!',
+			]
+		],
+	];
+
 	public $fileCategory = [
 		'name' => [
 			'label' => 'Category Name',
@@ -539,7 +549,10 @@ class Validation
         'rules' => 'required|numeric',
     ],
     'proof' => [
-        'rules' => 'uploaded[proof]|is_image[proof]',
+        'rules' => 'is_image[proof]',
+		'errors' => [
+			'is_image' => 'Uploaded file is not an image',
+		]
     ],
   ];
 

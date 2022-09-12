@@ -7,8 +7,8 @@
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active"><?= esc($title)?></li>
+            <li class="breadcrumb-item"><a href="<?=base_url()?>">Home</a></li>
+            <li class="breadcrumb-item active"><?=esc($title)?></li>
         </ol>
     </div>
 </div>
@@ -60,7 +60,7 @@
             <td><?= esc($contri['cost'])?></td>
             <td><?= esc($contri['first_name'])?> <?= esc($contri['last_name'])?></td>
             <td>
-              <a class="btn btn-info btn-sm" href="<?= base_url()?>/admin/contributions/print/<?= $contri['id']?>" role="button" data-toggle="tooltip" data-placement="bottom" title="Print contribution"><i class="fas fa-print"></i></a>
+              <a class="btn btn-info btn-sm" href="<?= base_url()?>/admin/contributions/print/<?= $contri['id']?>" role="button" data-toggle="tooltip" data-placement="bottom" title="Print contribution" target="_blank"><i class="fas fa-print"></i></a>
               <button type="button" class="btn btn-danger btn-sm del" data-toggle="tooltip" data-placement="bottom" title="Delete contribution" value="<?= esc($contri['id'])?>"><i class="fas fa-trash"></i></button>
             </td>
           </tr>

@@ -7,29 +7,29 @@
           <select class="form-control selectMulti <?=isset($errors['regular']) ? 'is-invalid': ''?>" multiple="multiple" id="regular" name="regular[]" data-placeholder="Select employee/s" required>
             <option value="">Select...</option>
             <?php foreach($users as $user):?>
-              <?php if($user['type'] == '1'):?>
+              <?php if($user['type'] == '1' && $user['status'] == '1'):?>
                 <option value="<?= esc($user['id'])?>"><?= esc($user['first_name'])?> <?= esc($user['last_name'])?></option>
               <?php endif?>
             <?php endforeach;?>
           </select>
         </div>
         <div class="form-group"> <!-- Part time -->
-          <label for="regular">Part-time Employees</label>
+          <label for="part-time">Part-time Employees</label>
           <select class="form-control selectMulti <?=isset($errors['part-time']) ? 'is-invalid': ''?>" multiple="multiple" id="part-time" name="part-time[]" data-placeholder="Select employee/s" required>
             <option value="">Select...</option>
             <?php foreach($users as $user):?>
-              <?php if($user['type'] == '2'):?>
+              <?php if($user['type'] == '2' && $user['status'] == '1'):?>
                 <option value="<?= esc($user['id'])?>"><?= esc($user['first_name'])?> <?= esc($user['last_name'])?></option>
               <?php endif?>
             <?php endforeach;?>
           </select>
         </div>
         <div class="form-group"> <!-- Admin -->
-          <label for="regular">Admin Employees</label>
+          <label for="admin">Admin Employees</label>
           <select class="form-control selectMulti <?=isset($errors['admin']) ? 'is-invalid': ''?>" multiple="multiple" id="admin" name="admin[]" data-placeholder="Select employee/s" required>
             <option value="">Select...</option>
             <?php foreach($users as $user):?>
-              <?php if($user['type'] == '3'):?>
+              <?php if($user['type'] == '3' && $user['status'] == '1'):?>
                 <option value="<?= esc($user['id'])?>"><?= esc($user['first_name'])?> <?= esc($user['last_name'])?></option>
               <?php endif?>
             <?php endforeach;?>

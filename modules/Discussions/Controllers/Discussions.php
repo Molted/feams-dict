@@ -30,6 +30,8 @@ class Discussions extends BaseController
 
         $data['threads'] = $this->threadModel->viewPerRole(5, $this->session->get('role'));
         $data['allThreads'] = $this->threadModel->viewAll(5);
+        // echo "<pre>";
+        // die(print_r($data['allThreads']));
         $data['roles'] = $this->roleModel->where('id', $this->session->get('role'))->first();
         $data['thread_pager'] = $this->threadModel->pager;
         // echo '<pre>';

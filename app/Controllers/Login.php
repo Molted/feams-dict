@@ -3,11 +3,13 @@
 use DateTime;
 use DateInterval;
 use App\Models as Models;
+use Modules\NewsEvents\Models as NewsModels;
 
 class Login extends BaseController {
     public function __construct() {
         $this->userModel = new Models\UserModel();
         $this->loginModel = new Models\LoginModel();
+        $this->newsModel = new NewsModels\NewsModel();
         $this->resetPasswordModel = new Models\ResetPasswordModel();
     }
 
@@ -49,7 +51,33 @@ class Login extends BaseController {
                     return redirect()->back()->withInput(); 
                 }
                 $this->setUserSession($user);
-                return redirect()->to(base_url());
+                $data['firstNews'] = $this->newsModel->orderBy('created_at', 'DESC')->first();
+                // echo "<pre>";
+                // die(print_r($data));
+                if($user['role'] == '1'){
+                    if(!empty($data['firstNews'])){
+                        $this->session->setFlashData('Featured', $data['firstNews']['image']);
+                        $this->session->setFlashData('Content', 
+                            $data['firstNews']['title'] .'<br><br>'.
+                            $data['firstNews']['content'].'<br><a href="'.
+                            base_url().'">See more...</a>'
+                        );
+                    }
+                    
+                    $this->session->setFlashData('NoNews', 'No Latest News!');
+                    return redirect()->withInput()->to(base_url('admin/dashboard'));
+                } else {
+                    if(!empty($data['firstNews'])){
+                        $this->session->setFlashData('Featured', $data['firstNews']['image']);
+                        $this->session->setFlashData('Content', 
+                            $data['firstNews']['title'] .'<br><br>'.
+                            $data['firstNews']['content'].'<br><a href="'.
+                            base_url().'">See more...</a>'
+                        );
+                    }
+                    $this->session->setFlashData('NoNews', 'No Latest News!');
+                    return redirect()->withInput()->to(base_url('user/'.$user['username']));
+                }
             }
         }
         return view('login');

@@ -45,7 +45,7 @@
 <div class="clearfix mb-3 mr-1">
   <a class="btn btn-primary float-right ml-1" href="<?= base_url('file_sharing/add')?>" role="button">Upload file</a>
   <?php if($reportAccess):?>
-    <a class="btn btn-primary float-right" href="<?= base_url('file_sharing/generatePDF')?>" role="button">Generate PDF</a>
+    <a class="btn btn-primary float-right" href="<?= base_url('file_sharing/generatePDF')?>" role="button" target="_blank">Generate PDF</a>
   <?php endif;?>
 </div>
 
@@ -249,7 +249,7 @@
                 <td><?= esc($file['first_name']).' '.esc($file['last_name'])?></td>
                 <td>
                   <!-- download -->
-                  <a class="btn btn-success btn-sm" href="<?= base_url()?>/file_sharing/download/<?= esc($file['id'])?>" role="button"  data-toggle="tooltip" data-placement="bottom" title="Download"><i class="fas fa-download"></i></a>
+                  <a target="_blank" class="btn btn-success btn-sm" href="<?= base_url()?>/file_sharing/download/<?= esc($file['id'])?>" role="button"  data-toggle="tooltip" data-placement="bottom" title="Download"><i class="fas fa-download"></i></a>
                   <!-- <a class="btn btn-success btn-sm" href="<?= base_url()?>/uploads/files/<?= esc($file['category'])?>/<?= esc($file['file_name'])?>" role="button"  data-toggle="tooltip" data-placement="bottom" title="Download"><i class="fas fa-download"></i></a> -->
                   <?php if($delete || $file['uploader'] == session()->get('user_id')):?>
                     <button type="button" value="<?= esc($file['id'])?>" class="btn btn-danger btn-sm del" data-toggle="tooltip" data-placement="bottom" title="Delete"><i class="fas fa-trash"></i></button>

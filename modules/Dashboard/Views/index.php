@@ -491,4 +491,57 @@
     options: options
   });
   </script>
+
+<!-- SweetAlert JS -->
+<script src="<?= base_url();?>/public/js/sweetalert.min.js"></script>
+<script src="<?= base_url();?>/public/js/sweetalert2.all.min.js"></script>
+<?php if(!empty(session()->getFlashdata('Content'))):?>
+	<script>
+		window.onload = function() {
+      Swal.fire(
+            'Success Login!',
+            'Welcome to FEAMS!',
+            'success'
+          )
+			/*swal2*/.then((result) =>
+			{
+				/* Read more about isConfirmed, isDenied below */
+				if (result.isConfirmed)
+				{
+          Swal.fire({
+            title: '<b>Our Latest News!</b>',
+            imageUrl: '<?= base_url()?>/public/uploads/news/<?= session()->getFlashdata('Featured');?>',
+            html: '<?=session()->getFlashdata('Content');?>',
+            imageWidth: 400,
+            imageHeight: 250,
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Okay'
+          })
+				}
+			})//then
+		};
+  </script>
+<?php elseif(!empty(session()->getFlashdata('NoNews'))):?>
+  <script>
+    window.onload = function() {
+      Swal.fire(
+            'Success Login!',
+            'Welcome to FEAMS!',
+            'success'
+          )
+      /*swal2*/.then((result) =>
+      {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {          
+          Swal.fire({
+            icon: 'question',
+            html: '<?= session()->getFlashdata('NoNews');?>',
+            confirmButtonColor: '#3085d6',
+            confirmButtonText: 'Okay'
+          })
+        }
+      })//then
+    };
+  </script>
+<?php endif;?>
 <?= $this->endSection() ?>

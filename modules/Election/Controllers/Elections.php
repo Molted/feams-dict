@@ -359,17 +359,17 @@ class Elections extends BaseController
             'fontsize' => 8,
             'stretchtext' => 4
         );
-
+        $this->response->setHeader('Content-Type', 'application/pdf');
         if($data['type'] == 1) {
             $pdf->AddPage();
             $pdf->writeHTML(view('Modules\Election\Views\pdf\byParty', $data), true, false, true, false, '');
             $pdf->Ln(4);
-            $pdf->Output('Results for the election: '.$data['electionName'].'.pdf', 'D');
+            $pdf->Output('Results for the election: '.$data['electionName'].'.pdf', 'I');
         } elseif($data['type'] == 2) {
             $pdf->AddPage();
             $pdf->writeHTML(view('Modules\Election\Views\pdf\byType', $data), true, false, true, false, '');
             $pdf->Ln(4);
-            $pdf->Output('Results for the election: '.$data['electionName'].'.pdf', 'D');
+            $pdf->Output('Results for the election: '.$data['electionName'].'.pdf', 'I');
         }
     }
 }
